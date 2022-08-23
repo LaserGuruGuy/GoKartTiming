@@ -39,9 +39,13 @@ namespace GoKart
                 {
                     for (int Page = 1; Page <= pdfDocument.GetNumberOfPages(); Page++)
                     {
-                        var Strategy = new SimpleTextExtractionStrategy();
+                        string Location = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(Page), new LocationTextExtractionStrategy());
+                        string Header = Location.Substring(0, Location.IndexOf("Ronden Heat overzicht Beste tijd\n"));
 
-                        Text.Add(PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(Page), Strategy));
+                        string Simple = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(Page), new SimpleTextExtractionStrategy());
+                        string Ronden = Simple.Substring(Simple.IndexOf("Ronden"));
+
+                        Text.Add(Header + Ronden);
                     }
                 }
             }

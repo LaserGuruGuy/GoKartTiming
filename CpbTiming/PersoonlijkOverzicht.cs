@@ -17,21 +17,11 @@ namespace CpbTiming
             //Positie
             if (Line.Equals("Positie"))
             {
-                this.Position = null;
+                Position = null;
                 return true;
             }
-            //1
-            else if (this.Position == null)
-            {
-                int Positie;
-                if (int.TryParse(Line, out Positie))
-                {
-                    this.Position = Positie;
-                    return true;
-                }
-            }
             //1. EIK#3 - 56
-            else if (Team == null && Car == null)
+            else if (Position == null && Team == null && Car == null)
             {
                 string Prefix = string.Empty;
                 string Suffix = string.Empty;
@@ -39,17 +29,15 @@ namespace CpbTiming
                 if (Line.IndexOf('.') > -1) Prefix = Line.Remove(Line.IndexOf('.'));
                 Team = Line.Replace(Prefix + ".", string.Empty).Replace(Suffix, string.Empty).Trim();
                 if (Team.LastIndexOf('-') > -1) Team = Team.Remove(Team.LastIndexOf('-'), 1).TrimEnd();
-                int _Positie;
-                if (int.TryParse(Prefix, out _Positie))
+                int _Position;
+                if (int.TryParse(Prefix, out _Position))
                 {
-                    if (_Positie == Position)
+                    Position = _Position;
+                    int _Car;
+                    if (int.TryParse(Suffix, out _Car))
                     {
-                        int _Kart;
-                        if (int.TryParse(Suffix, out _Kart))
-                        {
-                            Car = _Kart;
-                            return true;
-                        }
+                        Car = _Car;
+                        return true;
                     }
                 }
             }
@@ -90,6 +78,18 @@ namespace CpbTiming
                     }
                     this.Datum = Datum;
                     return true;
+                }
+                //1
+                else
+                {
+                    int _Position;
+                    if (int.TryParse(Items[0], out _Position))
+                    {
+                        if (Position == _Position)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
             return false;

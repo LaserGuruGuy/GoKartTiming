@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Wpf;
@@ -110,7 +109,7 @@ namespace GoKart
                     RaceOverviewReport RaceOverviewReport = SelectedItem as RaceOverviewReport;
                     LineSeries LineSeries = new LineSeries()
                     {
-                        Title = "#" + RaceOverviewReport.PersoonlijkOverzicht.Position.ToString() + " " + RaceOverviewReport.PersoonlijkOverzicht.Team + " Kart " + RaceOverviewReport.PersoonlijkOverzicht.Car,
+                        Title = "#" + RaceOverviewReport.PersoonlijkOverzicht.Position.ToString() + " " + RaceOverviewReport.PersoonlijkOverzicht.Team + " Car " + RaceOverviewReport.PersoonlijkOverzicht.Car,
                         XAxisKey = "Bottom",
                         YAxisKey = "Left",
                         StrokeThickness = 1

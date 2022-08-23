@@ -28,50 +28,61 @@ namespace CpbTiming
                 }
                 else if (Lines[line].Equals("Uw race geschiedenis (Beste Ronde)"))
                 {
+                    ;
+                }
+                else if (Lines[line].Equals("UW BESTE RONDE Gemiddelde snelheid Gemiddelde rondetijd"))
+                {
+                    line++;
+                    string[] Chunk = Lines[line].Split(' ');
 
-                }
-                else if (Lines[line].Equals("UW BESTE RONDE"))
-                {
-                    line++;
-                    TimeSpan BesteRondeTijd = new TimeSpan();
-                    if (TimeSpan.TryParseExact(Lines[line], @"ss\.fff", CultureInfo.InvariantCulture, out BesteRondeTijd) == false)
+                    for (var idx = 0; idx < Chunk.Length; idx++)
                     {
-                        if (TimeSpan.TryParseExact(Lines[line], @"m\:ss\.fff", CultureInfo.InvariantCulture, out BesteRondeTijd) == false)
+                        switch (idx)
                         {
-                            if (TimeSpan.TryParseExact(Lines[line], @"h\:mm\:ss\.fff", CultureInfo.InvariantCulture, out BesteRondeTijd) == false)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                    RaceGeschiedenis.BesteRondeTijd = BesteRondeTijd;
-                }
-                else if (Lines[line].Equals("Gemiddelde snelheid"))
-                {
-                    line++;
-                    RaceGeschiedenis.GemiddeldeSnelheid = float.Parse(Lines[line], new CultureInfo(CultureInfo.InvariantCulture.Name)
-                    {
-                        NumberFormat = { NumberDecimalSeparator = "," }
-                    });
-                }
-                else if (Lines[line].Equals("Gemiddelde rondetijd"))
-                {
-                    line++;
-                    TimeSpan GemiddeldeRondetijd = new TimeSpan();
-                    if (TimeSpan.TryParseExact(Lines[line], @"s\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
-                    {
-                        if (TimeSpan.TryParseExact(Lines[line], @"ss\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
-                        {
-                            if (TimeSpan.TryParseExact(Lines[line], @"m\:ss\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
-                            {
-                                if (TimeSpan.TryParseExact(Lines[line], @"mm\:ss\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
+                            // UW BESTE RONDE
+                            case 0:
+                                TimeSpan BesteRondeTijd = new TimeSpan();
+                                if (TimeSpan.TryParseExact(Chunk[idx], @"ss\.fff", CultureInfo.InvariantCulture, out BesteRondeTijd) == false)
                                 {
-                                    break;
+                                    if (TimeSpan.TryParseExact(Chunk[idx], @"m\:ss\.fff", CultureInfo.InvariantCulture, out BesteRondeTijd) == false)
+                                    {
+                                        if (TimeSpan.TryParseExact(Chunk[idx], @"h\:mm\:ss\.fff", CultureInfo.InvariantCulture, out BesteRondeTijd) == false)
+                                        {
+                                            break;
+                                        }
+                                    }
                                 }
-                            }
+                                RaceGeschiedenis.BesteRondeTijd = BesteRondeTijd;
+                                break;
+                            // Gemiddelde snelheid
+                            case 1:
+                                RaceGeschiedenis.GemiddeldeSnelheid = float.Parse(Chunk[idx], new CultureInfo(CultureInfo.InvariantCulture.Name)
+                                {
+                                    NumberFormat = { NumberDecimalSeparator = "," }
+                                });
+                                break;
+                            // Gemiddelde rondetijd
+                            case 2:
+                                TimeSpan GemiddeldeRondetijd = new TimeSpan();
+                                if (TimeSpan.TryParseExact(Chunk[idx], @"s\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
+                                {
+                                    if (TimeSpan.TryParseExact(Chunk[idx], @"ss\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
+                                    {
+                                        if (TimeSpan.TryParseExact(Chunk[idx], @"m\:ss\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
+                                        {
+                                            if (TimeSpan.TryParseExact(Chunk[idx], @"mm\:ss\.fff", CultureInfo.InvariantCulture, out GemiddeldeRondetijd) == false)
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                RaceGeschiedenis.GemiddeldeRondetijd = GemiddeldeRondetijd;
+                                break;
+                            default:
+                                break;
                         }
                     }
-                    RaceGeschiedenis.GemiddeldeRondetijd = GemiddeldeRondetijd;
                 }
                 else if (Lines[line].Equals("Ronden"))
                 {
