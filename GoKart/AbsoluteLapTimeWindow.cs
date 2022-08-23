@@ -12,6 +12,7 @@ namespace GoKart
             if (AbsoluteLapTimeWindow == null)
             {
                 AbsoluteLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Absolute);
+                AbsoluteLapTimeWindow.Closed += AbsoluteRondeTijdenWindow_Closed;
                 AbsoluteLapTimeWindow.Show();
                 AbsoluteLapTimeWindow.UpdatePlot(ListView_RaceOverviewReport.SelectedItems, ListView_RaceOverviewReport.SelectedItem);
             }
@@ -19,11 +20,7 @@ namespace GoKart
             {
                 if (AbsoluteLapTimeWindow.IsVisible)
                 {
-                    AbsoluteLapTimeWindow.Hide();
-                }
-                else
-                {
-                    AbsoluteLapTimeWindow.Show();
+                    AbsoluteLapTimeWindow.Close();
                 }
             }
         }

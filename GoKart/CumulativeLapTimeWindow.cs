@@ -12,6 +12,7 @@ namespace GoKart
             if (CumulativeLapTimeWindow == null)
             {
                 CumulativeLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Cumulative);
+                CumulativeLapTimeWindow.Closed += CummulatieveRondeTijdenWindow_Closed;
                 CumulativeLapTimeWindow.Show();
                 CumulativeLapTimeWindow.UpdatePlot(ListView_RaceOverviewReport.SelectedItems, ListView_RaceOverviewReport.SelectedItem);
             }
@@ -19,11 +20,7 @@ namespace GoKart
             {
                 if (CumulativeLapTimeWindow.IsVisible)
                 {
-                    CumulativeLapTimeWindow.Hide();
-                }
-                else
-                {
-                    CumulativeLapTimeWindow.Show();
+                    CumulativeLapTimeWindow.Close();
                 }
             }
         }

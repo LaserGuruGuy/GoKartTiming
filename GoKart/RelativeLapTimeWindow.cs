@@ -12,6 +12,7 @@ namespace GoKart
             if (RelativeLapTimeWindow == null)
             {
                 RelativeLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Relative);
+                RelativeLapTimeWindow.Closed += RelatieveRondeTijdenWindow_Closed;
                 RelativeLapTimeWindow.Show();
                 RelativeLapTimeWindow.UpdatePlot(ListView_RaceOverviewReport.SelectedItems, ListView_RaceOverviewReport.SelectedItem);
             }
@@ -19,11 +20,7 @@ namespace GoKart
             {
                 if (RelativeLapTimeWindow.IsVisible)
                 {
-                    RelativeLapTimeWindow.Hide();
-                }
-                else
-                {
-                    RelativeLapTimeWindow.Show();
+                    RelativeLapTimeWindow.Close();
                 }
             }
         }

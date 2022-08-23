@@ -19,20 +19,11 @@ namespace GoKart
         {
             InitializeComponent();
 
+            Closed += new EventHandler(MainWindow_Closed);
+
             PopulateConfiguration("Config.json");
 
             WebBrowserHelper.GetBrowserVersion();
-
-            AbsoluteLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Absolute);
-            AbsoluteLapTimeWindow.Closed += AbsoluteRondeTijdenWindow_Closed;
-
-            CumulativeLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Cumulative);
-            CumulativeLapTimeWindow.Closed += CummulatieveRondeTijdenWindow_Closed;
-
-            RelativeLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Relative);
-            RelativeLapTimeWindow.Closed += RelatieveRondeTijdenWindow_Closed;
-
-            Closed += new EventHandler(MainWindow_Closed);
 
             string[] args = Environment.GetCommandLineArgs();
 
