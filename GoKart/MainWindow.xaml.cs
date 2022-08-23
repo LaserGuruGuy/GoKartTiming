@@ -5,15 +5,21 @@ using CpbTiming;
 
 namespace GoKart
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IConfiguration
     {
-        private PersonalRaceOverviewReportCollection PersonalRaceOverviewReportCollection = new PersonalRaceOverviewReportCollection();
+        public PersonalRaceOverviewReportCollection PersonalRaceOverviewReportCollection { get; set; } = new PersonalRaceOverviewReportCollection();
 
-        private Uri uri = new Uri("pack://siteoforigin:,,,/SmsTiming/LiveTiming.htm", UriKind.RelativeOrAbsolute);
+        public Uri Uri { get; set; }
+
+        public string baseUrl { get; set; }
+
+        public string auth { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+
+            PopulateConfiguration("Config.json");
 
             WebBrowserHelper.GetBrowserVersion();
 
@@ -49,7 +55,7 @@ namespace GoKart
 
             try
             {
-                WebBrowser.Navigate(uri);
+                WebBrowser.Navigate(Uri);
             }
             catch (Exception Ex)
             {

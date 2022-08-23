@@ -1,20 +1,18 @@
 ﻿function getConnectionInfo(baseUrl, authorizationToken) {
     authorizationToken = decodeURIComponent(authorizationToken);
+    var url;
+    if (window.external.url != null) {
+        url = window.external.url;
+    }
+    else {
+        url = baseUrl + "/api/connectioninfo?type=modules";
+    }
     $.support.cors = true;
     return can.ajax({
         crossDomain: true,
-        url: baseUrl + "/api/connectioninfo?type=modules",
+        url: url,
         beforeSend: function (aRequest) {
             aRequest.setRequestHeader("Authorization", "Basic " + authorizationToken);
-            try {
-                window.external.onLogMessage('ajax url:' + this.url + ' ' + authorizationToken);
-            }
-            catch (error) {
-                console.error(error);
-            }
-            finally {
-                console.log(this.url + ' ' + authorizationToken);
-            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log("HTTP Status: " + XMLHttpRequest.status + "; Error Text: " + XMLHttpRequest.responseText);
@@ -22,13 +20,10 @@
          },
         success: function (data) {
             try {
-                window.external.onJSONReceived(JSON.stringify(data));
+                window.external.PolupateConnectionService(JSON.stringify(data));
             }
             catch (error) {
                 console.error(error);
-            }
-            finally {
-                console.log(JSON.stringify(data));
             }
         },
         dataType: 'json'

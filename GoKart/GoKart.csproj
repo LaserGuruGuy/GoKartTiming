@@ -191,15 +191,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AbsoluteLapTimeWindow.cs" />
+    <Compile Include="ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />
     <Compile Include="CumulativeLapTimeWindow.cs" />
     <Compile Include="GridViewListSort.cs" />
+    <Compile Include="IConfiguration.cs" />
+    <Compile Include="IConnectionService.cs" />
     <Compile Include="PdfReader.cs" />
     <Compile Include="RelativeLapTimeWindow.cs" />
     <Compile Include="ScriptInterface.cs" />
     <Compile Include="LapTimeWindow.xaml.cs">
       <DependentUpon>LapTimeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="sms-timing.cs" />
     <Compile Include="WebBrowserHelper.cs" />
     <Compile Include="WebBrowserHook.cs" />
@@ -239,6 +243,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

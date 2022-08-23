@@ -1,8 +1,22 @@
 ﻿function initialize() {
-    var baseUrl = "https://backend.sms-timing.com";
-    var auth = "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==";
+    var baseUrl;
+    var auth = url('?key');
     var params = getUrlParams();
     var baseConnection;
+
+    if (window.external.baseUrl != null) {
+        baseUrl = window.external.baseUrl;
+    }
+    else if (baseUrl == null) {
+        baseUrl = "https://backend.sms-timing.com";
+    }
+
+    if (window.external.auth != null) {
+        auth = window.external.auth;
+    }
+    else if (auth == null) {
+        auth = "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==";
+    }
 
     if (params.customCSS != null) {
         addCustomCSS(params.customCSS);
