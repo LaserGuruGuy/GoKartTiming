@@ -26,7 +26,7 @@
                 </MenuItem>
                 <MenuItem Header="_View">
                         <MenuItem Name="MenuItem_View_AbsoluteTime" Header="_Absolute Time" Click="MenuItem_View_AbsoluteTime_Click"></MenuItem>
-                        <MenuItem Name="MenuItem_View_IntegralTime" Header="_Integral Time" Click="MenuItem_View_IntegralTime_Click"></MenuItem>
+                        <MenuItem Name="MenuItem_View_CumulativeTime" Header="_Integral Time" Click="MenuItem_View_CumulativeLapTime_Click"></MenuItem>
                         <MenuItem Name="MenuItem_View_RelativeTime" Header="_Relative Time" Click="MenuItem_View_RelativeTime_Click"></MenuItem>
                 </MenuItem>
             </Menu>

@@ -11,26 +11,26 @@ using OxyPlot.Series;
 
 namespace GoKart
 {
-    public partial class RondeTijdenWindow : Window
+    public partial class LapTimeWindow : Window
     {
         public PlotModel PlotModel { get; private set; } = new PlotModel() { EdgeRenderingMode = EdgeRenderingMode.Adaptive };
 
         private PngExporter pngExporter = new PngExporter { Width = 1920, Height = 1080 };
 
-        public enum RondeTijdenType
+        public enum LapTimeType
         {
             Absolute = 0,
             Cumulative = 1,
             Relative = 2
         }
 
-        private RondeTijdenType SelectedRondeTijdenType;
+        private LapTimeType SelectedLapTimeType;
 
-        public RondeTijdenWindow(RondeTijdenType RondeTijdenType = RondeTijdenType.Absolute)
+        public LapTimeWindow(LapTimeType LapTimeType = LapTimeType.Absolute)
         {
             InitializeComponent();
 
-            SelectedRondeTijdenType = RondeTijdenType;
+            SelectedLapTimeType = LapTimeType;
 
             InitPlot();
         }
@@ -89,15 +89,15 @@ namespace GoKart
             }
             finally
             {
-                switch(SelectedRondeTijdenType)
+                switch(SelectedLapTimeType)
                 {
-                    case RondeTijdenType.Absolute:
+                    case LapTimeType.Absolute:
                         PlotModel.Title = "Absolute laptime";
                         break;
-                    case RondeTijdenType.Cumulative:
+                    case LapTimeType.Cumulative:
                         PlotModel.Title = "Cumulative laptime";
                         break;
-                    case RondeTijdenType.Relative:
+                    case LapTimeType.Relative:
                         PlotModel.Title = "Relative laptime";
                         break;
                 }
@@ -116,22 +116,22 @@ namespace GoKart
                         StrokeThickness = 1
                     };
                     double y = 0;
-                    switch (SelectedRondeTijdenType)
+                    switch (SelectedLapTimeType)
                     {
-                        case RondeTijdenType.Absolute:
+                        case LapTimeType.Absolute:
                             foreach (var Ronde in RaceOverviewReport.Ronden)
                             {
                                 LineSeries.Points.Add(new OxyPlot.DataPoint(Ronde.Key, Ronde.Value.TotalSeconds));
                             }
                             break;
-                        case RondeTijdenType.Cumulative:
+                        case LapTimeType.Cumulative:
                             foreach (var Ronde in RaceOverviewReport.Ronden)
                             {
                                 y += Ronde.Value.TotalSeconds;
                                 LineSeries.Points.Add(new OxyPlot.DataPoint(Ronde.Key, y));
                             }
                             break;
-                        case RondeTijdenType.Relative:
+                        case LapTimeType.Relative:
                             for (var i = 1; i <= RaceOverviewReport.Ronden.Count && i <= ReferenceRaceOverviewReport?.Ronden?.Count; i++) 
                             {
                                 TimeSpan Selection = TimeSpan.Zero;

@@ -15,7 +15,7 @@ namespace GoKart
 
             if (dlg.ShowDialog() == true)
             {
-                ParseFiles(dlg.FileNames);
+                ParsePdfFiles(dlg.FileNames);
             }
         }
 

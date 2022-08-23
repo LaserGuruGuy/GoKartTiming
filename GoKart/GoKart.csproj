@@ -190,14 +190,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AbsoluteLapTimeWindow.cs" />
     <Compile Include="CommandBindings.cs" />
+    <Compile Include="CumulativeLapTimeWindow.cs" />
+    <Compile Include="GridViewListSort.cs" />
+    <Compile Include="PdfReader.cs" />
+    <Compile Include="RelativeLapTimeWindow.cs" />
     <Compile Include="ScriptInterface.cs" />
-    <Compile Include="RondeTijdenWindow.xaml.cs">
-      <DependentUpon>RondeTijdenWindow.xaml</DependentUpon>
+    <Compile Include="LapTimeWindow.xaml.cs">
+      <DependentUpon>LapTimeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="sms-timing.cs" />
     <Compile Include="WebBrowserHelper.cs" />
     <Compile Include="WebBrowserHook.cs" />
+    <Compile Include="WebBrowserVersion.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -210,7 +216,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RondeTijdenWindow.xaml">
+    <Page Include="LapTimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
