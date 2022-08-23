@@ -1,0 +1,98 @@
+﻿<Window x:Class="GoKart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoKart"
+        mc:Ignorable="d"
+        Title="CPB Timing" Width="1320" Height="768"
+        AllowDrop="true" Drop="HandleDroppedFile"
+        Icon="Icons\cpb-logo.ico">
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+        <KeyBinding Key="E" Modifiers="Control" Command="Close"/>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="Open" Executed="OpenCommandBinding_Executed"/>
+        <CommandBinding Command="Close" Executed="CloseCommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Name="menuOpen" Header="_Open..." Command="Open" InputGestureText="Ctrl+O" ToolTip="Open pdf file"/>
+                    <Separator/>
+                    <MenuItem Name ="menuClose" Header="_Exit" Command="Close" InputGestureText="Alt+F4"/>
+                </MenuItem>
+                <MenuItem Header="_View">
+                        <MenuItem Name="MenuItem_View_AbsoluteTime" Header="_Absolute Time" Click="MenuItem_View_AbsoluteTime_Click"></MenuItem>
+                        <MenuItem Name="MenuItem_View_IntegralTime" Header="_Integral Time" Click="MenuItem_View_IntegralTime_Click"></MenuItem>
+                        <MenuItem Name="MenuItem_View_RelativeTime" Header="_Relative Time" Click="MenuItem_View_RelativeTime_Click"></MenuItem>
+                </MenuItem>
+            </Menu>
+            <TabControl>
+                <TabItem Header="FileTiming">
+                    <DockPanel>
+                        <ListView x:Name="ListView_RaceOverviewReportCollection" ItemsSource="{Binding RaceOverviewReportCollection}" DockPanel.Dock="Left">
+                            <ListView.ContextMenu>
+                                <ContextMenu Selector.IsSelected="True">
+                                    <MenuItem
+                                        Header="Delete File"
+                                        Command="{Binding DeletePersonalRaceOverviewReport}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                            <ListView.Resources>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                </Style>
+                            </ListView.Resources>
+                            <ListView.View>
+                                <GridView >
+                                    <GridViewColumn Header="Race Name" Width="auto" DisplayMemberBinding="{Binding RaceName}"/>
+                                    <GridViewColumn Header="Date Time" Width="auto" DisplayMemberBinding="{Binding RaceDateTime}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListView x:Name="ListView_RaceOverviewReport" ItemsSource="{Binding ElementName=ListView_RaceOverviewReportCollection, Path=SelectedItem.RaceOverviewReport}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="true">
+                                    <GridViewColumn Header="Team" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Team}">
+                                        <GridViewColumn.HeaderContainerStyle>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                            </Style>
+                                        </GridViewColumn.HeaderContainerStyle>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Driver" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Driver}"/>
+                                    <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Position}"/>
+                                    <GridViewColumn Header="Heat" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Heat}"/>
+                                    <GridViewColumn Header="Car" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Car}"/>
+                                    <GridViewColumn Header="Datum" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Datum}"/>
+                                    <GridViewColumn Header="Gem Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeRondetijd}"/>
+                                    <GridViewColumn Header="Beste Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.BesteRondeTijd}"/>
+                                    <GridViewColumn Header="Gem Snelheid" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeSnelheid}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListView ItemsSource="{Binding ElementName=ListView_RaceOverviewReport, Path=SelectedItem.Ronden}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Ronde" Width="auto" DisplayMemberBinding="{Binding Key}"/>
+                                    <GridViewColumn Header="Tijd" Width="auto" DisplayMemberBinding="{Binding Value}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="LiveTiming">
+                    <DockPanel>
+                        <TextBlock x:Name="tbMessageFromBrowser" DockPanel.Dock="Top" FontWeight="Bold" FontSize="20"/>
+                        <WebBrowser x:Name="WebBrowser"/>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>

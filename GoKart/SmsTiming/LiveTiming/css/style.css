@@ -1,0 +1,331 @@
+﻿.headerTable {
+    width: 100%;
+    font-family: arial;
+    height: 32px !important;
+}
+
+    .headerTable td {
+        padding-left: 5px;
+        font-family: "Roboto Light", Arial, sans-serif;
+    }
+
+.headerRight {
+    text-align: right;
+}
+
+.headerLeft {
+    text-align: left;
+}
+
+.invisible {
+    background-color: transparent;
+}
+
+.timingTable {
+    width: 100%;
+    font-family: arial;
+    background-size: 100%;
+    text-align: center;
+    border-collapse: collapse !important;
+}
+
+    .timingTable th {
+        font-family: "Roboto Light", Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 5px;
+    }
+
+    .timingTable td {
+        font-family: "Roboto Light", Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 3px;
+    }
+
+    .timingTable td, th {
+        border: 1px solid #000;
+    }
+
+.output {
+    text-align: center;
+    background-color: rgba(0,0,0,0);
+    max-height: 700px;
+    max-width: 800px;
+    margin: 0px auto;
+}
+
+.outputNarrow {
+    background-color: rgba(0,0,0,0);
+    max-height: 700px;
+    max-width: 4900px;
+    min-width: 260px;
+    opacity: 1;
+}
+
+.name {
+    text-align: left !important;
+}
+
+.clock {
+    text-align: right;
+    visibility: hidden;
+}
+
+.divClock {
+    position: absolute;
+}
+
+.bestTime {
+    font-size: 23px;
+    text-align: center;
+}
+
+.bestDriver {
+    font-size: 18px;
+    text-align: center;
+}
+
+.position {
+    text-align: right;
+    width: 5%;
+}
+
+.vehicle {
+    width: 2%;
+}
+
+.best {
+    width: 16%;
+}
+
+.average {
+    width: 16%;
+}
+
+.last {
+    width: 16%;
+}
+
+.laps {
+    width: 5%;
+}
+
+.gap {
+    width: 5%;
+}
+
+.info {
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 30%;
+    margin: auto;
+}
+
+.closeButton {
+    height: 25px;
+    width: 180px;
+    box-shadow: inset 0px 1px 0px 0px #000000;
+    background-color: #d12617;
+    border-radius: 6px;
+    border: 1px solid #bdbdbd;
+    display: inline-block;
+    color: #000000;
+    font-family: arial;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.modal_bg {
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #000000;
+}
+
+.modal_bg2 {
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    background-image: url('img/no_races.png');
+    background-repeat: no-repeat;
+}
+
+.trophySize {
+    height: 17px;
+    margin: 0 5px 0 -20px;
+    padding: 0;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*Computer*/
+@media only screen and (max-width: 480px) {
+    .average {
+        display: none;
+    }
+
+    .gap {
+        display: none;
+    }
+}
+
+/*Smartphone/iPhone4*/
+@media only screen and (max-device-width:480px) {
+    .average {
+        display: none;
+    }
+
+    .gap {
+        display: none;
+    }
+}
+
+@media only screen and (max-device-width: 330px) {
+    .laps {
+        display: none;
+    }
+}
+/*iPhone5*/
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : landscape) {
+}
+
+
+@media all and (orientation:landscape) {
+    .td {
+        color: blue;
+    }
+}
+
+.image_link {
+    border: none;
+}
+
+.modal_window {
+    position: absolute;
+    display: none;
+    margin: 0px auto;
+    z-index: 1100;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: 160px;
+    background: #000000;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    font-family: arial;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.modal_window2 {
+    position: absolute;
+    display: none;
+    left: 75%;
+    z-index: 1100;
+    width: 300px;
+    margin-left: -300px;
+    height: 160px;
+    background: #000000;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    font-family: arial;
+}
+
+a {
+    border-style: none;
+}
+
+    a:link {
+        color: #FFFFFF;
+        background: transparent;
+        border-style: none;
+    }
+
+    a:visited {
+        color: #FFFFFF;
+        background: transparent;
+        border-style: none;
+    }
+
+    a:hover {
+        color: #FFFFFF;
+        background: transparent;
+        border-style: none;
+    }
+
+.arrows {
+    width: 17px;
+}
+
+.leftAlign {
+    text-align: left;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+.lapTimeUp {
+    color: #00FF00;
+}
+
+.lapTimeDown {
+    color: #FF0000;
+}
+
+.smsLogo {
+    visibility: hidden;
+    text-align: right;
+    padding-top: 5px;
+}
+
+.smsLogoFooter {
+    z-index: 1100;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+}
+
+.info_races {
+    position: inherit;
+    margin-top: 155px;
+    font-family: arial;
+    width: 100%;
+    color: white;
+    font-size: 30px;
+    text-shadow: 0 2px 2px rgba(0,0,0,.85);
+}
+
+#table-wrapper {
+    position: relative;
+}
+
+#table-scroll {
+    overflow: auto;
+}
+
+#table-wrapper table {
+    width: 100%;
+}

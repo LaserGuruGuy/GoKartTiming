@@ -1,0 +1,47 @@
+﻿var slpos;
+var sldriver;
+var slvehicle;
+var sllaps;
+var slbest;
+var slaverage;
+var sllast;
+var slgap;
+var slday;
+var slmonth;
+var slweek;
+var slyear;
+var slever;
+var slunavailable;
+var slheat;
+var slnoheat;
+var slfinished;
+var slpaused;
+var sllapsremaining;
+var slerror;
+var slupdatebrowser;
+var sltimeremaining;
+
+function translations(eventData) {
+    slaverage = eventData["translationAverage"];
+    slpos = eventData["translationPos"];
+    sldriver = eventData["translationDriver"];
+    slvehicle = eventData["translationVehicle"];
+    sllaps = eventData["translationLaps"];
+    slbest = eventData["translationBest"];
+    sllast = eventData["translationLast"];
+    slfinished = eventData["translationFinished"];
+    slpaused = eventData["translationPaused"];
+    slheat = eventData["translationSessionPrefix"];
+    slerror = eventData["translationError"];
+    slgap = eventData["translationGap"];
+    sllapsremaining = eventData["translationLapsRemaining"];
+    slunavailable = eventData["translationLiveTimingUnavailable"];
+    slday = eventData["translationDayRecordBroken"];
+    slnoheat = eventData["translationNoSessionsRunning"];
+    sltimeremaining = eventData["translationTimeRemaining"];
+    slever = eventData["translationEverRecordBroken"];
+    slmonth = eventData["translationMonthRecordBroken"];
+    slweek = eventData["translationWeekRecordBroken"];
+    slyear = eventData["translationYearRecordBroken"];
+    slupdatebrowser = eventData["translationUpdateBrowser"];
+}
