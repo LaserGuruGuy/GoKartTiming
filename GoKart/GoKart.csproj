@@ -194,6 +194,7 @@
     <Compile Include="ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />
     <Compile Include="CumulativeLapTimeWindow.cs" />
+    <Compile Include="Format.cs" />
     <Compile Include="GridViewListSort.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="IConnectionService.cs" />
@@ -205,6 +206,8 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="sms-timing.cs" />
+    <Compile Include="SpeedToStringConverter.cs" />
+    <Compile Include="TimeToStringConverter.cs" />
     <Compile Include="WebBrowserHelper.cs" />
     <Compile Include="WebBrowserHook.cs" />
     <Compile Include="WebBrowserVersion.cs" />

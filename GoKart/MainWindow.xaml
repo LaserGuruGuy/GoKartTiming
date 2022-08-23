@@ -8,6 +8,10 @@
         Title="CPB Timing" Width="1320" Height="768"
         AllowDrop="true" Drop="HandleDroppedFile"
         Icon="Icons\cpb-logo.ico">
+    <Window.Resources>
+        <local:TimeToStringConverter x:Key="TimeToStringConverter"/>
+        <local:SpeedToStringConverter x:Key="SpeedToStringConverter"/>
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
         <KeyBinding Key="E" Modifiers="Control" Command="Close"/>
@@ -70,9 +74,9 @@
                                     <GridViewColumn Header="Heat" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Heat}"/>
                                     <GridViewColumn Header="Car" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Car}"/>
                                     <GridViewColumn Header="Datum" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Datum}"/>
-                                    <GridViewColumn Header="Gem Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeRondetijd}"/>
-                                    <GridViewColumn Header="Beste Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.BesteRondeTijd}"/>
-                                    <GridViewColumn Header="Gem Snelheid" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeSnelheid}"/>
+                                    <GridViewColumn Header="Gem Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeRondetijd, Converter={StaticResource TimeToStringConverter}}"/>
+                                    <GridViewColumn Header="Beste Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.BesteRondeTijd, Converter={StaticResource TimeToStringConverter}}"/>
+                                    <GridViewColumn Header="Gem Snelheid" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeSnelheid, Converter={StaticResource SpeedToStringConverter}}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -80,7 +84,7 @@
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Ronde" Width="auto" DisplayMemberBinding="{Binding Key}"/>
-                                    <GridViewColumn Header="Tijd" Width="auto" DisplayMemberBinding="{Binding Value}"/>
+                                    <GridViewColumn Header="Tijd" Width="auto" DisplayMemberBinding="{Binding Value, Converter={StaticResource TimeToStringConverter}}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
