@@ -9,6 +9,8 @@
         AllowDrop="true" Drop="HandleDroppedFile"
         Icon="Icons\cpb-logo.ico">
     <Window.Resources>
+        <local:LapsLeftToStringConverter x:Key="LapsLeftToStringConverter"/>
+        <local:TimeLeftToStringConverter x:Key="TimeLeftToStringConverter"/>
         <local:TimeToStringConverter x:Key="TimeToStringConverter"/>
         <local:SpeedToStringConverter x:Key="SpeedToStringConverter"/>
     </Window.Resources>
@@ -21,7 +23,11 @@
         <CommandBinding Command="Close" Executed="CloseCommandBinding_Executed"/>
     </Window.CommandBindings>
     <Grid>
-        <DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Name="menuOpen" Header="_Open..." Command="Open" InputGestureText="Ctrl+O" ToolTip="Open pdf file"/>
@@ -29,20 +35,20 @@
                     <MenuItem Name ="menuClose" Header="_Exit" Command="Close" InputGestureText="Alt+F4"/>
                 </MenuItem>
                 <MenuItem Header="_View">
-                        <MenuItem Name="MenuItem_View_AbsoluteTime" Header="_Absolute Time" Click="MenuItem_View_AbsoluteTime_Click"></MenuItem>
-                        <MenuItem Name="MenuItem_View_CumulativeTime" Header="_Integral Time" Click="MenuItem_View_CumulativeLapTime_Click"></MenuItem>
-                        <MenuItem Name="MenuItem_View_RelativeTime" Header="_Relative Time" Click="MenuItem_View_RelativeTime_Click"></MenuItem>
+                    <MenuItem Name="MenuItem_View_AbsoluteTime" Header="_Absolute Time" Click="MenuItem_View_AbsoluteTime_Click"></MenuItem>
+                    <MenuItem Name="MenuItem_View_CumulativeTime" Header="_Integral Time" Click="MenuItem_View_CumulativeLapTime_Click"></MenuItem>
+                    <MenuItem Name="MenuItem_View_RelativeTime" Header="_Relative Time" Click="MenuItem_View_RelativeTime_Click"></MenuItem>
                 </MenuItem>
             </Menu>
-            <TabControl>
-                <TabItem Header="FileTiming">
+            <TabControl DockPanel.Dock="Top">
+                <TabItem Header="SmsTiming">
                     <DockPanel>
-                        <ListView x:Name="ListView_RaceOverviewReportCollection" ItemsSource="{Binding RaceOverviewReportCollection}" DockPanel.Dock="Left">
+                        <ListView x:Name="ListView_LiveTimingCollection" ItemsSource="{Binding LiveTimingCollection, IsAsync=True}" DockPanel.Dock="Left" IsSynchronizedWithCurrentItem="True">
                             <ListView.ContextMenu>
                                 <ContextMenu Selector.IsSelected="True">
                                     <MenuItem
                                         Header="Delete File"
-                                        Command="{Binding DeletePersonalRaceOverviewReport}"
+                                        Command="{Binding DeleteLiveTiming}"
                                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}">
                                     </MenuItem>
                                 </ContextMenu>
@@ -54,33 +60,33 @@
                             </ListView.Resources>
                             <ListView.View>
                                 <GridView >
-                                    <GridViewColumn Header="Race Name" Width="auto" DisplayMemberBinding="{Binding RaceName}"/>
-                                    <GridViewColumn Header="Date Time" Width="auto" DisplayMemberBinding="{Binding RaceDateTime}"/>
+                                    <GridViewColumn Header="Heat Name" Width="auto" DisplayMemberBinding="{Binding HeatName}"/>
+                                    <GridViewColumn Header="Date Time" Width="auto" DisplayMemberBinding="{Binding DateTime}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListView x:Name="ListView_RaceOverviewReport" ItemsSource="{Binding ElementName=ListView_RaceOverviewReportCollection, Path=SelectedItem.RaceOverviewReport}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
+                        <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="true">
-                                    <GridViewColumn Header="Team" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Team}">
+                                    <GridViewColumn Header="Pos" Width="auto" DisplayMemberBinding="{Binding Position}"/>
+                                    <GridViewColumn Header="Piloot" Width="auto" DisplayMemberBinding="{Binding DriverName}">
                                         <GridViewColumn.HeaderContainerStyle>
                                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                                             </Style>
                                         </GridViewColumn.HeaderContainerStyle>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Driver" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Driver}"/>
-                                    <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Position}"/>
-                                    <GridViewColumn Header="Heat" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Heat}"/>
-                                    <GridViewColumn Header="Car" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Car}"/>
-                                    <GridViewColumn Header="Datum" Width="auto" DisplayMemberBinding="{Binding PersoonlijkOverzicht.Datum}"/>
-                                    <GridViewColumn Header="Gem Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeRondetijd, Converter={StaticResource TimeToStringConverter}}"/>
-                                    <GridViewColumn Header="Beste Tijd" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.BesteRondeTijd, Converter={StaticResource TimeToStringConverter}}"/>
-                                    <GridViewColumn Header="Gem Snelheid" Width="auto" DisplayMemberBinding="{Binding RaceGeschiedenis.GemiddeldeSnelheid, Converter={StaticResource SpeedToStringConverter}}"/>
+                                    <GridViewColumn Header="Vehicle" Width="auto" DisplayMemberBinding="{Binding KartNumber}"/>
+                                    <GridViewColumn Header="Ronden" Width="auto" DisplayMemberBinding="{Binding Laps}"/>
+                                    <GridViewColumn Header="Beste" Width="auto" DisplayMemberBinding="{Binding BestLapTime, Converter={StaticResource TimeToStringConverter}}"/>
+                                    <GridViewColumn Header="Gemiddelde" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
+                                    <GridViewColumn Header="Laatste" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
+                                    <GridViewColumn Header="Snelheid" Width="auto" DisplayMemberBinding="{Binding AverageSpeed, Converter={StaticResource SpeedToStringConverter}}"/>
+                                    <GridViewColumn Header="Afstand" Width="auto" DisplayMemberBinding="{Binding GapTime}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListView ItemsSource="{Binding ElementName=ListView_RaceOverviewReport, Path=SelectedItem.Ronden}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+                        <ListView ItemsSource="{Binding ElementName=ListView_LiveTiming, Path=SelectedItem.LapTime}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Ronde" Width="auto" DisplayMemberBinding="{Binding Key}"/>
@@ -98,5 +104,13 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
+        <StatusBar Grid.Row="1" VerticalAlignment="Bottom" DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" >
+            <ComboBox x:Name="ComboBox_LiveTimingHeatState" SelectedValue="{Binding HeatState}" ItemsSource="{Binding Path=HeatStateDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center" IsEnabled="False"/>
+            <ComboBox x:Name="ComboBox_LiveTimingEndCondition" SelectedValue="{Binding EndCondition}" ItemsSource="{Binding Path=EndConditionDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center" IsEnabled="False"/>
+            <ComboBox x:Name="ComboBox_LiveTimingRaceMode" SelectedValue="{Binding RaceMode}" ItemsSource="{Binding Path=RaceModenDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center" IsEnabled="False"/>
+            <ComboBox x:Name="ComboBox_LiveTimingCounterStarted" SelectedValue="{Binding CounterStarted}" ItemsSource="{Binding Path=ClockStartedDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center" IsEnabled="False"/>
+            <Label Content="{Binding RemainingLaps, Converter={StaticResource LapsLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
+            <Label Content="{Binding TimeLeft, Converter={StaticResource TimeLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
+        </StatusBar>
     </Grid>
 </Window>

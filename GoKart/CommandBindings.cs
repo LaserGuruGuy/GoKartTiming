@@ -1,9 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace GoKart
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -21,7 +20,7 @@ namespace GoKart
 
         private void CloseCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

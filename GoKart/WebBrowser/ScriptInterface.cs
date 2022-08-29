@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System;
 using Newtonsoft.Json;
+using System.IO;
+using CpbTiming.SmsTiming;
 
 namespace GoKart
 {
@@ -20,6 +22,8 @@ namespace GoKart
 
         public string auth { get { return _MainWindow.auth; } }
 
+        public string path { get; set; } = "/api/livetiming/settings/";
+
         public string ClientKey { get; set; }
 
         public string ServiceAddress { get; set; }
@@ -27,6 +31,13 @@ namespace GoKart
         public string AccessToken { get; set; }
 
         public string url { get { return baseUrl + "/api/connectioninfo?type=modules"; } }
+
+        public string mainPath { get { return "https://" + ServiceAddress + path + ClientKey; } }
+
+        public void onLogMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
 
         public void PolupateConnectionService(string Serialized)
         {
@@ -37,14 +48,24 @@ namespace GoKart
             });
         }
 
-        public void onJSONReceived(string received)
+        public void onJSONReceived(string Serialized)
         {
-            Console.WriteLine(received);
+            File.AppendAllText("logfile.json", Serialized + "\n");
+
+            _MainWindow.CpbTiming.Add(Serialized);
         }
 
-        public void onLogMessage(string message)
+        public void PopulateFromFile(string FileName)
         {
-            Console.WriteLine(message);
+            if (File.Exists(FileName))
+            {
+                string[] Lines = File.ReadAllLines(FileName);
+
+                foreach (var Serialized in Lines)
+                {
+                    _MainWindow.CpbTiming.Add(Serialized);
+                }
+            }
         }
     }
 }

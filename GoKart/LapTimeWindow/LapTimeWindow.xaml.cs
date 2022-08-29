@@ -5,7 +5,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Wpf;
 using OxyPlot.Legends;
-using CpbTiming;
+using CpbTiming.SmsTiming;
 using OxyPlot.Series;
 
 namespace GoKart
@@ -78,10 +78,10 @@ namespace GoKart
         {
             PlotModel.Series.Clear();
 
-            RaceOverviewReport ReferenceRaceOverviewReport = null;
+            Driver ReferenceRaceOverviewReport = null;
             try
             {
-                ReferenceRaceOverviewReport = ReferencedItem as RaceOverviewReport;
+                ReferenceRaceOverviewReport = ReferencedItem as Driver;
             }
             catch
             {
@@ -106,10 +106,10 @@ namespace GoKart
             {
                 foreach (var SelectedItem in SelectedItems)
                 {
-                    RaceOverviewReport RaceOverviewReport = SelectedItem as RaceOverviewReport;
+                    Driver Driver = SelectedItem as Driver;
                     LineSeries LineSeries = new LineSeries()
                     {
-                        Title = "#" + RaceOverviewReport.PersoonlijkOverzicht.Position.ToString() + " " + RaceOverviewReport.PersoonlijkOverzicht.Team + " Car " + RaceOverviewReport.PersoonlijkOverzicht.Car,
+                        Title = "#" + Driver.Position.ToString() + " " + Driver.DriverName + " Car " + Driver.KartNumber,
                         XAxisKey = "Bottom",
                         YAxisKey = "Left",
                         StrokeThickness = 1
@@ -118,27 +118,25 @@ namespace GoKart
                     switch (SelectedLapTimeType)
                     {
                         case LapTimeType.Absolute:
-                            foreach (var Ronde in RaceOverviewReport.Ronden)
+                            foreach (var LapTime in Driver.LapTime)
                             {
-                                LineSeries.Points.Add(new OxyPlot.DataPoint(Ronde.Key, Ronde.Value.TotalSeconds));
+                                LineSeries.Points.Add(new DataPoint(LapTime.Key, LapTime.Value.TotalSeconds));
                             }
                             break;
                         case LapTimeType.Cumulative:
-                            foreach (var Ronde in RaceOverviewReport.Ronden)
+                            foreach (var LapTime in Driver.LapTime)
                             {
-                                y += Ronde.Value.TotalSeconds;
-                                LineSeries.Points.Add(new OxyPlot.DataPoint(Ronde.Key, y));
+                                y += LapTime.Value.TotalSeconds;
+                                LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
                             }
                             break;
                         case LapTimeType.Relative:
-                            for (var i = 1; i <= RaceOverviewReport.Ronden.Count && i <= ReferenceRaceOverviewReport?.Ronden?.Count; i++) 
+                            foreach(var LapTime in Driver.LapTime)
                             {
-                                TimeSpan Selection = TimeSpan.Zero;
-                                RaceOverviewReport.Ronden.TryGetValue(i, out Selection);
-                                TimeSpan Reference = TimeSpan.Zero;
-                                ReferenceRaceOverviewReport?.Ronden?.TryGetValue(i, out Reference);
+                                TimeSpan Selection = Driver.LapTime.GetValue(LapTime.Key);
+                                TimeSpan Reference = ReferenceRaceOverviewReport.LapTime.GetValue(LapTime.Key);
                                 y += Selection.TotalSeconds - Reference.TotalSeconds;
-                                LineSeries.Points.Add(new OxyPlot.DataPoint(i, y));
+                                LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
                             }
                             break;
                     }

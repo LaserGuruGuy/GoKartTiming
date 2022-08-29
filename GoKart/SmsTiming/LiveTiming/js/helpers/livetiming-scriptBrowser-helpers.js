@@ -136,8 +136,7 @@ function checkBrowser() {
             if (broVersion < 5) { return false; } else { return true; }
             break;
         case "MSIE":
-            // if (broVersion < 9) { return false; } else { return true; }
-            if (broVersion < 7) { return false; } else { return true; }
+            if (broVersion < 9) { return false; } else { return true; }
             break;
         case "Opera":
             if (broVersion < 12) { return false; } else { return true; }

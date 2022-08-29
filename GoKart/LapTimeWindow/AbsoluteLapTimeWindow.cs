@@ -14,7 +14,7 @@ namespace GoKart
                 AbsoluteLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Absolute);
                 AbsoluteLapTimeWindow.Closed += AbsoluteRondeTijdenWindow_Closed;
                 AbsoluteLapTimeWindow.Show();
-                AbsoluteLapTimeWindow.UpdatePlot(ListView_RaceOverviewReport.SelectedItems, ListView_RaceOverviewReport.SelectedItem);
+                AbsoluteLapTimeWindow.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
             }
             else
             {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace CpbTiming
+namespace CpbTiming.SmsTiming
 {
     public class HeatOverzicht : Dictionary<string, TimeSpan>
     {
@@ -23,7 +23,7 @@ namespace CpbTiming
                         }
                     }
                 }
-                this.Add(Line.Substring(Line.IndexOf(' ')).Remove(Line.LastIndexOf(' ')), RondeTijd);
+                Add(Line.Substring(Line.IndexOf(' ')).Remove(Line.LastIndexOf(' ')).Trim(' '), RondeTijd);
                 return true;
             }
             return false;

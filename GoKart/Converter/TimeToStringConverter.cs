@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace GoKart
 {
     [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public sealed class TimeToStringConverter : IValueConverter
+    public class TimeToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace CpbTiming
+namespace CpbTiming.SmsTiming
 {
     public class Records
     {
-        public KeyValuePair<string, RondeTijdDatum> Vandaag { get; private set; }
-        public KeyValuePair<string, RondeTijdDatum> DezeWeek { get; private set; }
-        public KeyValuePair<string, RondeTijdDatum> DezeMaand { get; private set; }
-        public KeyValuePair<string, RondeTijdDatum> DitJaar { get; private set; }
-        public KeyValuePair<string, RondeTijdDatum> SindsAltijd { get; private set; }
+        public KeyValuePair<string, RondeTijdDatum> Vandaag { get; set; }
+        public KeyValuePair<string, RondeTijdDatum> DezeWeek { get; set; }
+        public KeyValuePair<string, RondeTijdDatum> DezeMaand { get; set; }
+        public KeyValuePair<string, RondeTijdDatum> DitJaar { get; set; }
+        public KeyValuePair<string, RondeTijdDatum> SindsAltijd { get; set; }
 
         /// <summary>
         /// Vandaag<Team A,<58.634,10-08-202>> "Vandaag Team A 58.634 10-08-202"
@@ -57,7 +57,8 @@ namespace CpbTiming
                             }
                         }
 
-                        prop.SetValue(this, new KeyValuePair<string, RondeTijdDatum>(Key, new RondeTijdDatum() { RondeTijd = RondeTijd, RondeDatum = RondeDatum }));
+                        KeyValuePair<string, RondeTijdDatum> Value = new KeyValuePair<string, RondeTijdDatum>(Key, new RondeTijdDatum() { RondeTijd = RondeTijd, RondeDatum = RondeDatum });
+                        prop.SetValue(this, Value);
 
                         return true;
                     }

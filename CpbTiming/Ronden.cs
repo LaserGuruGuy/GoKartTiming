@@ -28,7 +28,7 @@ namespace CpbTiming
                             }
                         }
                     }
-                    this.Add(RondeNummer, RondeTijd);
+                    Add(RondeNummer, RondeTijd);
                     return true;
                 }
             }

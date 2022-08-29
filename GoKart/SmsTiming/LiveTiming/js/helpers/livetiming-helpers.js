@@ -55,13 +55,13 @@ function initializeLiveTiming(settings, connectionInfo) {
     eventData = settings;
     eventConnection = connectionInfo;
     translations(eventData);
-    if (checkBrowser()) {
+    //if (checkBrowser()) {
         init();
-    } else {
-        initColors();      
-        var infoDiv = document.getElementById("info_races");
-        infoDiv.innerHTML = "<a href='http://www.browserchoice.eu/BrowserChoice/browserchoice_en.htm' target='_blank'>" + slupdatebrowser + "</a>";
-    }
+    //} else {
+    //    initColors();      
+    //    var infoDiv = document.getElementById("info_races");
+    //    infoDiv.innerHTML = "<a href='http://www.browserchoice.eu/BrowserChoice/browserchoice_en.htm' target='_blank'>" + slupdatebrowser + "</a>";
+    //}
 }
 
 function init() {
@@ -112,6 +112,8 @@ function startWebSocket() {
         wsUri = "ws://" + eventData["liveServerHost"] + ":" + eventData["liveServerWsPort"] + "/";
     }
     websocket = new WebSocket(wsUri);
+
+    window.external.onLogMessage(wsUri);
 
     websocket.onopen = function (evt) {
         onOpen(evt)
@@ -434,6 +436,9 @@ function onHTTPMessage(jsonData) {
         onJSONReceived(jsonData);
     } else {
         noRaces(slnoheat);
+    }
+    if (window.external.onJSONReceived != null) {
+        window.external.onJSONReceived(JSON.stringify(evt.data));
     }
 }
 

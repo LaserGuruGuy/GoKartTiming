@@ -128,6 +128,9 @@
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.Toolkit.Mvvm, Version=7.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Toolkit.Mvvm.7.1.2\lib\netstandard2.0\Microsoft.Toolkit.Mvvm.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -190,27 +193,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AbsoluteLapTimeWindow.cs" />
-    <Compile Include="ClassInterfaceContractResolver.cs" />
+    <Compile Include="Converter\Format.cs" />
+    <Compile Include="Converter\LapsLeftToStringConverter.cs" />
+    <Compile Include="Converter\TimeLeftToStringConverter.cs" />
+    <Compile Include="Converter\SpeedToStringConverter.cs" />
+    <Compile Include="Converter\TimeToStringConverter.cs" />
+    <Compile Include="CpbTimingExtensions.cs" />
+    <Compile Include="LapTimeWindow\AbsoluteLapTimeWindow.cs" />
+    <Compile Include="JSON\ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />
-    <Compile Include="CumulativeLapTimeWindow.cs" />
-    <Compile Include="Format.cs" />
-    <Compile Include="GridViewListSort.cs" />
-    <Compile Include="IConfiguration.cs" />
-    <Compile Include="IConnectionService.cs" />
-    <Compile Include="PdfReader.cs" />
-    <Compile Include="RelativeLapTimeWindow.cs" />
-    <Compile Include="ScriptInterface.cs" />
-    <Compile Include="LapTimeWindow.xaml.cs">
+    <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
+    <Compile Include="CpbTiming.cs" />
+    <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
+    <Compile Include="Sort\GridViewListSort.cs" />
+    <Compile Include="Interface\IConfiguration.cs" />
+    <Compile Include="Interface\IConnectionService.cs" />
+    <Compile Include="Pdf\PdfReader.cs" />
+    <Compile Include="LapTimeWindow\RelativeLapTimeWindow.cs" />
+    <Compile Include="WebBrowser\ScriptInterface.cs" />
+    <Compile Include="LapTimeWindow\LapTimeWindow.xaml.cs">
       <DependentUpon>LapTimeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="sms-timing.cs" />
-    <Compile Include="SpeedToStringConverter.cs" />
-    <Compile Include="TimeToStringConverter.cs" />
-    <Compile Include="WebBrowserHelper.cs" />
-    <Compile Include="WebBrowserHook.cs" />
-    <Compile Include="WebBrowserVersion.cs" />
+    <Compile Include="JSON\Settings.cs" />
+    <Compile Include="WebBrowser\WebSocket.cs" />
+    <Compile Include="WebBrowser\WebBrowserHelper.cs" />
+    <Compile Include="WebBrowser\WebBrowserHook.cs" />
+    <Compile Include="WebBrowser\WebBrowserVersion.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -223,7 +231,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="LapTimeWindow.xaml">
+    <Page Include="LapTimeWindow\LapTimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

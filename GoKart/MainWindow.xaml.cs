@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using CpbTiming;
 
 namespace GoKart
 {
     public partial class MainWindow : Window, IConfiguration
     {
-        public PersonalRaceOverviewReportCollection PersonalRaceOverviewReportCollection { get; set; } = new PersonalRaceOverviewReportCollection();
+        public CpbTiming CpbTiming { get; set; } = new CpbTiming();
 
         public Uri Uri { get; set; }
 
@@ -20,6 +19,8 @@ namespace GoKart
             InitializeComponent();
 
             Closed += new EventHandler(MainWindow_Closed);
+
+            DataContext = CpbTiming;
 
             PopulateConfiguration("Config.json");
 
@@ -35,6 +36,7 @@ namespace GoKart
             try
             {
                 WebBrowser.ObjectForScripting = new ScriptInterface(this);
+                ((ScriptInterface)WebBrowser.ObjectForScripting).PopulateFromFile(@"C:\Users\xboxl\source\repos\GoKartTiming\racelogfile.json");
             }
             catch (Exception Ex)
             {
@@ -55,8 +57,6 @@ namespace GoKart
             finally
             {
             }
-
-            DataContext = PersonalRaceOverviewReportCollection;
         }
 
         protected void MainWindow_Closed(object sender, EventArgs args)
@@ -76,9 +76,9 @@ namespace GoKart
 
         private void ListView_RaceOverviewReport_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AbsoluteLapTimeWindow?.UpdatePlot(ListView_RaceOverviewReport.SelectedItems, ListView_RaceOverviewReport.SelectedItem);
-            CumulativeLapTimeWindow?.UpdatePlot(ListView_RaceOverviewReport.SelectedItems, ListView_RaceOverviewReport.SelectedItem);
-            RelativeLapTimeWindow?.UpdatePlot(ListView_RaceOverviewReport.SelectedItems, ListView_RaceOverviewReport.SelectedItem);
+            AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+            CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+            RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
         }
     }
 }

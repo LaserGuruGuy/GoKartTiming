@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
+using GoKart.Pdf;
 
 namespace GoKart
 {
@@ -17,10 +18,7 @@ namespace GoKart
                 {
                     if (Path.GetExtension(FileName).Equals(".pdf"))
                     {
-                        PersonalRaceOverviewReportCollection.Parse(
-                            Path.GetFileNameWithoutExtension(FileName),
-                            File.GetCreationTime(FileName),
-                            ExtractTextBookFromPdf(FileName));
+                        CpbTiming.Add(ExtractTextBookFromPdf(FileName));
                     }
                 }
             }
@@ -37,15 +35,22 @@ namespace GoKart
 
                 using (PdfDocument pdfDocument = new PdfDocument(pdfReader))
                 {
-                    for (int Page = 1; Page <= pdfDocument.GetNumberOfPages(); Page++)
+                    if (pdfDocument.GetNumberOfPages() > 1)
                     {
-                        string Location = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(Page), new LocationTextExtractionStrategy());
-                        string Header = Location.Substring(0, Location.IndexOf("Ronden Heat overzicht Beste tijd\n"));
+                        for (int Page = 1; Page <= pdfDocument.GetNumberOfPages(); Page++)
+                        {
+                            string Location = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(Page), new LocationTextExtractionStrategy());
+                            string Header = Location.Substring(0, Location.IndexOf("Ronden Heat overzicht Beste tijd\n"));
 
-                        string Simple = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(Page), new SimpleTextExtractionStrategy());
-                        string Ronden = Simple.Substring(Simple.IndexOf("Ronden"));
+                            string Simple = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(Page), new SimpleTextExtractionStrategy());
+                            string Ronden = Simple.Substring(Simple.IndexOf("Ronden"));
 
-                        Text.Add(Header + Ronden);
+                            Text.Add(Header + Ronden);
+                        }
+                    }
+                    else if (pdfDocument.GetNumberOfPages() == 1)
+                    {
+                        string Location = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(1), new LocationTextExtractionStrategy(new LaxTextChunkLocationStrategy()));
                     }
                 }
             }
