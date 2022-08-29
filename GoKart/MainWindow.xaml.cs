@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using CpbTiming.SmsTiming;
 
 namespace GoKart
 {
@@ -14,11 +17,60 @@ namespace GoKart
 
         public string auth { get; set; }
 
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            string name = string.Empty;
+
+            if (sender.GetType().Equals(typeof(UniqueObservableCollection<LiveTimingEx>)))
+            {
+                try
+                {
+                    UniqueObservableCollection<LiveTimingEx> collection = (sender as UniqueObservableCollection<LiveTimingEx>);
+                    var element = collection[collection.Count - 1];
+                    name += (name == string.Empty ? element.HeatName : "\n" + element.HeatName);
+                }
+                catch (Exception ex)
+                {
+                    name = ex.Message;
+                }
+            }
+            else if (sender.GetType().Equals(typeof(UniqueObservableCollection<DriverEx>)))
+            {
+                try
+                {
+                    UniqueObservableCollection<DriverEx> collection = (sender as UniqueObservableCollection<DriverEx>);
+                    var element = collection[collection.Count - 1];
+                    name += (name == string.Empty ? element.DriverName : "\n" + element.DriverName);
+                }
+                catch (Exception ex)
+                {
+                    name = ex.Message;
+                }
+            }
+
+            Console.WriteLine(e.Action + " " + name);
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            try
+            {
+                Console.WriteLine("Set " + e.PropertyName + "=" + sender.GetType().GetProperty(e.PropertyName).GetValue(sender)?.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Set " + ex.Message);
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
             Closed += new EventHandler(MainWindow_Closed);
+
+            //CpbTiming.LiveTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            //CpbTiming.LiveTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
 
             DataContext = CpbTiming;
 

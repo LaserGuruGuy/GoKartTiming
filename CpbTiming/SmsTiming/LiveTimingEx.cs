@@ -8,7 +8,7 @@ namespace CpbTiming.SmsTiming
     {
         protected new UniqueObservableCollection<DriverEx> _Drivers = new UniqueObservableCollection<DriverEx>();
 
-        protected DateTime _DateTime;
+        protected DateTime _DateTime = DateTime.Now;
 
         protected HeatOverzicht _HeatOverzicht = new HeatOverzicht();
 
@@ -69,13 +69,6 @@ namespace CpbTiming.SmsTiming
                 _Drivers.Sort();
                 RaisePropertyChanged("Drivers");
             }
-        }
-
-        public LiveTimingEx() { }
-
-        public LiveTimingEx(string Page)
-        {
-            Parse(Page);
         }
 
         public void Parse(string Page)
@@ -181,7 +174,7 @@ namespace CpbTiming.SmsTiming
 
         private void ResetDateTime()
         {
-            _DateTime = DateTime.MinValue;
+            _DateTime = DateTime.Now;
         }
 
         private void ResetHeatOverzicht()

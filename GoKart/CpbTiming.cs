@@ -64,8 +64,8 @@ namespace GoKart
             {
                 case (int)HeatStateEnum.HeatNotStarted:
                 case (int)HeatStateEnum.HeatRunning:
-                    _LiveTimingCollection.Add(LiveTiming);
-                    RaisePropertyChanged("LiveTimingCollection");
+                    LiveTimingCollection.Add(LiveTiming);
+                    //RaisePropertyChanged("LiveTimingCollection");
                     break;
                 case (int)HeatStateEnum.HeatPauzed:
                     break;
@@ -73,6 +73,7 @@ namespace GoKart
                 case (int)HeatStateEnum.HeatFinished:
                     //LiveTiming.Reset();
                     LiveTiming = new LiveTimingEx();
+                    //RaisePropertyChanged("LiveTiming");
                     break;
                 case (int)HeatStateEnum.NextHeat:
                     break;

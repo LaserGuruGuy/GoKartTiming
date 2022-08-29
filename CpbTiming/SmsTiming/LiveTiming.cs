@@ -184,7 +184,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _ClockStarted = value;
-                RaisePropertyChanged("CounterStarted");
+                RaisePropertyChanged("ClockStarted");
             }
         }
 

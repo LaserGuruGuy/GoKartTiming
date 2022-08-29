@@ -198,7 +198,6 @@
     <Compile Include="Converter\TimeLeftToStringConverter.cs" />
     <Compile Include="Converter\SpeedToStringConverter.cs" />
     <Compile Include="Converter\TimeToStringConverter.cs" />
-    <Compile Include="CpbTimingExtensions.cs" />
     <Compile Include="LapTimeWindow\AbsoluteLapTimeWindow.cs" />
     <Compile Include="JSON\ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />

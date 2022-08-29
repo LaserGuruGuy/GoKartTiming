@@ -13,8 +13,9 @@ namespace CpbTiming.SmsTiming
                 {
                     if (DestinationProperty.Name == SourceProperty.Name && SourceProperty.CanRead && DestinationProperty.CanWrite && DestinationProperty.PropertyType.IsAssignableFrom(SourceProperty.PropertyType))
                     {
-                        System.Console.WriteLine("[" + DestinationProperty.Name + "]=" + DestinationProperty.GetValue(Source, new object[] { }) + "=>" + SourceProperty.GetValue(Source, new object[] { }));
+                        //System.Console.WriteLine("[" + DestinationProperty.Name + "]=" + DestinationProperty.GetValue(Source, new object[] { }) + "=>" + SourceProperty.GetValue(Source, new object[] { }));
                         DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source, new object[] { }), new object[] { });
+                        OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(DestinationProperty.Name));
                         break;
                     }
                 }
@@ -36,6 +37,7 @@ namespace CpbTiming.SmsTiming
                     }
                 }
                 Items.Add(Item);
+                OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count-1]));
             }
             else if (GetType() == typeof(UniqueObservableCollection<DriverEx>) && (Item.GetType() == typeof(DriverEx)))
             {
@@ -50,6 +52,7 @@ namespace CpbTiming.SmsTiming
                     }
                 }
                 Items.Add(Item);
+                OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count - 1]));
             }
         }
     }

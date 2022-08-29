@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/_racelogfile.json
+/racelogfile.json
+/PersonalRaceOverviewReport.pdf
+/Naamloos.png
+/Lap Overview.pdf
+/Lap Overview 2.pdf
