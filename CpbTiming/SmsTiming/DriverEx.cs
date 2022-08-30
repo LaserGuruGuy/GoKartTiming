@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace CpbTiming.SmsTiming
 {
@@ -7,6 +8,7 @@ namespace CpbTiming.SmsTiming
     {
         private float? _AverageSpeed;
 
+        [JsonIgnore]
         public float? AverageSpeed
         {
             get

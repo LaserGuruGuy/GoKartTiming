@@ -26,12 +26,6 @@ namespace GoKart
 
             var props = base.CreateProperties(typeToSerialize, memberSerialization);
 
-            // mark all props as not ignored
-            foreach (var prop in props)
-            {
-                prop.Ignored = false;
-            }
-
             return props;
         }
     }

@@ -85,6 +85,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public int? KartNumber
         {
             get
@@ -144,6 +145,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public TimeSpan LastLapTime
         {
             get
@@ -159,6 +161,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public UniqueKeyedCollection LapTime
         {
             get
@@ -179,6 +182,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public TimeSpan AvarageLapTime
         {
             get
@@ -204,6 +208,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public TimeSpan BestLapTime
         {
             get

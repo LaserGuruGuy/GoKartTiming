@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
@@ -10,20 +9,6 @@ namespace GoKart
 {
     public partial class MainWindow
     {
-        private void ParsePdfFiles(string[] FileNames)
-        {
-            foreach (var FileName in FileNames)
-            {
-                if (File.Exists(FileName))
-                {
-                    if (Path.GetExtension(FileName).Equals(".pdf"))
-                    {
-                        CpbTiming.Add(ExtractTextBookFromPdf(FileName));
-                    }
-                }
-            }
-        }
-
         public static List<string> ExtractTextBookFromPdf(string path)
         {
             List<string> Text = new List<string>();

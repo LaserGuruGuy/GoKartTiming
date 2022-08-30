@@ -193,6 +193,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CollectionChanged.cs" />
+    <Compile Include="Converter\DateTimeToStringConverter.cs" />
     <Compile Include="Converter\Format.cs" />
     <Compile Include="Converter\LapsLeftToStringConverter.cs" />
     <Compile Include="Converter\TimeLeftToStringConverter.cs" />
@@ -204,16 +206,17 @@
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
     <Compile Include="CpbTiming.cs" />
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
+    <Compile Include="PropertyChanged.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
     <Compile Include="Interface\IConfiguration.cs" />
     <Compile Include="Interface\IConnectionService.cs" />
     <Compile Include="Pdf\PdfReader.cs" />
     <Compile Include="LapTimeWindow\RelativeLapTimeWindow.cs" />
-    <Compile Include="WebBrowser\ScriptInterface.cs" />
     <Compile Include="LapTimeWindow\LapTimeWindow.xaml.cs">
       <DependentUpon>LapTimeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="JSON\Settings.cs" />
+    <Compile Include="WebBrowser\WebBrowserScriptInterface.cs" />
     <Compile Include="WebBrowser\WebSocket.cs" />
     <Compile Include="WebBrowser\WebBrowserHelper.cs" />
     <Compile Include="WebBrowser\WebBrowserHook.cs" />

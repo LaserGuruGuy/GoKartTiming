@@ -21,33 +21,33 @@ namespace CpbTiming.SmsTiming
 
         public static Dictionary<string, int> HeatStateDict { get; } = new Dictionary<string, int>
         {
-            {"Heat not started.", 0 },
-            {"Heat running.", 1 },
-            {"Heat pauzed.", 2 },
-            {"Heat stopped.", 3 },
-            {"Heat finished.", 4 },
-            {"Next heat.", 5 }
+            {"Heat not started", 0 },
+            {"Heat running", 1 },
+            {"Heat pauzed", 2 },
+            {"Heat stopped", 3 },
+            {"Heat finished", 4 },
+            {"Next heat", 5 }
         };
 
         public static Dictionary<string, int> EndConditionDict { get; } = new Dictionary<string, int>
         {
-            {"The heat needs to be finished manual.", 0 },
-            {"The heat finishes after X time.", 1 },
-            {"The heat finishes after X laps.", 2 },
-            {"The heat finished after X time or X laps. Depends on wich one is first.", 3 }
+            {"The heat needs to be finished manual", 0 },
+            {"The heat finishes after X time", 1 },
+            {"The heat finishes after X laps", 2 },
+            {"The heat finished after X time or X laps depending on wich one is first", 3 }
         };
 
         public static Dictionary<string, int> RaceModeDict { get; } = new Dictionary<string, int>
         {
-            {"Most laps wins.", 0},
-            {"The best laptime is the winner.", 1},
-            {"The best average time is the winner.", 2}
+            {"Most laps wins", 0},
+            {"The best laptime is the winner", 1},
+            {"The best average time is the winner", 2}
         };
 
         public static Dictionary<string, int> ClockStartedDict { get; } = new Dictionary<string, int>
         {
-            {"Clock not started.", 0},
-            {"Clock Started.", 1}
+            {"Clock not started", 0},
+            {"Clock Started", 1}
         };
 
         protected string _HeatName;
@@ -141,7 +141,6 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _Drivers = value;
-                _Drivers.Sort();
                 RaisePropertyChanged("Drivers");
             }
         }
@@ -158,6 +157,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public TimeSpan TimeLeft
         {
             get

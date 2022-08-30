@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using CpbTiming.SmsTiming;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace GoKart
 {
@@ -17,60 +17,17 @@ namespace GoKart
 
         public string auth { get; set; }
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            string name = string.Empty;
-
-            if (sender.GetType().Equals(typeof(UniqueObservableCollection<LiveTimingEx>)))
-            {
-                try
-                {
-                    UniqueObservableCollection<LiveTimingEx> collection = (sender as UniqueObservableCollection<LiveTimingEx>);
-                    var element = collection[collection.Count - 1];
-                    name += (name == string.Empty ? element.HeatName : "\n" + element.HeatName);
-                }
-                catch (Exception ex)
-                {
-                    name = ex.Message;
-                }
-            }
-            else if (sender.GetType().Equals(typeof(UniqueObservableCollection<DriverEx>)))
-            {
-                try
-                {
-                    UniqueObservableCollection<DriverEx> collection = (sender as UniqueObservableCollection<DriverEx>);
-                    var element = collection[collection.Count - 1];
-                    name += (name == string.Empty ? element.DriverName : "\n" + element.DriverName);
-                }
-                catch (Exception ex)
-                {
-                    name = ex.Message;
-                }
-            }
-
-            Console.WriteLine(e.Action + " " + name);
-        }
-
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            try
-            {
-                Console.WriteLine("Set " + e.PropertyName + "=" + sender.GetType().GetProperty(e.PropertyName).GetValue(sender)?.ToString());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Set " + ex.Message);
-            }
-        }
-
         public MainWindow()
         {
             InitializeComponent();
 
+            Loaded += new RoutedEventHandler(MainWindow_Loaded);
+
             Closed += new EventHandler(MainWindow_Closed);
 
-            //CpbTiming.LiveTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            //CpbTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
             //CpbTiming.LiveTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
+            CpbTiming.LiveTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
 
             DataContext = CpbTiming;
 
@@ -78,17 +35,9 @@ namespace GoKart
 
             WebBrowserHelper.GetBrowserVersion();
 
-            string[] args = Environment.GetCommandLineArgs();
-
-            if (args.Length != 0)
-            {
-                ParsePdfFiles(args);
-            }
-
             try
             {
-                WebBrowser.ObjectForScripting = new ScriptInterface(this);
-                ((ScriptInterface)WebBrowser.ObjectForScripting).PopulateFromFile(@"C:\Users\xboxl\source\repos\GoKartTiming\racelogfile.json");
+                WebBrowser.ObjectForScripting = new WebBrowserScriptInterface(this);
             }
             catch (Exception Ex)
             {
@@ -118,11 +67,42 @@ namespace GoKart
             RelativeLapTimeWindow?.Close();
         }
 
+        protected void MainWindow_Loaded(object sender, EventArgs args)
+        {
+            string[] arg = Environment.GetCommandLineArgs();
+
+            if (arg.Length != 0)
+            {
+                HandleFile(arg);
+            }
+        }
+
         private void HandleDroppedFile(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                ParsePdfFiles((string[])e.Data.GetData(DataFormats.FileDrop));
+                HandleFile((string[])e.Data.GetData(DataFormats.FileDrop));
+            }
+        }
+
+        private void HandleFile(string[] FileNames)
+        {
+            foreach (string FileName in FileNames)
+            {
+                if (File.Exists(FileName))
+                {
+                    if (Path.GetExtension(FileName).Equals(".pdf"))
+                    {
+                        CpbTiming.Add(ExtractTextBookFromPdf(FileName));
+                    }
+                    else if (Path.GetExtension(FileName).Equals(".json"))
+                    {
+                        foreach (string Serialized in File.ReadAllLines(FileName))
+                        {
+                            CpbTiming.Add(Serialized);
+                        }
+                    }
+                }
             }
         }
 

@@ -1,19 +1,18 @@
-﻿using System.Security.Permissions;
-using System.Runtime.InteropServices;
-using System;
-using Newtonsoft.Json;
+﻿using System;
 using System.IO;
-using CpbTiming.SmsTiming;
+using System.Security.Permissions;
+using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
 namespace GoKart
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [ComVisible(true)]
-    public class ScriptInterface : IConnectionService
+    public class WebBrowserScriptInterface : IConnectionService
     {
         private MainWindow _MainWindow;
 
-        public ScriptInterface(MainWindow MainWindow)
+        public WebBrowserScriptInterface(MainWindow MainWindow)
         {
             _MainWindow = MainWindow;
         }
@@ -39,7 +38,7 @@ namespace GoKart
             Console.WriteLine(message);
         }
 
-        public void PolupateConnectionService(string Serialized)
+        public void onConnectionService(string Serialized)
         {
             JsonConvert.PopulateObject(Serialized, this, new JsonSerializerSettings
             {
@@ -53,19 +52,6 @@ namespace GoKart
             File.AppendAllText("logfile.json", Serialized + "\n");
 
             _MainWindow.CpbTiming.Add(Serialized);
-        }
-
-        public void PopulateFromFile(string FileName)
-        {
-            if (File.Exists(FileName))
-            {
-                string[] Lines = File.ReadAllLines(FileName);
-
-                foreach (var Serialized in Lines)
-                {
-                    _MainWindow.CpbTiming.Add(Serialized);
-                }
-            }
         }
     }
 }

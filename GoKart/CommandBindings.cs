@@ -10,11 +10,11 @@ namespace GoKart
         
             dlg.Multiselect = true;
             dlg.DefaultExt = ".pdf";
-            dlg.Filter = "CPB (*.pdf)|*.pdf";
+            dlg.Filter = "CPB (*.pdf)|*.pdf|CPB (*.json)|*.json";
 
             if (dlg.ShowDialog() == true)
             {
-                ParsePdfFiles(dlg.FileNames);
+                HandleFile(dlg.FileNames);
             }
         }
 

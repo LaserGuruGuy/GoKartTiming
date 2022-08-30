@@ -14,6 +14,7 @@ namespace CpbTiming.SmsTiming
 
         protected Records _Records = new Records();
 
+        [JsonIgnore]
         public DateTime DateTime
         {
             get
@@ -27,6 +28,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public HeatOverzicht HeatOverzicht
         {
             get
@@ -40,6 +42,7 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        [JsonIgnore]
         public Records Records
         {
             get
@@ -167,11 +170,6 @@ namespace CpbTiming.SmsTiming
             Drivers.Add(Driver);
         }
 
-        private void ResetDrivers()
-        {
-            _Drivers.Clear();
-        }
-
         private void ResetDateTime()
         {
             _DateTime = DateTime.Now;
@@ -185,6 +183,11 @@ namespace CpbTiming.SmsTiming
         private void ResetRecords()
         {
             _Records = new Records();
+        }
+        
+        private void ResetDrivers()
+        {
+            _Drivers.Clear();
         }
     }
 }

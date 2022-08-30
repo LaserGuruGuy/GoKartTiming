@@ -9,6 +9,7 @@
         AllowDrop="true" Drop="HandleDroppedFile"
         Icon="Icons\cpb-logo.ico">
     <Window.Resources>
+        <local:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
         <local:LapsLeftToStringConverter x:Key="LapsLeftToStringConverter"/>
         <local:TimeLeftToStringConverter x:Key="TimeLeftToStringConverter"/>
         <local:TimeToStringConverter x:Key="TimeToStringConverter"/>
@@ -61,7 +62,7 @@
                             <ListView.View>
                                 <GridView >
                                     <GridViewColumn Header="Heat Name" Width="auto" DisplayMemberBinding="{Binding HeatName}"/>
-                                    <GridViewColumn Header="Date Time" Width="auto" DisplayMemberBinding="{Binding DateTime}"/>
+                                    <GridViewColumn Header="Date Time" Width="auto" DisplayMemberBinding="{Binding DateTime, Converter={StaticResource DateTimeToStringConverter}}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -104,7 +105,7 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
-        <StatusBar Grid.Row="1" VerticalAlignment="Bottom" DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" >
+        <StatusBar VerticalAlignment="Bottom" DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" >
             <ComboBox x:Name="ComboBox_LiveTimingHeatState" SelectedValue="{Binding HeatState}" ItemsSource="{Binding Path=HeatStateDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center" IsEnabled="False"/>
             <ComboBox x:Name="ComboBox_LiveTimingEndCondition" SelectedValue="{Binding EndCondition}" ItemsSource="{Binding Path=EndConditionDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center" IsEnabled="False"/>
             <ComboBox x:Name="ComboBox_LiveTimingRaceMode" SelectedValue="{Binding RaceMode}" ItemsSource="{Binding Path=RaceModeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center" IsEnabled="False"/>

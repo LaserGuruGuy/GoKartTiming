@@ -44,12 +44,11 @@ namespace GoKart
         public void Add(List<string> Book)
         {
             LiveTimingEx LiveTiming = new LiveTimingEx();
-            foreach (var Page in Book)
+            foreach (string Page in Book)
             {
                 LiveTiming.Parse(Page);
             }
-            _LiveTimingCollection.Add(LiveTiming);
-            RaisePropertyChanged("LiveTimingCollection");
+            LiveTimingCollection.Add(LiveTiming);
         }
 
         public void Add(string Serialized)
@@ -63,17 +62,16 @@ namespace GoKart
             switch (LiveTiming.HeatState)
             {
                 case (int)HeatStateEnum.HeatNotStarted:
+                    break;
                 case (int)HeatStateEnum.HeatRunning:
                     LiveTimingCollection.Add(LiveTiming);
-                    //RaisePropertyChanged("LiveTimingCollection");
                     break;
                 case (int)HeatStateEnum.HeatPauzed:
                     break;
                 case (int)HeatStateEnum.HeatStopped:
+                    break;
                 case (int)HeatStateEnum.HeatFinished:
-                    //LiveTiming.Reset();
-                    LiveTiming = new LiveTimingEx();
-                    //RaisePropertyChanged("LiveTiming");
+                    LiveTiming.Reset();
                     break;
                 case (int)HeatStateEnum.NextHeat:
                     break;

@@ -13,6 +13,17 @@ namespace CpbTiming.SmsTiming
                 {
                     if (DestinationProperty.Name == SourceProperty.Name && SourceProperty.CanRead && DestinationProperty.CanWrite && DestinationProperty.PropertyType.IsAssignableFrom(SourceProperty.PropertyType))
                     {
+                        //if (DestinationProperty.PropertyType.IsGenericType)
+                        //{
+                        //    if (DestinationProperty.PropertyType.Assembly == Destination.GetType().Assembly)
+                        //    {
+                        //        if (DestinationProperty.Name == "Drivers")
+                        //        {
+                        //            AssignItem(DestinationProperty.GetValue(Destination, null), SourceProperty.GetValue(Source, null));
+                        //        }
+                        //    }
+                        //}
+
                         //System.Console.WriteLine("[" + DestinationProperty.Name + "]=" + DestinationProperty.GetValue(Source, new object[] { }) + "=>" + SourceProperty.GetValue(Source, new object[] { }));
                         DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source, new object[] { }), new object[] { });
                         OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(DestinationProperty.Name));

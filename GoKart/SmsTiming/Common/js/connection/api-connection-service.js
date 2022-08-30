@@ -20,7 +20,7 @@
          },
         success: function (data) {
             try {
-                window.external.PolupateConnectionService(JSON.stringify(data));
+                window.external.onConnectionService(JSON.stringify(data));
             }
             catch (error) {
                 console.error(error);
