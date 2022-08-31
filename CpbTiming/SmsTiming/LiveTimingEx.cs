@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
 
@@ -69,7 +70,6 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _Drivers = value;
-                _Drivers.Sort();
                 RaisePropertyChanged("Drivers");
             }
         }

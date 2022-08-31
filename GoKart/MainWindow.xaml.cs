@@ -25,8 +25,7 @@ namespace GoKart
 
             Closed += new EventHandler(MainWindow_Closed);
 
-            //CpbTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
-            //CpbTiming.LiveTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
+            CpbTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
             CpbTiming.LiveTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
 
             DataContext = CpbTiming;

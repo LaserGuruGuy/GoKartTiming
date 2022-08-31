@@ -275,6 +275,7 @@ namespace CpbTiming.SmsTiming
                 {
                     prop.ResetValue(this);
                     RaisePropertyChanged(prop.Name);
+                    Console.WriteLine(prop.Name);
                 }
             }
         }

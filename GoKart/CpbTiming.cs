@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using CpbTiming.SmsTiming;
 using Newtonsoft.Json;
 using static CpbTiming.SmsTiming.LiveTiming;
+using System;
 
 namespace GoKart
 {
@@ -12,8 +13,6 @@ namespace GoKart
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         
         private UniqueObservableCollection<LiveTimingEx> _LiveTimingCollection = new UniqueObservableCollection<LiveTimingEx>();
-
-        private LiveTimingEx _LiveTiming = new LiveTimingEx();
 
         public UniqueObservableCollection<LiveTimingEx> LiveTimingCollection
         {
@@ -28,19 +27,6 @@ namespace GoKart
             }
         }
 
-        public LiveTimingEx LiveTiming
-        { 
-            get
-            {
-                return _LiveTiming;
-            }
-            set
-            {
-                _LiveTiming = value;
-                RaisePropertyChanged("LiveTiming");
-            } 
-        }
-
         public void Add(List<string> Book)
         {
             LiveTimingEx LiveTiming = new LiveTimingEx();
@@ -53,28 +39,36 @@ namespace GoKart
 
         public void Add(string Serialized)
         {
-            JsonConvert.PopulateObject(Serialized, LiveTiming, new JsonSerializerSettings
+            if (LiveTimingCollection.Count > 0)
             {
-                ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
-            });
-            
-            switch (LiveTiming.HeatState)
+                for (var i = 0; i < LiveTimingCollection.Count; i++)
+                {
+                    if (Serialized.Contains(LiveTimingCollection[i].HeatName))
+                    {
+                        JsonConvert.PopulateObject(Serialized, LiveTimingCollection[i], new JsonSerializerSettings
+                        {
+                            ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                            ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
+                        });
+                        LiveTimingCollection[i].Drivers.Sort();
+                        return;
+                    }
+                }
+                LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
+                LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
+                for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
+                {
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                }
+            }
+            else
             {
-                case (int)HeatStateEnum.HeatNotStarted:
-                    break;
-                case (int)HeatStateEnum.HeatRunning:
-                    LiveTimingCollection.Add(LiveTiming);
-                    break;
-                case (int)HeatStateEnum.HeatPauzed:
-                    break;
-                case (int)HeatStateEnum.HeatStopped:
-                    break;
-                case (int)HeatStateEnum.HeatFinished:
-                    LiveTiming.Reset();
-                    break;
-                case (int)HeatStateEnum.NextHeat:
-                    break;
+                LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
+                LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
+                for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
+                {
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                }
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace CpbTiming.SmsTiming
 {
@@ -13,21 +14,9 @@ namespace CpbTiming.SmsTiming
                 {
                     if (DestinationProperty.Name == SourceProperty.Name && SourceProperty.CanRead && DestinationProperty.CanWrite && DestinationProperty.PropertyType.IsAssignableFrom(SourceProperty.PropertyType))
                     {
-                        //if (DestinationProperty.PropertyType.IsGenericType)
-                        //{
-                        //    if (DestinationProperty.PropertyType.Assembly == Destination.GetType().Assembly)
-                        //    {
-                        //        if (DestinationProperty.Name == "Drivers")
-                        //        {
-                        //            AssignItem(DestinationProperty.GetValue(Destination, null), SourceProperty.GetValue(Source, null));
-                        //        }
-                        //    }
-                        //}
-
                         //System.Console.WriteLine("[" + DestinationProperty.Name + "]=" + DestinationProperty.GetValue(Source, new object[] { }) + "=>" + SourceProperty.GetValue(Source, new object[] { }));
                         DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source, new object[] { }), new object[] { });
                         OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(DestinationProperty.Name));
-                        break;
                     }
                 }
             }
@@ -35,7 +24,7 @@ namespace CpbTiming.SmsTiming
 
         protected override void InsertItem(int Index, T Item)
         {
-            if (GetType() == typeof(UniqueObservableCollection<LiveTimingEx>) && Item.GetType() == typeof(LiveTimingEx))
+            if (GetType() == typeof(UniqueObservableCollection<LiveTimingEx>) && Item?.GetType() == typeof(LiveTimingEx))
             {
                 for (var idx = 0; idx < Items.Count; idx++)
                 {
@@ -50,7 +39,7 @@ namespace CpbTiming.SmsTiming
                 Items.Add(Item);
                 OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count-1]));
             }
-            else if (GetType() == typeof(UniqueObservableCollection<DriverEx>) && (Item.GetType() == typeof(DriverEx)))
+            else if (GetType() == typeof(UniqueObservableCollection<DriverEx>) && (Item?.GetType() == typeof(DriverEx)))
             {
                 for (var idx = 0; idx < Items.Count; idx++)
                 {
@@ -64,6 +53,10 @@ namespace CpbTiming.SmsTiming
                 }
                 Items.Add(Item);
                 OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count - 1]));
+            }
+            else
+            {
+                Items.Add(Item);
             }
         }
     }
