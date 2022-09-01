@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 
@@ -14,7 +15,7 @@ namespace CpbTiming.SmsTiming
         private int? _KartNumber;
         private int? _Position;
         private int? _Laps;
-        private UniqueKeyedCollection _LapTime = new UniqueKeyedCollection();
+        private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         private TimeSpan _LastLapTime;
         private TimeSpan _AvarageLapTime;
         private TimeSpan _BestLapTime;
@@ -81,7 +82,17 @@ namespace CpbTiming.SmsTiming
         {
             set
             {
-                KartNumber = int.Parse(value);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    try
+                    {
+                        KartNumber = int.Parse(value);
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
         }
 
@@ -156,13 +167,12 @@ namespace CpbTiming.SmsTiming
             {
                 _LastLapTime = value;
                 RaisePropertyChanged("LastLapTime");
-                _LapTime.Add(new KeyedTimeSpan { Key = (int)_Laps, Value = _LastLapTime });
-                RaisePropertyChanged("LapTime");
+                _LapTime.Add(new KeyValuePair<int, TimeSpan>((int)_Laps, _LastLapTime));
             }
         }
 
         [JsonIgnore]
-        public UniqueKeyedCollection LapTime
+        public UniqueObservableCollection<KeyValuePair<int, TimeSpan>> LapTime
         {
             get
             {
@@ -308,7 +318,7 @@ namespace CpbTiming.SmsTiming
 
         private void ResetLapTime()
         {
-            _LapTime = new UniqueKeyedCollection();
+            _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         }
 
         private void ResetLastLapTime()

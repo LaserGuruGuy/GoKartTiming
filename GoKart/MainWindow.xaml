@@ -81,7 +81,7 @@
                                     <GridViewColumn Header="Ronden" Width="auto" DisplayMemberBinding="{Binding Laps}"/>
                                     <GridViewColumn Header="Beste" Width="auto" DisplayMemberBinding="{Binding BestLapTime, Converter={StaticResource TimeToStringConverter}}"/>
                                     <GridViewColumn Header="Gemiddelde" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
-                                    <GridViewColumn Header="Laatste" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
+                                    <GridViewColumn Header="Laatste" Width="auto" DisplayMemberBinding="{Binding LastLapTime, Converter={StaticResource TimeToStringConverter}}"/>
                                     <GridViewColumn Header="Snelheid" Width="auto" DisplayMemberBinding="{Binding AverageSpeed, Converter={StaticResource SpeedToStringConverter}}"/>
                                     <GridViewColumn Header="Afstand" Width="auto" DisplayMemberBinding="{Binding GapTime}"/>
                                 </GridView>

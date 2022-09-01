@@ -56,7 +56,7 @@ namespace CpbTiming.SmsTiming
         protected int? _RaceMode;
         protected UniqueObservableCollection<Driver> _Drivers = new UniqueObservableCollection<Driver>();
         protected TimeSpan _TimeLeft;
-        protected bool? _ClockStarted;
+        protected int? _ClockStarted;
         protected int? _RemainingLaps;
         protected int? _ActualHeatStart;
 
@@ -175,7 +175,7 @@ namespace CpbTiming.SmsTiming
         /// "CS" = ClockStarted
         /// </summary>
         [JsonProperty(PropertyName = "CS")]
-        public bool? ClockStarted
+        public int? ClockStarted
         {
             get
             {

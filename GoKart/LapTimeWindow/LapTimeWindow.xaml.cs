@@ -131,12 +131,17 @@ namespace GoKart
                             }
                             break;
                         case LapTimeType.Relative:
-                            foreach(var LapTime in Driver.LapTime)
+                            foreach (var LapTime in Driver.LapTime)
                             {
-                                TimeSpan Selection = Driver.LapTime.GetValue(LapTime.Key);
-                                TimeSpan Reference = ReferenceRaceOverviewReport.LapTime.GetValue(LapTime.Key);
-                                y += Selection.TotalSeconds - Reference.TotalSeconds;
-                                LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
+                                foreach(var RefTime in ReferenceRaceOverviewReport.LapTime)
+                                {
+                                    if (LapTime.Key.Equals(RefTime.Key))
+                                    {
+                                        y += LapTime.Value.TotalSeconds - RefTime.Value.TotalSeconds;
+                                        LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
+                                        break;
+                                    }
+                                }                               
                             }
                             break;
                     }

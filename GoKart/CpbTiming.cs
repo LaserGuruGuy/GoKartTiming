@@ -3,15 +3,15 @@ using System.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using CpbTiming.SmsTiming;
 using Newtonsoft.Json;
-using static CpbTiming.SmsTiming.LiveTiming;
-using System;
+using System.Collections.Specialized;
 
 namespace GoKart
 {
     public class CpbTiming : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        
+        public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
+
         private UniqueObservableCollection<LiveTimingEx> _LiveTimingCollection = new UniqueObservableCollection<LiveTimingEx>();
 
         public UniqueObservableCollection<LiveTimingEx> LiveTimingCollection
@@ -59,6 +59,7 @@ namespace GoKart
                 for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
                 {
                     LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
                 }
             }
             else
@@ -68,6 +69,7 @@ namespace GoKart
                 for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
                 {
                     LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
                 }
             }
         }

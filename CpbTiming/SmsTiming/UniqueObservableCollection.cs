@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace CpbTiming.SmsTiming
@@ -53,6 +54,14 @@ namespace CpbTiming.SmsTiming
                 }
                 Items.Add(Item);
                 OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count - 1]));
+            }
+            else if (GetType() == typeof(UniqueObservableCollection<KeyValuePair<int, TimeSpan>>) && (Item?.GetType() == typeof(KeyValuePair<int, TimeSpan>)))
+            {
+                if (!Items.Contains(Item))
+                {
+                    Items.Add(Item);
+                    OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count - 1]));
+                }
             }
             else
             {
