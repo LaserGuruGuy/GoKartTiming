@@ -1,0 +1,16 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:GoKart">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ExpressionDark.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
+    <Converters:LapsLeftToStringConverter x:Key="LapsLeftToStringConverter"/>
+    <Converters:TimeLeftToStringConverter x:Key="TimeLeftToStringConverter"/>
+    <Converters:TimeToStringConverter x:Key="TimeToStringConverter"/>
+    <Converters:SpeedToStringConverter x:Key="SpeedToStringConverter"/>
+
+</ResourceDictionary>
