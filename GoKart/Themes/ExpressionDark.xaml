@@ -2189,7 +2189,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style
+    </Style>
     <Style x:Key="NuclearTreeViewItemToggleButton" d:IsControlPart="True" TargetType="{x:Type ToggleButton}">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
