@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows.Interop;
 
 namespace GoKart
 {
@@ -16,6 +17,8 @@ namespace GoKart
         public string baseUrl { get; set; }
 
         public string auth { get; set; }
+
+        public bool UpdateLapTimeWindow { get; set; } = false;
 
         public MainWindow()
         {
@@ -57,6 +60,20 @@ namespace GoKart
             }
             finally
             {
+            }
+
+            ComponentDispatcher.ThreadIdle += new System.EventHandler(ComponentDispatcher_ThreadIdle);
+        }
+
+        void ComponentDispatcher_ThreadIdle(object sender, EventArgs e)
+        {
+            if (UpdateLapTimeWindow)
+            {
+                UpdateLapTimeWindow = false;
+
+                AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
             }
         }
 

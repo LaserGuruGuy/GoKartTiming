@@ -8,6 +8,13 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="RondeTijden" Width="1024" Height="768">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/ExpressionDark.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources> 
     <Grid>
         <oxy:PlotView x:Name="plot" DataContext="{Binding ElementName=_this}" Model="{Binding PlotModel}">
             <oxy:PlotView.ContextMenu>

@@ -39,6 +39,8 @@ namespace GoKart
             }
             else if (sender.GetType().Equals(typeof(UniqueObservableCollection<KeyValuePair<int, TimeSpan>>)))
             {
+                UpdateLapTimeWindow = true;
+
                 try
                 {
                     UniqueObservableCollection<KeyValuePair<int, TimeSpan>> collection = sender as UniqueObservableCollection<KeyValuePair<int, TimeSpan>>;
