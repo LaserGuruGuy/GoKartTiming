@@ -31,10 +31,13 @@ namespace CpbTiming.SmsTiming
                 {
                     LiveTimingEx Destination = Items[idx] as LiveTimingEx;
                     LiveTimingEx Source = Item as LiveTimingEx;
-                    if (Destination.HeatName.Equals(Source.HeatName))
+                    if (!string.IsNullOrEmpty(Destination.HeatName) && !string.IsNullOrEmpty(Source.HeatName))
                     {
-                        AssignItem(Destination, Source);
-                        return;
+                        if (Destination.HeatName.Equals(Source.HeatName))
+                        {
+                            AssignItem(Destination, Source);
+                            return;
+                        }
                     }
                 }
                 Items.Add(Item);

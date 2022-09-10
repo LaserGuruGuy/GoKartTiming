@@ -43,15 +43,18 @@ namespace GoKart
             {
                 for (var i = 0; i < LiveTimingCollection.Count; i++)
                 {
-                    if (Serialized.Contains(LiveTimingCollection[i].HeatName))
+                    if (!string.IsNullOrEmpty(LiveTimingCollection[i].HeatName))
                     {
-                        JsonConvert.PopulateObject(Serialized, LiveTimingCollection[i], new JsonSerializerSettings
+                        if (Serialized.Contains(LiveTimingCollection[i].HeatName))
                         {
-                            ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                            ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
-                        });
-                        LiveTimingCollection[i].Drivers.Sort();
-                        return;
+                            JsonConvert.PopulateObject(Serialized, LiveTimingCollection[i], new JsonSerializerSettings
+                            {
+                                ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                                ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
+                            });
+                            LiveTimingCollection[i].Drivers.Sort();
+                            return;
+                        }
                     }
                 }
                 LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
