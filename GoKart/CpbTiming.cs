@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using CpbTiming.SmsTiming;
-using Newtonsoft.Json;
 using System.Collections.Specialized;
+using System.IO;
+using Microsoft.Toolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using CpbTiming.SmsTiming;
 
 namespace GoKart
 {
-    public class CpbTiming : INotifyPropertyChanged
+    public partial class CpbTiming : INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
@@ -24,6 +25,27 @@ namespace GoKart
             {
                 _LiveTimingCollection = value;
                 RaisePropertyChanged("LiveTimingCollection");
+            }
+        }
+
+        public void AddTextBook(object data)
+        {
+            if (data.GetType().Equals(typeof(string)))
+            {
+                string TextBook = data as string;
+                Add(ExtractTextBookFromPdf(TextBook));
+            }
+        }
+
+        public void AddJson(object data)
+        {
+            if (data.GetType().Equals(typeof(string)))
+            {
+                string FileName = data as string;
+                foreach (string Serialized in File.ReadAllLines(FileName))
+                {
+                    Add(Serialized);
+                }
             }
         }
 
@@ -52,16 +74,18 @@ namespace GoKart
                                 ObjectCreationHandling = ObjectCreationHandling.Reuse,
                                 ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
                             });
-                            LiveTimingCollection[i].Drivers.Sort();
+                            //LiveTimingCollection[i].Drivers.Sort();
                             return;
                         }
                     }
                 }
                 LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
                 LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
+                LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
                 for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
                 {
                     LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
                     LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
                 }
             }
@@ -69,9 +93,11 @@ namespace GoKart
             {
                 LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
                 LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
+                LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
                 for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
                 {
                     LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
                     LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
                 }
             }
@@ -89,10 +115,12 @@ namespace GoKart
 
         private void RaisePropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object changedItem)
+        {
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, changedItem));
         }
     }
 }

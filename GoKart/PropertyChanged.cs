@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using CpbTiming.SmsTiming;
 
 namespace GoKart
 {
@@ -7,14 +9,19 @@ namespace GoKart
     {
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            try
+            if (e.PropertyName.Equals("Position"))
             {
-                Console.WriteLine("Set " + e.PropertyName + "=" + sender.GetType().GetProperty(e.PropertyName).GetValue(sender)?.ToString());
+                UpdateDriver = true;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Set " + ex.Message);
-            }
+
+            //try
+            //{
+            //    Console.WriteLine("Set " + e.PropertyName + "=" + sender.GetType().GetProperty(e.PropertyName).GetValue(sender)?.ToString());
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Set " + ex.Message);
+            //}
         }
     }
 }

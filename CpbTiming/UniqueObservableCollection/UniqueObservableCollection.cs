@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace CpbTiming.SmsTiming
 {
@@ -15,9 +17,7 @@ namespace CpbTiming.SmsTiming
                 {
                     if (DestinationProperty.Name == SourceProperty.Name && SourceProperty.CanRead && DestinationProperty.CanWrite && DestinationProperty.PropertyType.IsAssignableFrom(SourceProperty.PropertyType))
                     {
-                        //System.Console.WriteLine("[" + DestinationProperty.Name + "]=" + DestinationProperty.GetValue(Source, new object[] { }) + "=>" + SourceProperty.GetValue(Source, new object[] { }));
                         DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source, new object[] { }), new object[] { });
-                        OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(DestinationProperty.Name));
                     }
                 }
             }
@@ -41,7 +41,7 @@ namespace CpbTiming.SmsTiming
                     }
                 }
                 Items.Add(Item);
-                OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count-1]));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
             }
             else if (GetType() == typeof(UniqueObservableCollection<DriverEx>) && (Item?.GetType() == typeof(DriverEx)))
             {
@@ -56,19 +56,52 @@ namespace CpbTiming.SmsTiming
                     }
                 }
                 Items.Add(Item);
-                OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count - 1]));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
             }
             else if (GetType() == typeof(UniqueObservableCollection<KeyValuePair<int, TimeSpan>>) && (Item?.GetType() == typeof(KeyValuePair<int, TimeSpan>)))
             {
                 if (!Items.Contains(Item))
                 {
                     Items.Add(Item);
-                    OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Add, Items[Items.Count - 1]));
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
                 }
             }
             else
             {
                 Items.Add(Item);
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
+            }
+        }
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            //if (SynchronizationContext.Current != null)
+            {
+                // We are in the creator thread, call the base implementation directly
+                try
+                {
+                    base.OnCollectionChanged(e);
+                }
+                catch (SystemException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            //if (SynchronizationContext.Current != null)
+            {
+                // We are in the creator thread, call the base implementation directly
+                try
+                {
+                    base.OnPropertyChanged(e);
+                }
+                catch (SystemException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
     }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
 
 namespace CpbTiming.SmsTiming
 {
-    public class DriverEx : Driver
+    public class DriverEx : Driver, INotifyPropertyChanged, INotifyCollectionChanged
     {
         private float? _AverageSpeed;
 

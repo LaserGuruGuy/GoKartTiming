@@ -42,7 +42,7 @@
         <TabControl>
             <TabItem Header="SmsTiming">
                 <DockPanel>
-                    <ListView x:Name="ListView_LiveTimingCollection" ItemsSource="{Binding LiveTimingCollection, IsAsync=True}" DockPanel.Dock="Left" IsSynchronizedWithCurrentItem="True">
+                    <ListView x:Name="ListView_LiveTimingCollection" ItemsSource="{Binding LiveTimingCollection, IsAsync=True}" DockPanel.Dock="Left" IsSynchronizedWithCurrentItem="False">
                         <ListView.ContextMenu>
                             <ContextMenu Selector.IsSelected="True">
                                 <MenuItem
@@ -74,7 +74,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView ItemsSource="{Binding ElementName=ListView_LiveTiming, Path=SelectedItem.LapTime}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+                    <ListView x:Name="ListView_LapTime" ItemsSource="{Binding ElementName=ListView_LiveTiming, Path=SelectedItem.LapTime}" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Ronde" Width="auto" DisplayMemberBinding="{Binding Key}"/>

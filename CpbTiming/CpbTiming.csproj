@@ -74,18 +74,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeatOverzicht.cs" />
+    <Compile Include="ConcurrentObservableCollection\ConcurrentObservableBase.cs" />
+    <Compile Include="ConcurrentObservableCollection\ConcurrentObservableCollection.cs" />
+    <Compile Include="ConcurrentObservableCollection\DispatcherQueueProcessor.cs" />
     <Compile Include="SmsTiming\Driver.cs" />
     <Compile Include="SmsTiming\DriverEx.cs" />
-    <Compile Include="SmsTiming\Extensions.cs" />
+    <Compile Include="UniqueObservableCollection\Extensions.cs" />
+    <Compile Include="ConcurrentObservableCollection\ImmutableCollection.cs" />
+    <Compile Include="ConcurrentObservableCollection\ImmutableCollectionBase.cs" />
     <Compile Include="SmsTiming\LiveTiming.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Records.cs" />
     <Compile Include="Ronden.cs" />
     <Compile Include="RondeTijdDatum.cs" />
     <Compile Include="SmsTiming\LiveTimingEx.cs" />
-    <Compile Include="SmsTiming\UniqueDictionary.cs" />
-    <Compile Include="SmsTiming\UniqueKeyedCollection.cs" />
-    <Compile Include="SmsTiming\UniqueObservableCollection.cs" />
+    <Compile Include="ConcurrentObservableCollection\ObservableCollectionViewModel.cs" />
+    <Compile Include="UniqueObservableCollection\UniqueObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

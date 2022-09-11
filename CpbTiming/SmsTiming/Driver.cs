@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace CpbTiming.SmsTiming
 {
-    public class Driver : INotifyPropertyChanged
+    public class Driver : INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
 
         private int? _DriverID;
         private int? _WebMemberID;
@@ -365,10 +367,12 @@ namespace CpbTiming.SmsTiming
 
         protected void RaisePropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object changedItem)
+        {
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, changedItem));
         }
     }
 }

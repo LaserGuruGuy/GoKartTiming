@@ -5,11 +5,14 @@ using System.Windows.Controls;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Interop;
+using System.Threading;
 
 namespace GoKart
 {
     public partial class MainWindow : Window, IConfiguration
     {
+        Thread WorkerThread;
+
         public CpbTiming CpbTiming { get; set; } = new CpbTiming();
 
         public Uri Uri { get; set; }
@@ -18,7 +21,77 @@ namespace GoKart
 
         public string auth { get; set; }
 
-        public bool UpdateLapTimeWindow { get; set; } = false;
+        private readonly object UpdateLiveTimingLock = new object();
+
+        private bool _UpdateLiveTiming = false;
+
+        public bool UpdateLiveTiming
+        {
+            get
+            {
+                bool updateLiveTiming = false;
+                lock (UpdateLiveTimingLock)
+                {
+                    updateLiveTiming = _UpdateLiveTiming;
+                }
+                return updateLiveTiming;
+            }
+            set
+            {
+                lock (UpdateLiveTimingLock)
+                {
+                    _UpdateLiveTiming = value;
+                }
+            }
+        }
+
+        private readonly object UpdateDriverLock = new object();
+
+        private bool _UpdateDriver = false;
+
+        public bool UpdateDriver
+        {
+            get
+            {
+                bool updateDriver = false;
+                lock (UpdateDriverLock)
+                {
+                    updateDriver = _UpdateDriver;
+                }
+                return updateDriver;
+            }
+            set
+            {
+                lock (UpdateDriverLock)
+                {
+                    _UpdateDriver = value;
+                }
+            }
+        }
+
+        private readonly object UpdateLapTimeLock = new object();
+
+        private bool _UpdateLapTime = false;
+
+        public bool UpdateLapTime
+        {
+            get
+            {
+                bool updateLapTime = false;
+                lock (UpdateLapTimeLock)
+                {
+                    updateLapTime = _UpdateLapTime;
+                }
+                return updateLapTime;
+            }
+            set
+            {
+                lock (UpdateLapTimeLock)
+                {
+                    _UpdateLapTime = value;
+                }
+            }
+        }
 
         public MainWindow()
         {
@@ -67,9 +140,23 @@ namespace GoKart
 
         void ComponentDispatcher_ThreadIdle(object sender, EventArgs e)
         {
-            if (UpdateLapTimeWindow)
+            if (UpdateLiveTiming)
             {
-                UpdateLapTimeWindow = false;
+                UpdateLiveTiming = false;
+                ListView_LiveTimingCollection.Items.Refresh();
+            }
+
+            if (UpdateDriver)
+            {
+                UpdateDriver = false;
+                ListViewSort(ListView_LiveTiming, "Position");
+            }
+
+            if (UpdateLapTime)
+            {
+                UpdateLapTime = false;
+
+                ListView_LapTime.Items.Refresh();
 
                 AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
                 CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
@@ -79,6 +166,7 @@ namespace GoKart
 
         protected void MainWindow_Closed(object sender, EventArgs args)
         {
+            WorkerThread?.Abort();
             AbsoluteLapTimeWindow?.Close();
             CumulativeLapTimeWindow?.Close();
             RelativeLapTimeWindow?.Close();
@@ -110,14 +198,22 @@ namespace GoKart
                 {
                     if (Path.GetExtension(FileName).Equals(".pdf"))
                     {
-                        CpbTiming.Add(ExtractTextBookFromPdf(FileName));
+                        ///
+                        WorkerThread = new Thread(CpbTiming.AddTextBook);
+                        WorkerThread.Start(FileName);
+                        ///
+                        //CpbTiming.Add(ExtractTextBookFromPdf(FileName));
                     }
                     else if (Path.GetExtension(FileName).Equals(".json"))
                     {
-                        foreach (string Serialized in File.ReadAllLines(FileName))
-                        {
-                            CpbTiming.Add(Serialized);
-                        }
+                        //foreach (string Serialized in File.ReadAllLines(FileName))
+                        //{
+                        ///
+                        WorkerThread = new Thread(CpbTiming.AddJson);
+                        WorkerThread.Start(FileName);
+                        ///
+                        //CpbTiming.Add(Serialized);
+                        //}
                     }
                 }
             }

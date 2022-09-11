@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
 
 namespace CpbTiming.SmsTiming
 {
-    public class LiveTimingEx : LiveTiming
+    public class LiveTimingEx : LiveTiming, INotifyPropertyChanged, INotifyCollectionChanged
     {
-        protected new UniqueObservableCollection<DriverEx> _Drivers = new UniqueObservableCollection<DriverEx>();
+        private new UniqueObservableCollection<DriverEx> _Drivers;
 
-        protected DateTime _DateTime = DateTime.Now;
+        private DateTime _DateTime = DateTime.Now;
 
-        protected HeatOverzicht _HeatOverzicht = new HeatOverzicht();
+        private HeatOverzicht _HeatOverzicht = new HeatOverzicht();
 
-        protected Records _Records = new Records();
+        private Records _Records = new Records();
 
         [JsonIgnore]
         public DateTime DateTime

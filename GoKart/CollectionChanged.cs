@@ -13,11 +13,13 @@ namespace GoKart
 
             if (sender.GetType().Equals(typeof(UniqueObservableCollection<LiveTimingEx>)))
             {
+                UpdateLiveTiming = true;
+
                 try
                 {
                     UniqueObservableCollection<LiveTimingEx> collection = sender as UniqueObservableCollection<LiveTimingEx>;
                     LiveTimingEx element = collection[collection.Count - 1];
-                    name += (name == string.Empty ? element.HeatName : "\n" + element.HeatName);
+                    name = element.HeatName;
                 }
                 catch (Exception ex)
                 {
@@ -26,11 +28,13 @@ namespace GoKart
             }
             else if (sender.GetType().Equals(typeof(UniqueObservableCollection<DriverEx>)))
             {
+                UpdateDriver = true;
+
                 try
                 {
                     UniqueObservableCollection<DriverEx> collection = sender as UniqueObservableCollection<DriverEx>;
                     DriverEx element = collection[collection.Count - 1];
-                    name += (name == string.Empty ? element.DriverName : "\n" + element.DriverName);
+                    name = element.DriverName;
                 }
                 catch (Exception ex)
                 {
@@ -39,13 +43,13 @@ namespace GoKart
             }
             else if (sender.GetType().Equals(typeof(UniqueObservableCollection<KeyValuePair<int, TimeSpan>>)))
             {
-                UpdateLapTimeWindow = true;
+                UpdateLapTime = true;
 
                 try
                 {
                     UniqueObservableCollection<KeyValuePair<int, TimeSpan>> collection = sender as UniqueObservableCollection<KeyValuePair<int, TimeSpan>>;
                     KeyValuePair<int, TimeSpan> element = collection[collection.Count - 1];
-                    name += (name == string.Empty ? element.Key.ToString() : "\n" + element.Value.ToString());
+                    name = element.Key.ToString() + " " + ((TimeSpan)(element.Value)).ToString();
                 }
                 catch (Exception ex)
                 {

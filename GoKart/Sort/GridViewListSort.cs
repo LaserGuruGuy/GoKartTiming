@@ -48,7 +48,7 @@ namespace GoKart
             }
         }
 
-        private void ListViewSort(object sender, string SortListBy, ListSortDirection ListSortDirection)
+        private void ListViewSort(object sender, string SortListBy, ListSortDirection ListSortDirection = ListSortDirection.Ascending)
         {
             var ListView = sender as ListView;
             ICollectionView CollectionView = CollectionViewSource.GetDefaultView(ListView.ItemsSource);

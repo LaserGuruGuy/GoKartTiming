@@ -120,14 +120,20 @@ namespace GoKart
                         case LapTimeType.Absolute:
                             foreach (var LapTime in Driver.LapTime)
                             {
-                                LineSeries.Points.Add(new DataPoint(LapTime.Key, LapTime.Value.TotalSeconds));
+                                if (LapTime.Key > 0)
+                                {
+                                    LineSeries.Points.Add(new DataPoint(LapTime.Key, LapTime.Value.TotalSeconds));
+                                }
                             }
                             break;
                         case LapTimeType.Cumulative:
                             foreach (var LapTime in Driver.LapTime)
                             {
-                                y += LapTime.Value.TotalSeconds;
-                                LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
+                                if (LapTime.Key > 0)
+                                {
+                                    y += LapTime.Value.TotalSeconds;
+                                    LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
+                                }
                             }
                             break;
                         case LapTimeType.Relative:
@@ -135,7 +141,7 @@ namespace GoKart
                             {
                                 foreach(var RefTime in ReferenceRaceOverviewReport.LapTime)
                                 {
-                                    if (LapTime.Key.Equals(RefTime.Key))
+                                    if (LapTime.Key.Equals(RefTime.Key) && RefTime.Key > 0 && LapTime.Key > 0)
                                     {
                                         y += LapTime.Value.TotalSeconds - RefTime.Value.TotalSeconds;
                                         LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
