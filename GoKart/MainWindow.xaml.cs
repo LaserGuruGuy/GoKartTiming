@@ -21,7 +21,7 @@ namespace GoKart
 
         public string auth { get; set; }
 
-        private readonly object UpdateLiveTimingLock = new object();
+        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 
         private bool _UpdateLiveTiming = false;
 
@@ -29,23 +29,59 @@ namespace GoKart
         {
             get
             {
-                bool updateLiveTiming = false;
-                lock (UpdateLiveTimingLock)
+                cacheLock.EnterReadLock();
+                try
                 {
-                    updateLiveTiming = _UpdateLiveTiming;
+                    return _UpdateLiveTiming;
                 }
-                return updateLiveTiming;
+                finally
+                {
+                    cacheLock.ExitReadLock();
+                }
             }
             set
             {
-                lock (UpdateLiveTimingLock)
+                cacheLock.EnterWriteLock();
+                try
                 {
                     _UpdateLiveTiming = value;
+                }
+                finally
+                {
+                    cacheLock.ExitWriteLock();
                 }
             }
         }
 
-        private readonly object UpdateDriverLock = new object();
+        private bool _UpdatePosition = false;
+
+        public bool UpdatePosition
+        {
+            get
+            {
+                cacheLock.EnterReadLock();
+                try
+                {
+                    return _UpdatePosition;
+                }
+                finally
+                {
+                    cacheLock.ExitReadLock();
+                }
+            }
+            set
+            {
+                cacheLock.EnterWriteLock();
+                try
+                {
+                    _UpdatePosition = value;
+                }
+                finally
+                {
+                    cacheLock.ExitWriteLock();
+                }
+            }
+        }
 
         private bool _UpdateDriver = false;
 
@@ -53,23 +89,29 @@ namespace GoKart
         {
             get
             {
-                bool updateDriver = false;
-                lock (UpdateDriverLock)
+                cacheLock.EnterReadLock();
+                try
                 {
-                    updateDriver = _UpdateDriver;
+                    return _UpdateDriver;
                 }
-                return updateDriver;
+                finally
+                {
+                    cacheLock.ExitReadLock();
+                }
             }
             set
             {
-                lock (UpdateDriverLock)
+                cacheLock.EnterWriteLock();
+                try
                 {
                     _UpdateDriver = value;
                 }
+                finally
+                {
+                    cacheLock.ExitWriteLock();
+                }
             }
         }
-
-        private readonly object UpdateLapTimeLock = new object();
 
         private bool _UpdateLapTime = false;
 
@@ -77,18 +119,26 @@ namespace GoKart
         {
             get
             {
-                bool updateLapTime = false;
-                lock (UpdateLapTimeLock)
+                cacheLock.EnterReadLock();
+                try
                 {
-                    updateLapTime = _UpdateLapTime;
+                    return _UpdateLapTime;
                 }
-                return updateLapTime;
+                finally
+                {
+                    cacheLock.ExitReadLock();
+                }
             }
             set
             {
-                lock (UpdateLapTimeLock)
+                cacheLock.EnterWriteLock();
+                try
                 {
                     _UpdateLapTime = value;
+                }
+                finally
+                {
+                    cacheLock.ExitWriteLock();
                 }
             }
         }
@@ -149,13 +199,18 @@ namespace GoKart
             if (UpdateDriver)
             {
                 UpdateDriver = false;
+                ListView_LiveTiming.Items.Refresh();
+            }
+
+            if (UpdatePosition)
+            {
+                UpdatePosition = false;
                 ListViewSort(ListView_LiveTiming, "Position");
             }
 
             if (UpdateLapTime)
             {
                 UpdateLapTime = false;
-
                 ListView_LapTime.Items.Refresh();
 
                 AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
@@ -199,8 +254,8 @@ namespace GoKart
                     if (Path.GetExtension(FileName).Equals(".pdf"))
                     {
                         ///
-                        WorkerThread = new Thread(CpbTiming.AddTextBook);
-                        WorkerThread.Start(FileName);
+                        //WorkerThread = new Thread(CpbTiming.AddTextBook);
+                        //WorkerThread.Start(FileName);
                         ///
                         //CpbTiming.Add(ExtractTextBookFromPdf(FileName));
                     }
@@ -208,12 +263,13 @@ namespace GoKart
                     {
                         //foreach (string Serialized in File.ReadAllLines(FileName))
                         //{
-                        ///
-                        WorkerThread = new Thread(CpbTiming.AddJson);
-                        WorkerThread.Start(FileName);
-                        ///
                         //CpbTiming.Add(Serialized);
                         //}
+                        WorkerThread = new Thread(CpbTiming.AddJson);
+                        WorkerThread.SetApartmentState(ApartmentState.STA);
+                        WorkerThread.IsBackground = true;
+                        WorkerThread.Name = "CpbTiming.AddJson";
+                        WorkerThread.Start(FileName);
                     }
                 }
             }

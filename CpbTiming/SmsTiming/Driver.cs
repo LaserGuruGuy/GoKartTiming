@@ -124,8 +124,9 @@ namespace CpbTiming.SmsTiming
             }
             set
             {
+                bool UpDate = _Position == value ? false : true;
                 _Position = value;
-                RaisePropertyChanged("Position");
+                if (UpDate) RaisePropertyChanged("Position");
             }
         }
 

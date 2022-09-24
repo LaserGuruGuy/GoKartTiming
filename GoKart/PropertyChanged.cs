@@ -11,7 +11,7 @@ namespace GoKart
         {
             if (e.PropertyName.Equals("Position"))
             {
-                UpdateDriver = true;
+                UpdatePosition = true;
             }
 
             //try

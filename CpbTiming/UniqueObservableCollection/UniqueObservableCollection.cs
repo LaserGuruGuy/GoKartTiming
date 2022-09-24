@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace CpbTiming.SmsTiming
 {
-    public class UniqueObservableCollection<T> : ObservableCollection<T>
+    public class UniqueObservableCollection<T> : ObservableCollection<T>, INotifyCollectionChanged
     {
         public void AssignItem(object Destination, object Source)
         {
@@ -41,7 +41,7 @@ namespace CpbTiming.SmsTiming
                     }
                 }
                 Items.Add(Item);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Item));
             }
             else if (GetType() == typeof(UniqueObservableCollection<DriverEx>) && (Item?.GetType() == typeof(DriverEx)))
             {
@@ -56,51 +56,75 @@ namespace CpbTiming.SmsTiming
                     }
                 }
                 Items.Add(Item);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Item));
             }
             else if (GetType() == typeof(UniqueObservableCollection<KeyValuePair<int, TimeSpan>>) && (Item?.GetType() == typeof(KeyValuePair<int, TimeSpan>)))
             {
                 if (!Items.Contains(Item))
                 {
                     Items.Add(Item);
-                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Item));
                 }
             }
             else
             {
                 Items.Add(Item);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Items));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Item));
             }
         }
 
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            //if (SynchronizationContext.Current != null)
-            {
-                // We are in the creator thread, call the base implementation directly
-                try
-                {
-                    base.OnCollectionChanged(e);
-                }
-                catch (SystemException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-        }
+        public new event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
-            //if (SynchronizationContext.Current != null)
+            var notifyCollectionChangedEventHandler = CollectionChanged;
+
+            if (notifyCollectionChangedEventHandler == null)
             {
-                // We are in the creator thread, call the base implementation directly
-                try
+                return;
+            }
+
+            foreach (NotifyCollectionChangedEventHandler handler in notifyCollectionChangedEventHandler.GetInvocationList())
+            {
+                var dispatcherObject = handler.Target as DispatcherObject;
+
+                if (dispatcherObject != null && !dispatcherObject.CheckAccess())
                 {
-                    base.OnPropertyChanged(e);
+                    try
+                    {
+                        dispatcherObject.VerifyAccess();
+                        try
+                        {
+                            dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, handler, this, args);
+                        }
+                        catch (ArgumentException ex)
+                        {
+
+                        }
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        try
+                        {
+                            dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, handler, this, args);
+                        }
+                        catch
+                        {
+
+                        }
+                        // "The calling thread cannot access this object because a different thread owns it."
+                    }
                 }
-                catch (SystemException ex)
+                else
                 {
-                    Console.WriteLine(ex.Message);
+                    try
+                    {
+                        handler(this, args); // note : this does not execute handler in target thread's context
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
         }

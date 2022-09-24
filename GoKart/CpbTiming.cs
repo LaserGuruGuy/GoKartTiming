@@ -5,6 +5,7 @@ using System.IO;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using CpbTiming.SmsTiming;
+using System;
 
 namespace GoKart
 {
@@ -13,32 +14,53 @@ namespace GoKart
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
 
+        private object _lock = new object();
+
         private UniqueObservableCollection<LiveTimingEx> _LiveTimingCollection = new UniqueObservableCollection<LiveTimingEx>();
 
         public UniqueObservableCollection<LiveTimingEx> LiveTimingCollection
         {
             get
             {
-                return _LiveTimingCollection;
+                lock (_lock)
+                {
+                    return _LiveTimingCollection;
+                }
             }
             set
             {
-                _LiveTimingCollection = value;
+                lock (_lock)
+                {
+                    _LiveTimingCollection = value;
+                }
                 RaisePropertyChanged("LiveTimingCollection");
             }
         }
 
+        public CpbTiming()
+        {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+        }
+
+        ~CpbTiming()
+        {
+        }
+
         public void AddTextBook(object data)
         {
+            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(LiveTimingCollection, _lock);
             if (data.GetType().Equals(typeof(string)))
             {
                 string TextBook = data as string;
                 Add(ExtractTextBookFromPdf(TextBook));
             }
+            System.Windows.Data.BindingOperations.DisableCollectionSynchronization(_LiveTimingCollection);
         }
 
         public void AddJson(object data)
         {
+            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(LiveTimingCollection, _lock);
             if (data.GetType().Equals(typeof(string)))
             {
                 string FileName = data as string;
@@ -47,6 +69,7 @@ namespace GoKart
                     Add(Serialized);
                 }
             }
+            System.Windows.Data.BindingOperations.DisableCollectionSynchronization(_LiveTimingCollection);
         }
 
         public void Add(List<string> Book)
@@ -69,17 +92,24 @@ namespace GoKart
                     {
                         if (Serialized.Contains(LiveTimingCollection[i].HeatName))
                         {
-                            JsonConvert.PopulateObject(Serialized, LiveTimingCollection[i], new JsonSerializerSettings
+                            lock (_lock)
                             {
-                                ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                                ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
-                            });
-                            //LiveTimingCollection[i].Drivers.Sort();
+                                JsonConvert.PopulateObject(Serialized, LiveTimingCollection[i], new JsonSerializerSettings
+                                {
+                                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                                    ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
+                                });
+                                //LiveTimingCollection[i].Drivers.Sort();
+                            }
                             return;
                         }
                     }
                 }
-                LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
+                lock (_lock)
+                {
+                    LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
+                    //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
+                }
                 LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
                 LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
                 for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
@@ -91,14 +121,25 @@ namespace GoKart
             }
             else
             {
-                LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
-                LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
-                LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
-                for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
+                try
                 {
-                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
-                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
-                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
+                    lock (_lock)
+                    {
+                        LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
+                        //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
+                    }
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
+                    for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
+                    {
+                        LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                        LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
+                        LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
+                    }
+                }
+                catch (Exception ex)
+                {
+
                 }
             }
         }
@@ -109,7 +150,10 @@ namespace GoKart
 
         public void DeleteLiveTimingCommand(LiveTimingEx LiveTiming)
         {
-            LiveTimingCollection.Remove(LiveTiming);
+            lock (_lock)
+            {
+                LiveTimingCollection.Remove(LiveTiming);
+            }
             RaisePropertyChanged("LiveTimingCollection");
         }
 
