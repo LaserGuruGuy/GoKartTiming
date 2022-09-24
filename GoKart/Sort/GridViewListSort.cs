@@ -53,9 +53,12 @@ namespace GoKart
             var ListView = sender as ListView;
             ICollectionView CollectionView = CollectionViewSource.GetDefaultView(ListView.ItemsSource);
 
-            CollectionView?.SortDescriptions.Clear();
-            SortDescription SortDescription = new SortDescription(SortListBy, ListSortDirection);
-            CollectionView?.SortDescriptions.Add(SortDescription);
+            if (CollectionView?.SortDescriptions.Contains(new SortDescription(SortListBy, ListSortDirection)) == false)
+            {
+                CollectionView?.SortDescriptions.Clear();
+                SortDescription SortDescription = new SortDescription(SortListBy, ListSortDirection);
+                CollectionView?.SortDescriptions.Add(SortDescription);
+            }
             CollectionView?.Refresh();
         }
     }

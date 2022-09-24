@@ -16,11 +16,14 @@ namespace CpbTiming.SmsTiming
         private string _DriverName;
         private int? _KartNumber;
         private int? _Position;
+        private int _ImprovedPosition;
         private int? _Laps;
         private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         private TimeSpan _LastLapTime;
+        private int _ImprovedLapTime;
         private TimeSpan _AvarageLapTime;
         private TimeSpan _BestLapTime;
+        private int _ImprovedBestLapTime;
         private string _GapTime;
         private bool? _LastPassing;
         private int? _LastRecord;
@@ -88,7 +91,7 @@ namespace CpbTiming.SmsTiming
                 {
                     try
                     {
-                        KartNumber = int.Parse(value);
+                        _KartNumber = int.Parse(value);
                     }
                     catch
                     {
@@ -124,9 +127,20 @@ namespace CpbTiming.SmsTiming
             }
             set
             {
-                bool UpDate = _Position == value ? false : true;
+                bool bUpdate = _Position != value ? true : false;
+                _ImprovedPosition = (_Position != null && value != null) ? (value < _Position) ? -1 : (value > _Position) ? +1 : 0 : 0;
+                if (bUpdate) RaisePropertyChanged("ImprovedPosition");
                 _Position = value;
-                if (UpDate) RaisePropertyChanged("Position");
+                if (bUpdate) RaisePropertyChanged("Position");
+            }
+        }
+
+        [JsonIgnore]
+        public int ImprovedPosition
+        {
+            get
+            {
+                return _ImprovedPosition;
             }
         }
 
@@ -155,7 +169,7 @@ namespace CpbTiming.SmsTiming
         {
             set
             {
-                LastLapTime = TimeSpan.FromMilliseconds(value);
+                _LastLapTime = TimeSpan.FromMilliseconds(value);
             }
         }
 
@@ -168,9 +182,20 @@ namespace CpbTiming.SmsTiming
             }
             set
             {
+                _ImprovedLapTime = (value != null && _LastLapTime != null) ? (value < _LastLapTime && _LastLapTime != TimeSpan.Zero) ? -1 : (value > _LastLapTime && _LastLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
+                RaisePropertyChanged("ImprovedLapTime");
                 _LastLapTime = value;
                 RaisePropertyChanged("LastLapTime");
                 _LapTime.Add(new KeyValuePair<int, TimeSpan>((int)_Laps, _LastLapTime));
+            }
+        }
+
+        [JsonIgnore]
+        public int ImprovedLapTime
+        {
+            get
+            {
+                return _ImprovedLapTime;
             }
         }
 
@@ -191,7 +216,7 @@ namespace CpbTiming.SmsTiming
         {
             set
             {
-                AvarageLapTime = TimeSpan.FromMilliseconds(value);
+                _AvarageLapTime = TimeSpan.FromMilliseconds(value);
             }
         }
 
@@ -217,7 +242,7 @@ namespace CpbTiming.SmsTiming
         {
             set
             {
-                BestLapTime = TimeSpan.FromMilliseconds(value);
+                _BestLapTime = TimeSpan.FromMilliseconds(value);
             }
         }
 
@@ -230,8 +255,19 @@ namespace CpbTiming.SmsTiming
             }
             set
             {
+                _ImprovedBestLapTime = (value != null && _BestLapTime != null) ? (value < _BestLapTime && _BestLapTime != TimeSpan.Zero) ? -1 : (value > _BestLapTime && _BestLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
+                RaisePropertyChanged("ImprovedLapTime");
                 _BestLapTime = value;
                 RaisePropertyChanged("BestLapTime");
+            }
+        }
+
+        [JsonIgnore]
+        public int ImprovedBestLapTime
+        {
+            get
+            {
+                return _ImprovedBestLapTime;
             }
         }
 

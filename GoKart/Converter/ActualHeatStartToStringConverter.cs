@@ -5,11 +5,11 @@ using System.Windows.Data;
 namespace GoKart
 {
     [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public class TimeLeftToStringConverter : IValueConverter
+    public class ActualHeatStartToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? ((TimeSpan)value).Equals(TimeSpan.Zero) ? string.Empty : "Time: " + Format.TimeLeft((TimeSpan)value) : string.Empty;
+            return value != null ? "Actual Heat Start: " + (int)value : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -194,6 +194,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CollectionChanged.cs" />
+    <Compile Include="Converter\ActualHeatStartToStringConverter.cs" />
     <Compile Include="Converter\DateTimeToStringConverter.cs" />
     <Compile Include="Converter\Format.cs" />
     <Compile Include="Converter\LapsLeftToStringConverter.cs" />

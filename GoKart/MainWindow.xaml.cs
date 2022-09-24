@@ -193,25 +193,25 @@ namespace GoKart
             if (UpdateLiveTiming)
             {
                 UpdateLiveTiming = false;
-                ListView_LiveTimingCollection.Items.Refresh();
+                //ListView_LiveTimingCollection.Items.Refresh();
             }
 
             if (UpdateDriver)
             {
                 UpdateDriver = false;
-                ListView_LiveTiming.Items.Refresh();
+                //ListView_LiveTiming.Items.Refresh();
             }
 
             if (UpdatePosition)
             {
                 UpdatePosition = false;
-                ListViewSort(ListView_LiveTiming, "Position");
+                //ListViewSort(ListView_LiveTiming, "Position");
             }
 
             if (UpdateLapTime)
             {
                 UpdateLapTime = false;
-                ListView_LapTime.Items.Refresh();
+                //ListView_LapTime.Items.Refresh();
 
                 AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
                 CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
@@ -253,18 +253,14 @@ namespace GoKart
                 {
                     if (Path.GetExtension(FileName).Equals(".pdf"))
                     {
-                        ///
-                        //WorkerThread = new Thread(CpbTiming.AddTextBook);
-                        //WorkerThread.Start(FileName);
-                        ///
-                        //CpbTiming.Add(ExtractTextBookFromPdf(FileName));
+                        WorkerThread = new Thread(CpbTiming.AddTextBook);
+                        WorkerThread.SetApartmentState(ApartmentState.STA);
+                        WorkerThread.IsBackground = true;
+                        WorkerThread.Name = "CpbTiming.AddTextBook";
+                        WorkerThread.Start(FileName);
                     }
                     else if (Path.GetExtension(FileName).Equals(".json"))
                     {
-                        //foreach (string Serialized in File.ReadAllLines(FileName))
-                        //{
-                        //CpbTiming.Add(Serialized);
-                        //}
                         WorkerThread = new Thread(CpbTiming.AddJson);
                         WorkerThread.SetApartmentState(ApartmentState.STA);
                         WorkerThread.IsBackground = true;

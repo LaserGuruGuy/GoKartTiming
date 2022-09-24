@@ -99,7 +99,7 @@ namespace GoKart
                                     ObjectCreationHandling = ObjectCreationHandling.Reuse,
                                     ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
                                 });
-                                //LiveTimingCollection[i].Drivers.Sort();
+                                LiveTimingCollection[i].Drivers.Sort();
                             }
                             return;
                         }
@@ -107,7 +107,12 @@ namespace GoKart
                 }
                 lock (_lock)
                 {
-                    LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
+                    LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized, new JsonSerializerSettings
+                    {
+                        ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                        ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
+                    }));
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Sort();
                     //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
                 }
                 LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
@@ -121,25 +126,23 @@ namespace GoKart
             }
             else
             {
-                try
+                lock (_lock)
                 {
-                    lock (_lock)
+                    LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized, new JsonSerializerSettings
                     {
-                        LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized));
-                        //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
-                    }
-                    LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
-                    LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
-                    for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
-                    {
-                        LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
-                        LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
-                        LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
-                    }
+                        ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                        ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
+                    }));
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Sort();
+                    //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
                 }
-                catch (Exception ex)
+                LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
+                LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
+                for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
                 {
-
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
+                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
                 }
             }
         }

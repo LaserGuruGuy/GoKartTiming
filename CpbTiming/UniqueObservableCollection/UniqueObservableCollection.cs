@@ -17,7 +17,7 @@ namespace CpbTiming.SmsTiming
                 {
                     if (DestinationProperty.Name == SourceProperty.Name && SourceProperty.CanRead && DestinationProperty.CanWrite && DestinationProperty.PropertyType.IsAssignableFrom(SourceProperty.PropertyType))
                     {
-                        DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source, new object[] { }), new object[] { });
+                        DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source));
                     }
                 }
             }
@@ -33,7 +33,7 @@ namespace CpbTiming.SmsTiming
                     LiveTimingEx Source = Item as LiveTimingEx;
                     if (!string.IsNullOrEmpty(Destination.HeatName) && !string.IsNullOrEmpty(Source.HeatName))
                     {
-                        if (Destination.HeatName.Equals(Source.HeatName))
+                        if (Destination.HeatName.Equals(Source.HeatName) && Destination.ActualHeatStart.Equals(Source.ActualHeatStart))
                         {
                             AssignItem(Destination, Source);
                             return;
@@ -55,7 +55,7 @@ namespace CpbTiming.SmsTiming
                         return;
                     }
                 }
-                Items.Add(Item);
+                Items.Insert(Index, Item);
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Item));
             }
             else if (GetType() == typeof(UniqueObservableCollection<KeyValuePair<int, TimeSpan>>) && (Item?.GetType() == typeof(KeyValuePair<int, TimeSpan>)))
@@ -90,29 +90,14 @@ namespace CpbTiming.SmsTiming
 
                 if (dispatcherObject != null && !dispatcherObject.CheckAccess())
                 {
+                    //dispatcherObject.VerifyAccess();
                     try
                     {
-                        dispatcherObject.VerifyAccess();
-                        try
-                        {
-                            dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, handler, this, args);
-                        }
-                        catch (ArgumentException ex)
-                        {
-
-                        }
+                        dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, handler, this, args);
                     }
-                    catch (InvalidOperationException ex)
+                    catch
                     {
-                        try
-                        {
-                            dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, handler, this, args);
-                        }
-                        catch
-                        {
 
-                        }
-                        // "The calling thread cannot access this object because a different thread owns it."
                     }
                 }
                 else
