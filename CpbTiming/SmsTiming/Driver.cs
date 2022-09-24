@@ -11,71 +11,103 @@ namespace CpbTiming.SmsTiming
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
 
-        private int? _DriverID;
-        private int? _WebMemberID;
-        private string _DriverName;
-        private int? _KartNumber;
-        private int? _Position;
-        private int _ImprovedPosition;
-        private int? _Laps;
-        private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
-        private TimeSpan _LastLapTime;
-        private int _ImprovedLapTime;
+        private bool? _LastPassing;
         private TimeSpan _AvarageLapTime;
         private TimeSpan _BestLapTime;
         private int _ImprovedBestLapTime;
+        private int? _KartNumber;
         private string _GapTime;
-        private bool? _LastPassing;
+        private int? _DriverID;
+        private int? _Laps;
+        private TimeSpan _LastLapTime;
+        private int _ImprovedLapTime;
+        private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         private int? _LastRecord;
+        private int? _WebMemberID;
+        private string _DriverName;
+        private int? _Position;
+        private int _ImprovedPosition;
+        private bool? _Member;
 
         /// <summary>
-        /// "D" = DriverID
+        /// "LP" = LastPassing
+        ///      0 = not the last passing
+        ///      1 = last passing
         /// </summary>
-        [JsonProperty(PropertyName = "D")]
-        public int? DriverID
+        [JsonProperty(PropertyName = "LP")]
+        public bool? LastPassing
         {
             get
             {
-                return _DriverID;
+                return _LastPassing;
             }
             set
             {
-                _DriverID = value;
-                RaisePropertyChanged("DriverID");
+                _LastPassing = value;
+                RaisePropertyChanged("LastPassing");
             }
         }
 
         /// <summary>
-        /// "M" = WebMemberID
+        /// "A" = AvarageLapTimeMS
         /// </summary>
-        [JsonProperty(PropertyName = "W")]
-        public int? WebMemberID
+        [JsonProperty(PropertyName = "A")]
+        public int AvarageLapTimeTotalMilliseconds
+        {
+            set
+            {
+                _AvarageLapTime = TimeSpan.FromMilliseconds(value);
+            }
+        }
+
+        [JsonIgnore]
+        public TimeSpan AvarageLapTime
         {
             get
             {
-                return _WebMemberID;
+                return _AvarageLapTime;
             }
             set
             {
-                _WebMemberID = value;
-                RaisePropertyChanged("WebMemberID");
+                _AvarageLapTime = value;
+                RaisePropertyChanged("AvarageLapTime");
             }
         }
 
         /// <summary>
-        /// "N" = DriverName
+        /// "B" = BestLapTimeMS
         /// </summary>
-        [JsonProperty(PropertyName = "N")]
-        public string DriverName
+        [JsonProperty(PropertyName = "B")]
+        public int BestLapTimeTotalMilliseconds
+        {
+            set
+            {
+                _BestLapTime = TimeSpan.FromMilliseconds(value);
+            }
+        }
+
+        [JsonIgnore]
+        public TimeSpan BestLapTime
         {
             get
             {
-                return _DriverName;
+                return _BestLapTime;
             }
             set
             {
-                _DriverName = value;
-                RaisePropertyChanged("DriverName");
+                _ImprovedBestLapTime = (value != null && _BestLapTime != null) ? (value < _BestLapTime && _BestLapTime != TimeSpan.Zero) ? -1 : (value > _BestLapTime && _BestLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
+                RaisePropertyChanged("ImprovedBestLapTime");
+                _BestLapTime = value;
+                RaisePropertyChanged("BestLapTime");
+            }
+        }
+
+        [JsonIgnore]
+        public int ImprovedBestLapTime
+        {
+            get
+            {
+                return _ImprovedBestLapTime;
             }
         }
 
@@ -116,31 +148,37 @@ namespace CpbTiming.SmsTiming
         }
 
         /// <summary>
-        /// "P" = Position
+        /// "G" = GapTime
+        /// Gap in laps
         /// </summary>
-        [JsonProperty(PropertyName = "P")]
-        public int? Position
+        [JsonProperty(PropertyName = "G")]
+        public string GapTime
         {
             get
             {
-                return _Position;
+                return _GapTime;
             }
             set
             {
-                bool bUpdate = _Position != value ? true : false;
-                _ImprovedPosition = (_Position != null && value != null) ? (value < _Position) ? -1 : (value > _Position) ? +1 : 0 : 0;
-                if (bUpdate) RaisePropertyChanged("ImprovedPosition");
-                _Position = value;
-                if (bUpdate) RaisePropertyChanged("Position");
+                _GapTime = value;
+                RaisePropertyChanged("GapTime");
             }
         }
 
-        [JsonIgnore]
-        public int ImprovedPosition
+        /// <summary>
+        /// "D" = DriverID
+        /// </summary>
+        [JsonProperty(PropertyName = "D")]
+        public int? DriverID
         {
             get
             {
-                return _ImprovedPosition;
+                return _DriverID;
+            }
+            set
+            {
+                _DriverID = value;
+                RaisePropertyChanged("DriverID");
             }
         }
 
@@ -209,106 +247,6 @@ namespace CpbTiming.SmsTiming
         }
 
         /// <summary>
-        /// "A" = AvarageLapTimeMS
-        /// </summary>
-        [JsonProperty(PropertyName = "A")]
-        public int AvarageLapTimeTotalMilliseconds
-        {
-            set
-            {
-                _AvarageLapTime = TimeSpan.FromMilliseconds(value);
-            }
-        }
-
-        [JsonIgnore]
-        public TimeSpan AvarageLapTime
-        {
-            get
-            {
-                return _AvarageLapTime;
-            }
-            set
-            {
-                _AvarageLapTime = value;
-                RaisePropertyChanged("AvarageLapTime");
-            }
-        }
-
-        /// <summary>
-        /// "B" = BestLapTimeMS
-        /// </summary>
-        [JsonProperty(PropertyName = "B")]
-        public int BestLapTimeTotalMilliseconds
-        {
-            set
-            {
-                _BestLapTime = TimeSpan.FromMilliseconds(value);
-            }
-        }
-
-        [JsonIgnore]
-        public TimeSpan BestLapTime
-        {
-            get
-            {
-                return _BestLapTime;
-            }
-            set
-            {
-                _ImprovedBestLapTime = (value != null && _BestLapTime != null) ? (value < _BestLapTime && _BestLapTime != TimeSpan.Zero) ? -1 : (value > _BestLapTime && _BestLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
-                RaisePropertyChanged("ImprovedLapTime");
-                _BestLapTime = value;
-                RaisePropertyChanged("BestLapTime");
-            }
-        }
-
-        [JsonIgnore]
-        public int ImprovedBestLapTime
-        {
-            get
-            {
-                return _ImprovedBestLapTime;
-            }
-        }
-
-        /// <summary>
-        /// "G" = GapTime
-        /// Gap in laps
-        /// </summary>
-        [JsonProperty(PropertyName = "G")]
-        public string GapTime
-        {
-            get
-            {
-                return _GapTime;
-            }
-            set
-            {
-                _GapTime = value;
-                RaisePropertyChanged("GapTime");
-            }
-        }
-
-        /// <summary>
-        /// "LP" = LastPassing
-        ///      0 = not the last passing
-        ///      1 = last passing
-        /// </summary>
-        [JsonProperty(PropertyName = "LP")]
-        public bool? LastPassing
-        {
-            get
-            {
-                return _LastPassing;
-            }
-            set
-            {
-                _LastPassing = value;
-                RaisePropertyChanged("LastPassing");
-            }
-        }
-
-        /// <summary>
         /// "R" = LastRecord
         /// </summary>
         [JsonProperty(PropertyName = "R")]
@@ -322,6 +260,86 @@ namespace CpbTiming.SmsTiming
             {
                 _LastRecord = value;
                 RaisePropertyChanged("LastRecord");
+            }
+        }
+
+        /// <summary>
+        /// "M" = WebMemberID
+        /// </summary>
+        [JsonProperty(PropertyName = "W")]
+        public int? WebMemberID
+        {
+            get
+            {
+                return _WebMemberID;
+            }
+            set
+            {
+                _WebMemberID = value;
+                RaisePropertyChanged("WebMemberID");
+            }
+        }
+
+        /// <summary>
+        /// "N" = DriverName
+        /// </summary>
+        [JsonProperty(PropertyName = "N")]
+        public string DriverName
+        {
+            get
+            {
+                return _DriverName;
+            }
+            set
+            {
+                _DriverName = value;
+                RaisePropertyChanged("DriverName");
+            }
+        }
+
+        /// <summary>
+        /// "P" = Position
+        /// </summary>
+        [JsonProperty(PropertyName = "P")]
+        public int? Position
+        {
+            get
+            {
+                return _Position;
+            }
+            set
+            {
+                bool bUpdate = _Position != value ? true : false;
+                _ImprovedPosition = (_Position != null && value != null) ? (value < _Position) ? -1 : (value > _Position) ? +1 : 0 : 0;
+                if (bUpdate) RaisePropertyChanged("ImprovedPosition");
+                _Position = value;
+                if (bUpdate) RaisePropertyChanged("Position");
+            }
+        }
+
+        [JsonIgnore]
+        public int ImprovedPosition
+        {
+            get
+            {
+                return _ImprovedPosition;
+            }
+        }
+
+        /// <summary>
+        /// "M" = Member
+        /// </summary>
+        [JsonProperty(PropertyName = "M")]
+        public bool? Member
+        {
+            get
+            {
+                return _Member;
+            }
+            set
+            {
+                _Member = value;
+                RaisePropertyChanged("Member");
             }
         }
 
@@ -388,6 +406,11 @@ namespace CpbTiming.SmsTiming
         private void ResetLastRecord()
         {
             _LastRecord = null;
+        }
+
+        private void ResetMember()
+        {
+            _Member = null;
         }
 
         public void Reset()

@@ -52,15 +52,128 @@ namespace CpbTiming.SmsTiming
             {"Clock Started", 1}
         };
 
+        protected int? _ActualHeatStart;
+        protected int? _ClockEnabled;
+        protected int? _ClockStarted;
+        protected UniqueObservableCollection<Driver> _Drivers;
+        protected int? _EndMode;
+        protected TimeSpan _TimeLeft;
         protected string _HeatName;
-        protected int? _HeatState;
         protected int? _EndCondition;
         protected int? _RaceMode;
-        protected UniqueObservableCollection<Driver> _Drivers;
-        protected TimeSpan _TimeLeft;
-        protected int? _ClockStarted;
         protected int? _RemainingLaps;
-        protected int? _ActualHeatStart;
+        protected int? _HeatState;
+
+        /// <summary>
+        /// "T" = ActualHeatStart
+        /// </summary>
+        [JsonProperty(PropertyName = "T")]
+        public int? ActualHeatStart
+        {
+            get
+            {
+                return _ActualHeatStart;
+            }
+            set
+            {
+                _ActualHeatStart = value;
+                RaisePropertyChanged("ActualHeatStart");
+            }
+        }
+
+        /// <summary>
+        /// "CE" = ClockEnabled
+        /// </summary>
+        [JsonProperty(PropertyName = "CE")]
+        public int? ClockEnabled
+        {
+            get
+            {
+                return _ClockEnabled;
+            }
+            set
+            {
+                _ClockEnabled = value;
+                RaisePropertyChanged("ClockEnded");
+            }
+        }
+
+        /// <summary>
+        /// "CS" = ClockStarted
+        /// </summary>
+        [JsonProperty(PropertyName = "CS")]
+        public int? ClockStarted
+        {
+            get
+            {
+                return _ClockStarted;
+            }
+            set
+            {
+                _ClockStarted = value;
+                RaisePropertyChanged("ClockStarted");
+            }
+        }
+
+        /// <summary>
+        /// "D" = Drivers [array]
+        /// </summary>
+        [JsonProperty(PropertyName = "D")]
+        public UniqueObservableCollection<Driver> Drivers
+        {
+            get
+            {
+                return _Drivers;
+            }
+            set
+            {
+                _Drivers = value;
+                RaisePropertyChanged("Drivers");
+            }
+        }
+
+        /// <summary>
+        /// "EM" = EndMode
+        /// </summary>
+        [JsonProperty(PropertyName = "EM")]
+        public int? EndMode
+        {
+            get
+            {
+                return _EndMode;
+            }
+            set
+            {
+                _EndMode = value;
+                RaisePropertyChanged("EndMode");
+            }
+        }
+
+        /// <summary>
+        /// "C" = Counter (in milliseconds)
+        /// </summary>
+        [JsonProperty(PropertyName = "C")]
+        public int Counter
+        {
+            set
+            {
+                TimeLeft = TimeSpan.FromMilliseconds(value);
+            }
+        }
+
+        [JsonIgnore]
+        public TimeSpan TimeLeft
+        {
+            get
+            {
+                return _TimeLeft;
+            }
+            set
+            {
+                _TimeLeft = value;
+                RaisePropertyChanged("TimeLeft");
+            }
+        }
 
         /// <summary>
         /// "N" = HeatName
@@ -76,23 +189,6 @@ namespace CpbTiming.SmsTiming
             {
                 _HeatName = value;
                 RaisePropertyChanged("HeatName");
-            }
-        }
-
-        /// <summary>
-        /// "S" = HeatState 
-        /// </summary>
-        [JsonProperty(PropertyName = "S")]
-        public int? HeatState
-        {
-            get
-            {
-                return _HeatState;
-            }
-            set
-            {
-                _HeatState = value;
-                RaisePropertyChanged("HeatState");
             }
         }
 
@@ -131,66 +227,6 @@ namespace CpbTiming.SmsTiming
         }
 
         /// <summary>
-        /// "D" = Drivers [array]
-        /// </summary>
-        [JsonProperty(PropertyName = "D")]
-        public UniqueObservableCollection<Driver> Drivers
-        {
-            get
-            {
-                return _Drivers;
-            }
-            set
-            {
-                _Drivers = value;
-                RaisePropertyChanged("Drivers");
-            }
-        }
-
-        /// <summary>
-        /// "C" = Counter (in milliseconds)
-        /// </summary>
-        [JsonProperty(PropertyName = "C")]
-        public int Counter
-        {
-            set
-            {
-                TimeLeft = TimeSpan.FromMilliseconds(value);
-            }
-        }
-
-        [JsonIgnore]
-        public TimeSpan TimeLeft
-        {
-            get
-            {
-                return _TimeLeft;
-            }
-            set
-            {
-                _TimeLeft = value;
-                RaisePropertyChanged("TimeLeft");
-            }
-        }
-
-        /// <summary>
-        /// "CS" = ClockStarted
-        /// </summary>
-        [JsonProperty(PropertyName = "CS")]
-        public int? ClockStarted
-        {
-            get
-            {
-                return _ClockStarted;
-            }
-            set
-            {
-                _ClockStarted = value;
-                RaisePropertyChanged("ClockStarted");
-            }
-        }
-
-        /// <summary>
         /// "L" = RemainingLaps
         /// </summary>
         [JsonProperty(PropertyName = "L")]
@@ -208,30 +244,55 @@ namespace CpbTiming.SmsTiming
         }
 
         /// <summary>
-        /// "T" = ActualHeatStart
+        /// "S" = HeatState 
         /// </summary>
-        [JsonProperty(PropertyName = "T")]
-        public int? ActualHeatStart
+        [JsonProperty(PropertyName = "S")]
+        public int? HeatState
         {
             get
             {
-                return _ActualHeatStart;
+                return _HeatState;
             }
             set
             {
-                _ActualHeatStart = value;
-                RaisePropertyChanged("ActualHeatStart");
+                _HeatState = value;
+                RaisePropertyChanged("HeatState");
             }
+        }
+
+        private void ResetActualHeatStart()
+        {
+            _ActualHeatStart = null;
+        }
+
+        private void ResetClockEnabled()
+        {
+            _ClockEnabled = null;
+        }
+
+        private void ResetClockStarted()
+        {
+            _ClockStarted = null;
+        }
+
+        private void ResetDrivers()
+        {
+            _Drivers.Clear();
+        }
+
+        private void ResetEndMode()
+        {
+            _EndMode = null;
+        }
+
+        private void ResetTimeLeft()
+        {
+            _TimeLeft = TimeSpan.Zero;
         }
 
         private void ResetHeatName()
         {
             _HeatName = null;
-        }
-
-        private void ResetHeatState()
-        {
-            _HeatState = null;
         }
 
         private void ResetEndCondition()
@@ -244,29 +305,14 @@ namespace CpbTiming.SmsTiming
             _RaceMode = null;
         }
 
-        private void ResetDrivers()
-        {
-            _Drivers.Clear();
-        }
-
-        private void ResetTimeLeft()
-        {
-            _TimeLeft = TimeSpan.Zero;
-        }
-
-        private void ResetClockStarted()
-        {
-            _ClockStarted = null;
-        }
-
         private void ResetRemainingLaps()
         {
             _RemainingLaps = null;
         }
 
-        private void ResetActualHeatStart()
+        private void ResetHeatState()
         {
-            _ActualHeatStart = null;
+            _HeatState = null;
         }
 
         public void Reset()
