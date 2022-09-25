@@ -26,7 +26,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _DateTime = value;
-                RaisePropertyChanged("DateTime");
+                RaisePropertyChanged();
             }
         }
 
@@ -40,7 +40,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _HeatOverzicht = value;
-                RaisePropertyChanged("HeatOverzicht");
+                RaisePropertyChanged();
             }
         }
 
@@ -54,7 +54,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _Records = value;
-                RaisePropertyChanged("Records");
+                RaisePropertyChanged();
             }
         }
 
@@ -71,7 +71,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _Drivers = value;
-                RaisePropertyChanged("Drivers");
+                RaisePropertyChanged();
             }
         }
 

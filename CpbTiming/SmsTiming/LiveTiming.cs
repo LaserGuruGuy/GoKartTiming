@@ -77,7 +77,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _ActualHeatStart = value;
-                RaisePropertyChanged("ActualHeatStart");
+                RaisePropertyChanged();
             }
         }
 
@@ -94,7 +94,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _ClockEnabled = value;
-                RaisePropertyChanged("ClockEnded");
+                RaisePropertyChanged();
             }
         }
 
@@ -111,7 +111,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _ClockStarted = value;
-                RaisePropertyChanged("ClockStarted");
+                RaisePropertyChanged();
             }
         }
 
@@ -128,7 +128,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _Drivers = value;
-                RaisePropertyChanged("Drivers");
+                RaisePropertyChanged();
             }
         }
 
@@ -145,7 +145,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _EndMode = value;
-                RaisePropertyChanged("EndMode");
+                RaisePropertyChanged();
             }
         }
 
@@ -171,7 +171,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _TimeLeft = value;
-                RaisePropertyChanged("TimeLeft");
+                RaisePropertyChanged();
             }
         }
 
@@ -188,7 +188,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _HeatName = value;
-                RaisePropertyChanged("HeatName");
+                RaisePropertyChanged();
             }
         }
 
@@ -205,7 +205,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _EndCondition = value;
-                RaisePropertyChanged("EndCondition");
+                RaisePropertyChanged();
             }
         }
 
@@ -222,7 +222,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _RaceMode = value;
-                RaisePropertyChanged("RaceMode");
+                RaisePropertyChanged();
             }
         }
 
@@ -239,7 +239,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _RemainingLaps = value;
-                RaisePropertyChanged("RemainingLaps");
+                RaisePropertyChanged();
             }
         }
 
@@ -256,7 +256,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _HeatState = value;
-                RaisePropertyChanged("HeatState");
+                RaisePropertyChanged();
             }
         }
 
@@ -328,9 +328,9 @@ namespace CpbTiming.SmsTiming
             }
         }
 
-        protected void RaisePropertyChanged(string propertyName)
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
         }
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object changedItem)

@@ -193,7 +193,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CollectionChanged.cs" />
+    <Compile Include="Events\CollectionChanged.cs" />
     <Compile Include="Converter\ActualHeatStartToStringConverter.cs" />
     <Compile Include="Converter\DateTimeToStringConverter.cs" />
     <Compile Include="Converter\Format.cs" />
@@ -201,13 +201,14 @@
     <Compile Include="Converter\TimeLeftToStringConverter.cs" />
     <Compile Include="Converter\SpeedToStringConverter.cs" />
     <Compile Include="Converter\TimeToStringConverter.cs" />
+    <Compile Include="Events\ThreadIdle.cs" />
     <Compile Include="LapTimeWindow\AbsoluteLapTimeWindow.cs" />
     <Compile Include="JSON\ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
     <Compile Include="CpbTiming.cs" />
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
-    <Compile Include="PropertyChanged.cs" />
+    <Compile Include="Events\PropertyChanged.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
     <Compile Include="Interface\IConfiguration.cs" />
     <Compile Include="Interface\IConnectionService.cs" />

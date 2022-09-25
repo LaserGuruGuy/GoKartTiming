@@ -93,14 +93,9 @@
                                         <DataTemplate>
                                             <TextBlock x:Name="BestLapTimeTextBlock" Text="{Binding BestLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
                                             <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding ImprovedBestLapTime}" Value="-1">
+                                                <DataTrigger Binding="{Binding ImprovedBestLapTime}" Value="true">
                                                     <DataTrigger.EnterActions>
                                                         <BeginStoryboard Storyboard="{StaticResource FasterBestLapTimeAnimation}"/>
-                                                    </DataTrigger.EnterActions>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding ImprovedBestLapTime}" Value="+1">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard Storyboard="{StaticResource SlowerBestLapTimeAnimation}"/>
                                                     </DataTrigger.EnterActions>
                                                 </DataTrigger>
                                             </DataTemplate.Triggers>
@@ -115,12 +110,12 @@
                                         <DataTemplate>
                                             <TextBlock x:Name="LastLapTimeTextBlock" Text="{Binding LastLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
                                             <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding ImprovedLapTime}" Value="-1">
+                                                <DataTrigger Binding="{Binding ImprovedLastLapTime}" Value="-1">
                                                     <DataTrigger.EnterActions>
                                                         <BeginStoryboard Storyboard="{StaticResource FasterLastLapTimeAnimation}"/>
                                                     </DataTrigger.EnterActions>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding ImprovedLapTime}" Value="+1">
+                                                <DataTrigger Binding="{Binding ImprovedLastLapTime}" Value="+1">
                                                     <DataTrigger.EnterActions>
                                                         <BeginStoryboard Storyboard="{StaticResource SlowerLastLapTimeAnimation}"/>
                                                     </DataTrigger.EnterActions>

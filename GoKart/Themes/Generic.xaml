@@ -40,14 +40,6 @@
             FillBehavior="Stop" Duration="0:0:0:2.0" AutoReverse="True"/>
     </Storyboard>
 
-    <Storyboard x:Key="SlowerBestLapTimeAnimation">
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="BestLapTimeTextBlock"
-            To="Red"
-            FillBehavior="Stop" Duration="0:0:0:2.0" AutoReverse="True"/>
-    </Storyboard>
-
 
     <Storyboard x:Key="FasterLastLapTimeAnimation">
         <ColorAnimation

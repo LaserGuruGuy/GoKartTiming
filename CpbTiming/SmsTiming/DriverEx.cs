@@ -20,7 +20,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _AverageSpeed = value;
-                RaisePropertyChanged("AverageSpeed");
+                RaisePropertyChanged();
             }
         }
 

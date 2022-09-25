@@ -14,20 +14,19 @@ namespace CpbTiming.SmsTiming
         private bool? _LastPassing;
         private TimeSpan _AvarageLapTime;
         private TimeSpan _BestLapTime;
-        private int _ImprovedBestLapTime;
+private bool? _ImprovedBestLapTime;
         private int? _KartNumber;
         private string _GapTime;
         private int? _DriverID;
         private int? _Laps;
         private TimeSpan _LastLapTime;
-        private int _ImprovedLapTime;
+private int? _ImprovedLastLapTime;
         private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         private int? _LastRecord;
-        private int? _WebMemberID;
         private string _DriverName;
         private int? _Position;
-        private int _ImprovedPosition;
-        private bool? _Member;
+private int? _ImprovedPosition;
+        private int? _MemberID;
 
         /// <summary>
         /// "LP" = LastPassing
@@ -44,7 +43,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _LastPassing = value;
-                RaisePropertyChanged("LastPassing");
+                RaisePropertyChanged();
             }
         }
 
@@ -70,7 +69,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _AvarageLapTime = value;
-                RaisePropertyChanged("AvarageLapTime");
+                RaisePropertyChanged();
             }
         }
 
@@ -95,19 +94,26 @@ namespace CpbTiming.SmsTiming
             }
             set
             {
-                _ImprovedBestLapTime = (value != null && _BestLapTime != null) ? (value < _BestLapTime && _BestLapTime != TimeSpan.Zero) ? -1 : (value > _BestLapTime && _BestLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
-                RaisePropertyChanged("ImprovedBestLapTime");
+                ImprovedBestLapTime = (value != null && _BestLapTime != null) ? (value < _BestLapTime && _BestLapTime != TimeSpan.Zero) ? true : false : false;
                 _BestLapTime = value;
-                RaisePropertyChanged("BestLapTime");
+                RaisePropertyChanged();
             }
         }
 
         [JsonIgnore]
-        public int ImprovedBestLapTime
+        public bool? ImprovedBestLapTime
         {
             get
             {
                 return _ImprovedBestLapTime;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _ImprovedBestLapTime = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -143,7 +149,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _KartNumber = value;
-                RaisePropertyChanged("KartNumber");
+                RaisePropertyChanged();
             }
         }
 
@@ -161,7 +167,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _GapTime = value;
-                RaisePropertyChanged("GapTime");
+                RaisePropertyChanged();
             }
         }
 
@@ -178,7 +184,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _DriverID = value;
-                RaisePropertyChanged("DriverID");
+                RaisePropertyChanged();
             }
         }
 
@@ -195,7 +201,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _Laps = value;
-                RaisePropertyChanged("Laps");
+                RaisePropertyChanged();
             }
         }
 
@@ -220,20 +226,27 @@ namespace CpbTiming.SmsTiming
             }
             set
             {
-                _ImprovedLapTime = (value != null && _LastLapTime != null) ? (value < _LastLapTime && _LastLapTime != TimeSpan.Zero) ? -1 : (value > _LastLapTime && _LastLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
-                RaisePropertyChanged("ImprovedLapTime");
+                ImprovedLastLapTime = (value != null && _LastLapTime != null) ? (value < _LastLapTime && _LastLapTime != TimeSpan.Zero) ? -1 : (value > _LastLapTime && _LastLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
                 _LastLapTime = value;
-                RaisePropertyChanged("LastLapTime");
+                RaisePropertyChanged();
                 _LapTime.Add(new KeyValuePair<int, TimeSpan>((int)_Laps, _LastLapTime));
             }
         }
 
         [JsonIgnore]
-        public int ImprovedLapTime
+        public int? ImprovedLastLapTime
         {
             get
             {
-                return _ImprovedLapTime;
+                return _ImprovedLastLapTime;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _ImprovedLastLapTime = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -259,24 +272,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _LastRecord = value;
-                RaisePropertyChanged("LastRecord");
-            }
-        }
-
-        /// <summary>
-        /// "M" = WebMemberID
-        /// </summary>
-        [JsonProperty(PropertyName = "W")]
-        public int? WebMemberID
-        {
-            get
-            {
-                return _WebMemberID;
-            }
-            set
-            {
-                _WebMemberID = value;
-                RaisePropertyChanged("WebMemberID");
+                RaisePropertyChanged();
             }
         }
 
@@ -293,7 +289,7 @@ namespace CpbTiming.SmsTiming
             set
             {
                 _DriverName = value;
-                RaisePropertyChanged("DriverName");
+                RaisePropertyChanged();
             }
         }
 
@@ -309,78 +305,50 @@ namespace CpbTiming.SmsTiming
             }
             set
             {
-                bool bUpdate = _Position != value ? true : false;
-                _ImprovedPosition = (_Position != null && value != null) ? (value < _Position) ? -1 : (value > _Position) ? +1 : 0 : 0;
-                if (bUpdate) RaisePropertyChanged("ImprovedPosition");
+                bool bUpdate = _Position != null && value != null && _Position != value ? true : false;
+                if (bUpdate) ImprovedPosition = (_Position != null && value != null) ? (value < _Position) ? -1 : (value > _Position) ? +1 : 0 : 0;
                 _Position = value;
-                if (bUpdate) RaisePropertyChanged("Position");
+                if (bUpdate) RaisePropertyChanged();
             }
         }
 
         [JsonIgnore]
-        public int ImprovedPosition
+        public int? ImprovedPosition
         {
             get
             {
                 return _ImprovedPosition;
             }
+            set
+            {
+                if (value != null)
+                {
+                    _ImprovedPosition = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         /// <summary>
-        /// "M" = Member
+        /// "M" = MemberID
         /// </summary>
         [JsonProperty(PropertyName = "M")]
-        public bool? Member
+        public int? MemberID
         {
             get
             {
-                return _Member;
+                return _MemberID;
             }
             set
             {
-                _Member = value;
-                RaisePropertyChanged("Member");
+                _MemberID = value;
+                RaisePropertyChanged();
             }
         }
 
-        private void ResetDriverID()
+        private void ResetLastPassing()
         {
-            _DriverID = null;
-        }
-
-        private void ResetWebMemberID()
-        {
-            _WebMemberID = null;
-        }
-
-        private void ResetDriverName()
-        {
-            _DriverName = null;
-        }
-
-        private void ResetKartNumber()
-        {
-            _KartNumber = null;
-        }
-
-        private void ResetPosition()
-        {
-            _Position = null;
-        }
-
-        private void ResetLaps()
-        {
-            _Laps = null;
-        }
-
-        private void ResetLapTime()
-        {
-            _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
-        }
-
-        private void ResetLastLapTime()
-        {
-            _LastLapTime = TimeSpan.Zero;
+            _LastPassing = null;
         }
 
         private void ResetAvarageLapTime()
@@ -393,14 +361,44 @@ namespace CpbTiming.SmsTiming
             _BestLapTime = TimeSpan.Zero;
         }
 
+        private void ResetImprovedBestLapTime()
+        {
+            _ImprovedBestLapTime = false;
+        }
+
+        private void ResetLapTime()
+        {
+            _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
+        }
+
+        private void ResetKartNumber()
+        {
+            _KartNumber = null;
+        }
+
         private void ResetGapTime()
         {
             _GapTime = null;
         }
 
-        private void ResetLastPassing()
+        private void ResetDriverID()
         {
-            _LastPassing = null;
+            _DriverID = null;
+        }
+
+        private void ResetLaps()
+        {
+            _Laps = null;
+        }
+
+        private void ResetLastLapTime()
+        {
+            _LastLapTime = TimeSpan.Zero;
+        }
+
+        private void ResetImprovedLastLapTime()
+        {
+            _ImprovedLastLapTime = 0;
         }
 
         private void ResetLastRecord()
@@ -408,9 +406,24 @@ namespace CpbTiming.SmsTiming
             _LastRecord = null;
         }
 
-        private void ResetMember()
+        private void ResetDriverName()
         {
-            _Member = null;
+            _DriverName = null;
+        }
+
+        private void ResetPosition()
+        {
+            _Position = null;
+        }
+
+        private void ResetImprovedPosition()
+        {
+            _ImprovedPosition = 0;
+        }
+
+        private void ResetMemberID()
+        {
+            _MemberID = null;
         }
 
         public void Reset()
@@ -425,9 +438,9 @@ namespace CpbTiming.SmsTiming
             }
         }
 
-        protected void RaisePropertyChanged(string propertyName)
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
         }
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object changedItem)
