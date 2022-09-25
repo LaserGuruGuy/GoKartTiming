@@ -5,7 +5,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Wpf;
 using OxyPlot.Legends;
-using CpbTiming.SmsTiming;
+using GoKartTiming.LiveTiming;
 using OxyPlot.Series;
 
 namespace GoKart

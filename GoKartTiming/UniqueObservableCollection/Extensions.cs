@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CpbTiming.SmsTiming
+namespace GoKartTiming.LiveTiming
 {
     public static class Extensions
     {

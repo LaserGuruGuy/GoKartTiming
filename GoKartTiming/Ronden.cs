@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace CpbTiming
+namespace GoKartTiming
 {
     public class Ronden : Dictionary<int, TimeSpan>
     {

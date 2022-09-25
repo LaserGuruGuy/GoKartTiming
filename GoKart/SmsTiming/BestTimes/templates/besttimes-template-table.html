@@ -1,0 +1,64 @@
+
+<table id="dataTable" class="display responsive nowrap" cellspacing="0">
+    <thead>
+    <tr>
+        {{#translations}}
+        <th class="firstColumnData">{{positionTranslation}}</th>
+        <th>{{driverTranslation}}</th>
+        <th>{{timeTranslation}}</th>
+        <th>{{dateTranslation}}</th>
+        {{/translations}}
+    </tr>
+    </thead>
+    <tbody>
+        {{#if firstRecord}}
+        <tr>
+            <td class="firstColumnData paddingrow">
+                <img class="trophySize" src="BestTimes/img/gold_compact.png" />{{firstRecord.position}}
+            </td>
+            <td class="paddingrow participantcolor">{{firstRecord.participant}}</td>
+            <td class="paddingrow scorecolor">{{firstRecord.score}}</td>
+            <td class="paddingrow datecolor">{{firstRecord.date}}</td>
+        </tr>
+        {{/if}}
+        {{#if secondRecord}}
+        <tr>
+            <td class="firstColumnData paddingrow">
+                <img class="trophySize" src="BestTimes/img/silver_compact.png"/>{{secondRecord.position}}
+            </td>
+            <td class="paddingrow participantcolor">{{secondRecord.participant}}</td>
+            <td class="paddingrow scorecolor">{{secondRecord.score}}</td>
+            <td class="paddingrow datecolor">{{secondRecord.date}}</td>
+        </tr>
+        {{/if}}
+        {{#if thirdRecord}}
+        <tr>
+            <td class="firstColumnData paddingrow">
+                <img class="trophySize" src="BestTimes/img/bronze_compact.png" />{{thirdRecord.position}}
+            </td>
+            <td class="paddingrow participantcolor">{{thirdRecord.participant}}</td>
+            <td class="paddingrow scorecolor">{{thirdRecord.score}}</td>
+            <td class="paddingrow datecolor">{{thirdRecord.date}}</td>
+        </tr>
+        {{/if}}
+        {{#records}}
+        <tr>
+            <td class="firstColumnData paddingrow">{{position}}</td>
+            <td class="paddingrow participantcolor">{{participant}}</td>
+            <td class="paddingrow scorecolor">{{score}}</td>
+            <td class="paddingrow datecolor">{{date}}</td>
+        </tr>
+        {{/records}}
+
+    </tbody>
+</table>
+<div class="logo">
+    <a href="https://www.bmileisure.com" target="_blank">
+        {{#if brandingFEC}}
+            <img style="width:50%;" src="Common/images/logo-leisure.png" />
+        {{else}}
+            <img style="width:50%;" src="Common/images/logo-smstiming.png" />
+        {{/if}}
+
+    </a>
+</div>

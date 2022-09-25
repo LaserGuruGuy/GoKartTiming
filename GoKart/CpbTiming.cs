@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using CpbTiming.SmsTiming;
+using GoKartTiming.LiveTiming;
 
 namespace GoKart
 {

@@ -1,0 +1,9 @@
+<div id="resource" class="wrapper-dropdown-3" tabindex="1">
+    <div class="triangle"></div>
+    <span class="resourceSpan">{{resources.0.resourceName}}</span>
+    <ul class="dropdown">
+        {{#resources}}
+        <li id="{{{resourceId}}}" class="resourceListItem"><a href="#">{{resourceName}}</a></li>
+        {{/resources}}
+    </ul>
+</div>

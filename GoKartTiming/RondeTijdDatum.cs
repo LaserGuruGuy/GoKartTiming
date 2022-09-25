@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CpbTiming
+namespace GoKartTiming
 {
     public class RondeTijdDatum
     {

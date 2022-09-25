@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace CpbTiming.SmsTiming
+namespace GoKartTiming.LiveTiming
 {
     public class DriverEx : Driver, INotifyPropertyChanged, INotifyCollectionChanged
     {

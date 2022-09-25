@@ -1,0 +1,9 @@
+<div id="group" class="wrapper-dropdown-3" tabindex="2">
+    {{#if result.scoreGroupName}}
+    <span class="customspan" id="{{result.scoreGroupId}}">{{result.scoreGroupName}}</span>
+    {{else}}
+    <span class="customspan" id="{{{resourcesScoreGroups.scoreGroups.0.scoreGroupId}}}">{{resourcesScoreGroups.scoreGroups.0.scoreGroupName}}</span>
+    {{/if}}
+    <ul id="scoreDropDown" class="dropdown">
+    </ul>
+</div>

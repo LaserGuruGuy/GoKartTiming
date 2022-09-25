@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using CpbTiming.SmsTiming;
+using GoKartTiming.LiveTiming;
 
 namespace GoKart
 {

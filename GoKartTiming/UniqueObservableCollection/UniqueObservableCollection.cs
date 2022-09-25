@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Threading;
 
-namespace CpbTiming.SmsTiming
+namespace GoKartTiming.LiveTiming
 {
     public class UniqueObservableCollection<T> : ObservableCollection<T>, INotifyCollectionChanged
     {

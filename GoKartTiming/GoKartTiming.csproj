@@ -27,7 +27,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -74,15 +75,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeatOverzicht.cs" />
-    <Compile Include="SmsTiming\Driver.cs" />
-    <Compile Include="SmsTiming\DriverEx.cs" />
+    <Compile Include="LiveTiming\Driver.cs" />
+    <Compile Include="LiveTiming\DriverEx.cs" />
     <Compile Include="UniqueObservableCollection\Extensions.cs" />
-    <Compile Include="SmsTiming\LiveTiming.cs" />
+    <Compile Include="LiveTiming\LiveTiming.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Records.cs" />
     <Compile Include="Ronden.cs" />
     <Compile Include="RondeTijdDatum.cs" />
-    <Compile Include="SmsTiming\LiveTimingEx.cs" />
+    <Compile Include="LiveTiming\LiveTimingEx.cs" />
     <Compile Include="UniqueObservableCollection\UniqueObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>

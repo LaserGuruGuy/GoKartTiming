@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using Newtonsoft.Json;
 
-namespace CpbTiming.SmsTiming
+namespace GoKartTiming.LiveTiming
 {
     public class LiveTiming : INotifyPropertyChanged, INotifyCollectionChanged
     {
