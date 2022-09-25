@@ -20,7 +20,17 @@
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="PositionTextBlock"
             To="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0" AutoReverse="True"/>
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="PositionTextBlock"
+            From="Green" To="Green"
+            FillBehavior="Stop" Duration="0:0:0:6.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="PositionTextBlock"
+            From="Green"
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
     </Storyboard>
 
     <Storyboard x:Key="WorsePositionAnimation">
@@ -28,7 +38,17 @@
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="PositionTextBlock"
             To="Red"
-            FillBehavior="Stop" Duration="0:0:0:2.0" AutoReverse="True"/>
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="PositionTextBlock"
+            From="Red" To="Red"
+            FillBehavior="Stop" Duration="0:0:0:6.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="PositionTextBlock"
+            From="Red"
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
     </Storyboard>
 
 
@@ -37,7 +57,17 @@
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="BestLapTimeTextBlock"
             To="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0" AutoReverse="True"/>
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="BestLapTimeTextBlock"
+            From="Green" To="Green"
+            FillBehavior="Stop" Duration="0:0:0:6.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="BestLapTimeTextBlock"
+            From="Green"
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
     </Storyboard>
 
 
@@ -46,7 +76,17 @@
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="LastLapTimeTextBlock"
             To="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0" AutoReverse="True"/>
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="LastLapTimeTextBlock"
+            From="Green" To="Green"
+            FillBehavior="Stop" Duration="0:0:0:6.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="LastLapTimeTextBlock"
+            From="Green"
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
     </Storyboard>
 
     <Storyboard x:Key="SlowerLastLapTimeAnimation">
@@ -54,7 +94,17 @@
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="LastLapTimeTextBlock"
             To="Red"
-            FillBehavior="Stop" Duration="0:0:0:2.0" AutoReverse="True"/>
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="LastLapTimeTextBlock"
+            From="Red" To="Red"
+            FillBehavior="Stop" Duration="0:0:0:6.0"/>
+        <ColorAnimation
+            Storyboard.TargetProperty="(TextBlock.Background).Color"
+            Storyboard.TargetName="LastLapTimeTextBlock"
+            From="Red"
+            FillBehavior="Stop" Duration="0:0:0:2.0"/>
     </Storyboard>
 
 </ResourceDictionary>

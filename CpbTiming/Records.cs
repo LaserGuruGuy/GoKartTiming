@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace CpbTiming.SmsTiming
+namespace CpbTiming
 {
     public class Records
     {

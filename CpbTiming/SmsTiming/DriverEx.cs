@@ -10,6 +10,9 @@ namespace CpbTiming.SmsTiming
     {
         private float? _AverageSpeed;
 
+        /// <summary>
+        /// Only provided in the pdf files!
+        /// </summary>
         [JsonIgnore]
         public float? AverageSpeed
         {

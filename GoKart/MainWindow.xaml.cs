@@ -2,26 +2,30 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Windows.Interop;
 using System.Threading;
+using System.ComponentModel;
+using System.Collections.Specialized;
+using GoKart.WebBrowser;
+using System.Collections.Generic;
 
 namespace GoKart
 {
-    public partial class MainWindow : Window, IConfiguration
+    public partial class MainWindow : Window
     {
         Thread WorkerThread;
 
-        public CpbTiming CpbTiming { get; set; } = new CpbTiming();
-
-        public Uri Uri { get; set; }
-
-        public string baseUrl { get; set; }
-
-        public string auth { get; set; }
+        private CpbTiming CpbTiming { get; set; } = new CpbTiming();
 
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
+
+        public static Dictionary<string, string> KartCenterDict { get; } = new Dictionary<string, string>
+        {
+            {"Hezemans Indoor Karting", "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==" },
+            {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" }
+        };
+
+        public string KartCenterKey { get; set; } = "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==";
 
         public MainWindow()
         {
@@ -37,35 +41,40 @@ namespace GoKart
 
             DataContext = CpbTiming;
 
-            PopulateConfiguration("Config.json");
-
-            WebBrowserHelper.GetBrowserVersion();
-
             try
             {
-                WebBrowser.ObjectForScripting = new WebBrowserScriptInterface(this);
+                WebBrowser.ObjectForScripting = new WebBrowserScriptInterface(OnJSONReceived);
             }
-            catch (Exception Ex)
+            catch (ArgumentException Ex)
             {
                 Console.WriteLine(Ex.Message);
             }
             finally
             {
+                (WebBrowser.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
             }
 
             try
             {
-                WebBrowser.Navigate(Uri);
+                WebBrowser.Navigate((WebBrowser.ObjectForScripting as WebBrowserScriptInterface).Uri);
             }
-            catch (Exception Ex)
+            catch (ObjectDisposedException Ex)
             {
                 Console.WriteLine(Ex.Message);
+            }
+            catch (InvalidOperationException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+            catch (System.Security.SecurityException Ex)
+            {
+                MessageBox.Show(Ex.Message);
             }
             finally
             {
             }
 
-            ComponentDispatcher.ThreadIdle += new System.EventHandler(ComponentDispatcher_ThreadIdle);
+            ComponentDispatcher.ThreadIdle += new EventHandler(ComponentDispatcher_ThreadIdle);
         }
 
         protected void MainWindow_Closed(object sender, EventArgs args)
@@ -125,6 +134,12 @@ namespace GoKart
             AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
             CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
             RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+        }
+
+        private void ComboBox_LiveTimingKartCenter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            (WebBrowser.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+            WebBrowser.Navigate((WebBrowser.ObjectForScripting as WebBrowserScriptInterface).Uri);
         }
     }
 }

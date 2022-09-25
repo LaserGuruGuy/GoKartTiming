@@ -32,6 +32,7 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" Background="{DynamicResource NormalBrush}" >
+            <ComboBox x:Name="ComboBox_LiveTimingKartCenter" SelectedValue="{Binding KartCenterKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=KartCenterDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_LiveTimingKartCenter_SelectionChanged"/>
             <ComboBox x:Name="ComboBox_LiveTimingHeatState" SelectedValue="{Binding HeatState}" ItemsSource="{Binding Path=HeatStateDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
             <ComboBox x:Name="ComboBox_LiveTimingEndCondition" SelectedValue="{Binding EndCondition}" ItemsSource="{Binding Path=EndConditionDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
             <ComboBox x:Name="ComboBox_LiveTimingRaceMode" SelectedValue="{Binding RaceMode}" ItemsSource="{Binding Path=RaceModeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>

@@ -4,12 +4,7 @@
     var params = getUrlParams();
     var baseConnection;
 
-    if (window.external.baseUrl != null) {
-        baseUrl = window.external.baseUrl;
-    }
-    else if (baseUrl == null) {
-        baseUrl = "https://backend.sms-timing.com";
-    }
+    baseUrl = "https://backend.sms-timing.com";
 
     if (window.external.auth != null) {
         auth = window.external.auth;

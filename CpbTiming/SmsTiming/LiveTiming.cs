@@ -11,16 +11,6 @@ namespace CpbTiming.SmsTiming
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
 
-        public enum HeatStateEnum
-        {
-            HeatNotStarted = 0,
-            HeatRunning = 1,
-            HeatPauzed = 2,
-            HeatStopped = 3,
-            HeatFinished = 4,
-            NextHeat = 5
-        };
-
         public static Dictionary<string, int> HeatStateDict { get; } = new Dictionary<string, int>
         {
             {"Heat not started", 0 },
@@ -161,6 +151,9 @@ namespace CpbTiming.SmsTiming
             }
         }
 
+        /// <summary>
+        /// TimeLeft => viewmodel
+        /// </summary>
         [JsonIgnore]
         public TimeSpan TimeLeft
         {

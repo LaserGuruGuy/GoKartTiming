@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace CpbTiming.SmsTiming
+namespace CpbTiming
 {
     public class HeatOverzicht : Dictionary<string, TimeSpan>
     {

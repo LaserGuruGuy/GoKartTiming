@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using CpbTiming.SmsTiming;
 
 namespace GoKart
 {
@@ -43,7 +41,7 @@ namespace GoKart
             {
                 UpdatePosition = true;
             }
-
+#if DEBUG
             try
             {
                 Console.WriteLine("PropertyChanged " + e.PropertyName + "=" + sender.GetType().GetProperty(e.PropertyName)?.GetValue(sender)?.ToString());
@@ -52,6 +50,7 @@ namespace GoKart
             {
                 Console.WriteLine(ex.Message);
             }
+#endif
         }
     }
 }

@@ -14,18 +14,18 @@ namespace CpbTiming.SmsTiming
         private bool? _LastPassing;
         private TimeSpan _AvarageLapTime;
         private TimeSpan _BestLapTime;
-private bool? _ImprovedBestLapTime;
+        private bool? _ImprovedBestLapTime;
         private int? _KartNumber;
         private string _GapTime;
         private int? _DriverID;
         private int? _Laps;
         private TimeSpan _LastLapTime;
-private int? _ImprovedLastLapTime;
+        private int? _ImprovedLastLapTime;
         private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         private int? _LastRecord;
         private string _DriverName;
         private int? _Position;
-private int? _ImprovedPosition;
+        private int? _ImprovedPosition;
         private int? _MemberID;
 
         /// <summary>
@@ -85,6 +85,9 @@ private int? _ImprovedPosition;
             }
         }
 
+        /// <summary>
+        /// BestLaptime => viewmodel
+        /// </summary>
         [JsonIgnore]
         public TimeSpan BestLapTime
         {
@@ -94,12 +97,16 @@ private int? _ImprovedPosition;
             }
             set
             {
-                ImprovedBestLapTime = (value != null && _BestLapTime != null) ? (value < _BestLapTime && _BestLapTime != TimeSpan.Zero) ? true : false : false;
+                ImprovedBestLapTime = value != null && _BestLapTime != null ? value < _BestLapTime && _BestLapTime != TimeSpan.Zero ? true : false : false;
                 _BestLapTime = value;
                 RaisePropertyChanged();
             }
         }
 
+        /// <summary>
+        /// ImprovedBestLapTime => viewmodel
+        /// Fires the DataTrigger StoryBoard
+        /// </summary>
         [JsonIgnore]
         public bool? ImprovedBestLapTime
         {
@@ -139,6 +146,9 @@ private int? _ImprovedPosition;
             }
         }
 
+        /// <summary>
+        /// KartNumber => viewmodel
+        /// </summary>
         [JsonIgnore]
         public int? KartNumber
         {
@@ -217,6 +227,9 @@ private int? _ImprovedPosition;
             }
         }
 
+        /// <summary>
+        /// LastLapTime => viewmodel
+        /// </summary>
         [JsonIgnore]
         public TimeSpan LastLapTime
         {
@@ -226,13 +239,18 @@ private int? _ImprovedPosition;
             }
             set
             {
-                ImprovedLastLapTime = (value != null && _LastLapTime != null) ? (value < _LastLapTime && _LastLapTime != TimeSpan.Zero) ? -1 : (value > _LastLapTime && _LastLapTime != TimeSpan.Zero) ? +1 : 0 : 0;
+                ImprovedLastLapTime = value != null && _LastLapTime != null ? value < _LastLapTime && _LastLapTime != TimeSpan.Zero ? -1 : value > _LastLapTime && _LastLapTime != TimeSpan.Zero ? +1 : 0 : 0;
                 _LastLapTime = value;
                 RaisePropertyChanged();
                 _LapTime.Add(new KeyValuePair<int, TimeSpan>((int)_Laps, _LastLapTime));
             }
         }
 
+        /// <summary>
+        /// ImprovedLastLapTime => viewmodel
+        /// Fires the DataTrigger StoryBoard
+        /// {-1, "Green"} {+1, "Red"}
+        /// </summary>
         [JsonIgnore]
         public int? ImprovedLastLapTime
         {
@@ -250,6 +268,9 @@ private int? _ImprovedPosition;
             }
         }
 
+        /// <summary>
+        /// LapTime List => viewmodel
+        /// </summary>
         [JsonIgnore]
         public UniqueObservableCollection<KeyValuePair<int, TimeSpan>> LapTime
         {
@@ -306,12 +327,17 @@ private int? _ImprovedPosition;
             set
             {
                 bool bUpdate = _Position != null && value != null && _Position != value ? true : false;
-                if (bUpdate) ImprovedPosition = (_Position != null && value != null) ? (value < _Position) ? -1 : (value > _Position) ? +1 : 0 : 0;
+                if (bUpdate) ImprovedPosition = _Position != null && value != null ? value < _Position ? -1 : value > _Position ? +1 : 0 : 0;
                 _Position = value;
                 if (bUpdate) RaisePropertyChanged();
             }
         }
 
+        /// <summary>
+        /// ImprovedPosition => viewmodel
+        /// Fires the DataTrigger StoryBoard
+        /// {-1, "Green"} {+1, "Red"}
+        /// </summary>
         [JsonIgnore]
         public int? ImprovedPosition
         {

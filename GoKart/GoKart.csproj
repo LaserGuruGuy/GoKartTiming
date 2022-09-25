@@ -47,13 +47,14 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -202,6 +203,7 @@
     <Compile Include="Converter\SpeedToStringConverter.cs" />
     <Compile Include="Converter\TimeToStringConverter.cs" />
     <Compile Include="Events\ThreadIdle.cs" />
+    <Compile Include="Events\WebBrowser.cs" />
     <Compile Include="LapTimeWindow\AbsoluteLapTimeWindow.cs" />
     <Compile Include="JSON\ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />
@@ -210,19 +212,16 @@
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
     <Compile Include="Events\PropertyChanged.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
-    <Compile Include="Interface\IConfiguration.cs" />
+    <Compile Include="WebBrowser\IConfiguration.cs" />
     <Compile Include="Interface\IConnectionService.cs" />
     <Compile Include="Pdf\PdfReader.cs" />
     <Compile Include="LapTimeWindow\RelativeLapTimeWindow.cs" />
     <Compile Include="LapTimeWindow\LapTimeWindow.xaml.cs">
       <DependentUpon>LapTimeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JSON\Settings.cs" />
+    <Compile Include="WebBrowser\Settings.cs" />
     <Compile Include="WebBrowser\WebBrowserScriptInterface.cs" />
     <Compile Include="WebBrowser\WebSocket.cs" />
-    <Compile Include="WebBrowser\WebBrowserHelper.cs" />
-    <Compile Include="WebBrowser\WebBrowserHook.cs" />
-    <Compile Include="WebBrowser\WebBrowserVersion.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

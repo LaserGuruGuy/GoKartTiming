@@ -5,7 +5,6 @@ using System.IO;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using CpbTiming.SmsTiming;
-using System;
 
 namespace GoKart
 {

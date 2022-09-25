@@ -1,37 +1,27 @@
 ﻿using System;
-using System.IO;
 using System.Security.Permissions;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
-namespace GoKart
+namespace GoKart.WebBrowser
 {
+    public delegate void OnJSONReceived(string Serialized);
+
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [ComVisible(true)]
-    public class WebBrowserScriptInterface : IConnectionService
+    public partial class WebBrowserScriptInterface
     {
-        private MainWindow _MainWindow;
+        private OnJSONReceived OnJSONReceived = null;
 
-        public WebBrowserScriptInterface(MainWindow MainWindow)
+        public WebBrowserScriptInterface(OnJSONReceived OnJSONReceived = null)
         {
-            _MainWindow = MainWindow;
+            this.OnJSONReceived = OnJSONReceived;
         }
 
-        public string baseUrl { get { return _MainWindow.baseUrl; } }
+        public Uri Uri { get; set; } = new Uri("pack://siteoforigin:,,,/SmsTiming/LiveTiming.htm");
 
-        public string auth { get { return _MainWindow.auth; } }
-
-        public string path { get; set; } = "/api/livetiming/settings/";
-
-        public string ClientKey { get; set; }
-
-        public string ServiceAddress { get; set; }
-
-        public string AccessToken { get; set; }
-
-        public string url { get { return baseUrl + "/api/connectioninfo?type=modules"; } }
-
-        public string mainPath { get { return "https://" + ServiceAddress + path + ClientKey; } }
+        public string auth { get; set; }
 
         public void onLogMessage(string message)
         {
@@ -49,9 +39,7 @@ namespace GoKart
 
         public void onJSONReceived(string Serialized)
         {
-            File.AppendAllText("logfile.json", Serialized + "\n");
-
-            _MainWindow.CpbTiming.Add(Serialized);
+            OnJSONReceived.Invoke(Serialized);
         }
     }
 }

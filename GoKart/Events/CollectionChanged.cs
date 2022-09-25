@@ -97,12 +97,14 @@ namespace GoKart
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+#if DEBUG
             string name = string.Empty;
+#endif
 
             if (sender.GetType().Equals(typeof(UniqueObservableCollection<LiveTimingEx>)))
             {
                 UpdateLiveTiming = true;
-
+#if DEBUG
                 try
                 {
                     UniqueObservableCollection<LiveTimingEx> collection = sender as UniqueObservableCollection<LiveTimingEx>;
@@ -113,11 +115,12 @@ namespace GoKart
                 {
                     name = ex.Message;
                 }
+#endif
             }
             else if (sender.GetType().Equals(typeof(UniqueObservableCollection<DriverEx>)))
             {
                 UpdateDriver = true;
-
+#if DEBUG
                 try
                 {
                     UniqueObservableCollection<DriverEx> collection = sender as UniqueObservableCollection<DriverEx>;
@@ -128,11 +131,12 @@ namespace GoKart
                 {
                     name = ex.Message;
                 }
+#endif
             }
             else if (sender.GetType().Equals(typeof(UniqueObservableCollection<KeyValuePair<int, TimeSpan>>)))
             {
                 UpdateLapTime = true;
-
+#if DEBUG
                 try
                 {
                     UniqueObservableCollection<KeyValuePair<int, TimeSpan>> collection = sender as UniqueObservableCollection<KeyValuePair<int, TimeSpan>>;
@@ -143,9 +147,11 @@ namespace GoKart
                 {
                     name = ex.Message;
                 }
+#endif
             }
-
+#if DEBUG
             Console.WriteLine("CollectionChanged " + e.Action + " " + name);
+#endif
         }
     }
 }

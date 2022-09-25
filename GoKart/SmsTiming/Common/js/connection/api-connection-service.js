@@ -1,12 +1,7 @@
 ﻿function getConnectionInfo(baseUrl, authorizationToken) {
     authorizationToken = decodeURIComponent(authorizationToken);
     var url;
-    if (window.external.url != null) {
-        url = window.external.url;
-    }
-    else {
-        url = baseUrl + "/api/connectioninfo?type=modules";
-    }
+    url = baseUrl + "/api/connectioninfo?type=modules";
     $.support.cors = true;
     return can.ajax({
         crossDomain: true,
