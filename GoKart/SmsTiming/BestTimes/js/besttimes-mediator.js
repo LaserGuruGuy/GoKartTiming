@@ -1,4 +1,4 @@
-﻿function initialize() {
+function initialize() {
     var baseUrl = "https://backend.sms-timing.com";
     var auth = url('?key');
     var params = getUrlParams();
@@ -13,7 +13,7 @@
 
     can.when(getConnectionInfo(baseUrl, auth)).then(function (connectionInfo) {
         console.log("auth:" + auth);
-
+        
         baseConnection = parseConnectionInfo(connectionInfo);
 
         can.when(getBestTimesResources(baseConnection, params)).then(function (resources) {

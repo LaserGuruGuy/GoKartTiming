@@ -1,5 +1,5 @@
 var templatePath = 'BestTimes/templates/';
-//var templatePath = 'https://modules.sms-timing.com/BestTimes/templates/'
+//var templatePath = "https://modules.sms-timing.com/BestTimes/template/";
 var result;
 
 function createBestTimesView(resources, resourcesScoreGroups, records, baseConnection, settings, params, translations, eventCall) {
@@ -24,6 +24,7 @@ function createBestTimesWrapper(resources, resourcesScoreGroups, settings, param
         if (url('?rscid') == null) {
             checkOnlyOneResource(resources, settings);
         }
+        $.support.cors = true;
         var resourceTemplate = can.view(templatePath + 'besttimes-template-resources.html', { resources: resources });
         document.getElementById('wrapper').appendChild(resourceTemplate);
         enableCustomCssResourceMenu(settings);

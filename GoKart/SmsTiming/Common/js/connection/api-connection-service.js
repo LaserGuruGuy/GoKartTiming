@@ -1,4 +1,4 @@
-﻿function getConnectionInfo(baseUrl, authorizationToken) {
+function getConnectionInfo(baseUrl, authorizationToken) {
     authorizationToken = decodeURIComponent(authorizationToken);
     var url;
     url = baseUrl + "/api/connectioninfo?type=modules";
@@ -14,11 +14,8 @@
             console.log(XMLHttpRequest.responseText + ' ' + textStatus + ': ' + errorThrown);
          },
         success: function (data) {
-            try {
+            if (window.external.onConnectionService != null) {
                 window.external.onConnectionService(JSON.stringify(data));
-            }
-            catch (error) {
-                console.error(error);
             }
         },
         dataType: 'json'

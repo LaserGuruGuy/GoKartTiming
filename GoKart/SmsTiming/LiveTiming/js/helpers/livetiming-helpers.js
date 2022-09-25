@@ -1,4 +1,4 @@
-﻿var oldHeat;
+var oldHeat;
 var start = "00:00:01"
 var M3 = [];
 var M4 = [];
@@ -113,7 +113,9 @@ function startWebSocket() {
     }
     websocket = new WebSocket(wsUri);
 
-    window.external.onLogMessage(wsUri);
+    if (window.external.onLogMessage != null) {
+        window.external.onLogMessage(wsUri);
+    }
 
     websocket.onopen = function (evt) {
         onOpen(evt)

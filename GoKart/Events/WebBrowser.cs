@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace GoKart
 {
@@ -6,8 +7,10 @@ namespace GoKart
     {
         public void OnJSONReceived(string Serialized)
         {
+#if DEBUG
+            Console.WriteLine(Serialized);
             File.AppendAllText("logfile.json", Serialized + "\n");
-
+#endif
             CpbTiming.Add(Serialized);
         }
     }
