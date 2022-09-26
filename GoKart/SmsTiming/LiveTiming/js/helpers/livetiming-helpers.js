@@ -76,6 +76,11 @@ function init() {
                 var xdr = new XDomainRequest();
                 xdr.open("get", 'https://' + eventConnection.ServiceAddress + '/api/livetiming/settings/' + eventConnection.ClientKey + '?locale=&styleId=&ressourceId=&accessToken=' + eventConnection.AccessToken);
                 xdr.onload = function () {
+                    try {
+                        window.external.onHTTPMessage(xdr.responseText);
+                    }
+                    catch (error) {
+                    }
                     onHTTPMessage(xdr.responseText);
                 };
                 xdr.onerror = function () {
@@ -96,6 +101,11 @@ function init() {
                     cache: false,
                     url: 'https://' + eventConnection.ServiceAddress + '/api/livetiming/settings/' + eventConnection.ClientKey + '?locale=&styleId=&ressourceId=&accessToken=' + eventConnection.AccessToken, success: function (evt) {
                         var jsonString = JSON.stringify(evt);
+                        try {
+                            window.external.onHTTPMessage(jsonString);
+                        }
+                        catch (error) {
+                        }
                         onHTTPMessage(jsonString);
                     }, dataType: "json"
                 });
@@ -113,10 +123,6 @@ function startWebSocket() {
     }
     websocket = new WebSocket(wsUri);
 
-    if (window.external.onLogMessage != null) {
-        window.external.onLogMessage(wsUri);
-    }
-
     websocket.onopen = function (evt) {
         onOpen(evt)
     };
@@ -126,10 +132,20 @@ function startWebSocket() {
     };
 
     websocket.onmessage = function (evt) {
+        try {
+            window.external.onMessage(evt.data);
+        }
+        catch (error) {
+        }
         onMessage(evt)
     };
 
     websocket.onerror = function (evt) {
+        try {
+            window.external.onError(evt.data);
+        }
+        catch (error) {
+        }
         onError(evt)
     };
 }
@@ -435,12 +451,9 @@ function writeToScreen(message) {
 
 function onHTTPMessage(jsonData) {
     if (jsonData != '{}') {
-        onJSONReceived(jsonData);
+        onHTTPMessage(jsonData);
     } else {
         noRaces(slnoheat);
-    }
-    if (window.external.onJSONReceived != null) {
-        window.external.onJSONReceived(JSON.stringify(evt.data));
     }
 }
 

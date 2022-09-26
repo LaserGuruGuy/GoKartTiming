@@ -23,21 +23,46 @@ namespace GoKart.WebBrowser
 
         public string auth { get; set; }
 
-        public void onLogMessage(string message)
+        /// <summary>
+        /// XMLHttpRequest: LiveTiming, BestTimes
+        /// </summary>
+        /// <param name="Serialized"></param>
+        public void onSuccess(string Serialized)
         {
-            Console.WriteLine(message);
+            Console.WriteLine(Serialized);
         }
 
-        public void onConnectionService(string Serialized)
+        /// <summary>
+        /// WebSocket: LiveTiming
+        /// </summary>
+        public void onError()
         {
-            JsonConvert.PopulateObject(Serialized, this, new JsonSerializerSettings
-            {
-                ObjectCreationHandling = ObjectCreationHandling.Replace,
-                ContractResolver = new InterfaceContractResolver(typeof(IConfiguration))
-            });
+            Console.WriteLine("websocket error: no races");
         }
 
-        public void onJSONReceived(string Serialized)
+        /// <summary>
+        /// HTTP (if WebSocket fails): LiveTiming 
+        /// </summary>
+        /// <param name="Serialized"></param>
+        public void onHTTPMessage(string Serialized)
+        {
+            OnJSONReceived.Invoke(Serialized);
+        }
+
+        /// <summary>
+        /// WebSocket: LiveTiming
+        /// </summary>
+        /// <param name="Serialized"></param>
+        public void onMessage(string Serialized)
+        {
+            OnJSONReceived.Invoke(Serialized);
+        }
+
+        /// <summary>
+        /// XMLHttpRequest: LiveTiming, BestTimes
+        /// </summary>
+        /// <param name="Serialized"></param>
+        public void onModel(string Serialized)
         {
             OnJSONReceived.Invoke(Serialized);
         }

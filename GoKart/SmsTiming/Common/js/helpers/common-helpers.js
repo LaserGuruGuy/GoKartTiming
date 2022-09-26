@@ -17,6 +17,11 @@ function getModel(mainPath) {
     var model = can.Model.extend({
         findAll: 'GET ' + mainPath,
         parseModels: function (data) {
+            try {
+                window.external.onModel(JSON.stringify(data));
+            }
+            catch (error) {
+            }
             return data;
         }
     }, {});

@@ -6,6 +6,14 @@ using Newtonsoft.Json;
 
 namespace GoKartTiming.LiveTiming
 {
+    public class Positions
+    {
+        public int position { get; set; } // "1"
+        public string date { get; set; } // "2022-09-13T21:19:19.447"
+        public string participant { get; set; } // "blalba"
+        public string score { get; set; } // "38.288"
+    }
+
     public class LiveTiming : INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -53,6 +61,8 @@ namespace GoKartTiming.LiveTiming
         protected int? _RaceMode;
         protected int? _RemainingLaps;
         protected int? _HeatState;
+
+        public UniqueObservableCollection<Positions> records { get; set; }
 
         /// <summary>
         /// "T" = ActualHeatStart

@@ -289,25 +289,63 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.png" />
-    <Content Include="SmsTiming\BestTimes.htm" />
-    <Content Include="SmsTiming\BestTimes\css\besttimes-stylesheet.css" />
-    <Content Include="SmsTiming\BestTimes\css\fonts-stylesheets.css" />
-    <Resource Include="SmsTiming\BestTimes\img\bronze_compact.png" />
-    <Resource Include="SmsTiming\BestTimes\img\gold_compact.png" />
-    <Resource Include="SmsTiming\BestTimes\img\silver_compact.png" />
-    <Content Include="SmsTiming\BestTimes\js\besttimes-mediator.js" />
-    <Content Include="SmsTiming\BestTimes\js\controllers\besttimes-controllers.js" />
-    <Content Include="SmsTiming\BestTimes\js\controls\besttimes-controls.js" />
-    <Content Include="SmsTiming\BestTimes\js\helpers\besttimes-helpers.js" />
-    <Content Include="SmsTiming\BestTimes\js\models\besttimes-models.js" />
-    <Content Include="SmsTiming\BestTimes\js\views\besttimes-stylers-helpers.js" />
-    <Content Include="SmsTiming\BestTimes\js\views\besttimes-stylers.js" />
-    <Content Include="SmsTiming\BestTimes\js\views\besttimes-views.js" />
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-resources.html" />
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-scoregroups-items.html" />
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-scoregroups.html" />
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-table.html" />
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-times.html" />
+    <Content Include="SmsTiming\BestTimes.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\css\besttimes-stylesheet.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\css\fonts-stylesheets.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="SmsTiming\BestTimes\img\bronze_compact.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="SmsTiming\BestTimes\img\gold_compact.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="SmsTiming\BestTimes\img\silver_compact.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="SmsTiming\BestTimes\js\besttimes-mediator.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\js\controllers\besttimes-controllers.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\js\controls\besttimes-controls.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\js\helpers\besttimes-helpers.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\js\models\besttimes-models.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\js\views\besttimes-stylers-helpers.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\js\views\besttimes-stylers.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\js\views\besttimes-views.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-resources.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-scoregroups-items.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-scoregroups.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-table.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-times.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SmsTiming\Common\css\pace-stylesheet.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -326,10 +364,18 @@
     <Content Include="SmsTiming\Common\library\CanJS\can.custom.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SmsTiming\Common\library\DataTables\dataTables.responsive.min.js" />
-    <Content Include="SmsTiming\Common\library\DataTables\jquery.dataTables.min.js" />
-    <Content Include="SmsTiming\Common\library\DropDownMenu\dropdown.js" />
-    <Content Include="SmsTiming\Common\library\FlowType\flowtype.js" />
+    <Content Include="SmsTiming\Common\library\DataTables\dataTables.responsive.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\Common\library\DataTables\jquery.dataTables.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\Common\library\DropDownMenu\dropdown.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsTiming\Common\library\FlowType\flowtype.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SmsTiming\Common\library\jQuery\jquery-1.11.2.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

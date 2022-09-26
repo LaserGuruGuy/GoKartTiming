@@ -119,12 +119,6 @@ function checkBrowser() {
     var bro = getBrowser();
     var broVersion = parseInt(bro[1]);
 
-    try {
-        window.external.onLogMessage(versionToShow(bro));
-    }
-    catch (error) { }
-    finally { }
-
     switch (bro[0]) {
         case "Firefox":
             if (broVersion < 11) { return false; } else { return true; }

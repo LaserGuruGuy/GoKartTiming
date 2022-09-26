@@ -8,9 +8,6 @@ function onMessage(evt) {
     } else {
         noRaces(slnoheat);
     }
-    if (window.external.onJSONReceived != null) {
-        window.external.onJSONReceived(JSON.stringify(evt.data));
-    }
 }
 
 function onOpen(evt) {

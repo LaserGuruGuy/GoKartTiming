@@ -14,8 +14,10 @@ function getConnectionInfo(baseUrl, authorizationToken) {
             console.log(XMLHttpRequest.responseText + ' ' + textStatus + ': ' + errorThrown);
          },
         success: function (data) {
-            if (window.external.onConnectionService != null) {
-                window.external.onConnectionService(JSON.stringify(data));
+            try {
+                window.external.onSuccess(JSON.stringify(data));
+            }
+            catch (error) {
             }
         },
         dataType: 'json'
