@@ -18,8 +18,11 @@ namespace GoKart.WebBrowser
         }
 
         public Uri Uri { get; set; }
-
+        public string baseUrl { get; set; } = "https://backend.sms-timing.com";
         public string auth { get; set; }
+        public string ClientKey { get; set; }
+        public string ServiceAddress { get; set; }
+        public string AccessToken { get; set; }
 
         /// <summary>
         /// XMLHttpRequest: LiveTiming, BestTimes
