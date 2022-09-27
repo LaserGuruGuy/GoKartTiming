@@ -143,7 +143,12 @@
             </TabItem>
             <TabItem Header="LiveTiming">
                 <DockPanel Background="{DynamicResource NormalBrush}" >
-                    <WebBrowser x:Name="WebBrowser"/>
+                    <WebBrowser x:Name="WebBrowserLiveTiming"/>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="BestTiming">
+                <DockPanel Background="{DynamicResource NormalBrush}" >
+                    <WebBrowser x:Name="WebBrowserBestTiming"/>
                 </DockPanel>
             </TabItem>
         </TabControl>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Permissions;
 using System.Runtime.InteropServices;
-using Newtonsoft.Json;
 
 namespace GoKart.WebBrowser
 {
@@ -18,8 +17,7 @@ namespace GoKart.WebBrowser
             this.OnJSONReceived = OnJSONReceived;
         }
 
-        public Uri Uri { get; set; } = new Uri("pack://siteoforigin:,,,/SmsTiming/LiveTiming.htm");
-        //public Uri Uri { get; set; } = new Uri("pack://siteoforigin:,,,/SmsTiming/BestTimes.htm");
+        public Uri Uri { get; set; }
 
         public string auth { get; set; }
 

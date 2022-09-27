@@ -74,6 +74,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BestTiming\BestTiming.cs" />
+    <Compile Include="BestTiming\ParameterGroup.cs" />
+    <Compile Include="BestTiming\RecordGroup.cs" />
+    <Compile Include="BestTiming\ScoreGroup.cs" />
     <Compile Include="HeatOverzicht.cs" />
     <Compile Include="LiveTiming\Driver.cs" />
     <Compile Include="LiveTiming\DriverEx.cs" />

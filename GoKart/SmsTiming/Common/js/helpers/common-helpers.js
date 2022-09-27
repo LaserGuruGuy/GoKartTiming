@@ -1,4 +1,4 @@
-﻿function addCustomCSS(customCSS) {
+function addCustomCSS(customCSS) {
     if (customCSS !=null) {
         $('head').append('<link href=' + customCSS + ' rel="stylesheet" />');
     }
@@ -10,7 +10,6 @@ function getLocale() {
         locale = navigator.language || navigator.userLanguage;
     }
     return locale;
-    
 }
 
 function getModel(mainPath) {
@@ -18,7 +17,16 @@ function getModel(mainPath) {
         findAll: 'GET ' + mainPath,
         parseModels: function (data) {
             try {
-                window.external.onModel(JSON.stringify(data));
+                if (data.records != null) {
+                    var report = { recordgroup: data.records }
+                }
+                else if (data[0].scoregroups != null) {
+                    var report = { scoregroup: data[0].scoregroups }
+                }
+                else {
+                    var report = data;
+                }
+                window.external.onModel(JSON.stringify(report));
             }
             catch (error) {
             }

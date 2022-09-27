@@ -43,7 +43,7 @@ namespace GoKart
 
             try
             {
-                WebBrowser.ObjectForScripting = new WebBrowserScriptInterface(OnJSONReceived);
+                WebBrowserLiveTiming.ObjectForScripting = new WebBrowserScriptInterface(OnLiveTiming);
             }
             catch (ArgumentException Ex)
             {
@@ -51,12 +51,47 @@ namespace GoKart
             }
             finally
             {
-                (WebBrowser.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+                (WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+                (WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri = new Uri("pack://siteoforigin:,,,/SmsTiming/LiveTiming.htm");
             }
 
             try
             {
-                WebBrowser.Navigate((WebBrowser.ObjectForScripting as WebBrowserScriptInterface).Uri);
+                WebBrowserLiveTiming.Navigate((WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
+            }
+            catch (ObjectDisposedException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+            catch (InvalidOperationException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+            catch (System.Security.SecurityException Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+            finally
+            {
+            }
+
+            try
+            {
+                WebBrowserBestTiming.ObjectForScripting = new WebBrowserScriptInterface(OnBestTiming);
+            }
+            catch (ArgumentException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+            finally
+            {
+                (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+                (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri = new Uri("pack://siteoforigin:,,,/SmsTiming/BestTimes.htm");
+            }
+
+            try
+            {
+                WebBrowserBestTiming.Navigate((WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
             }
             catch (ObjectDisposedException Ex)
             {
@@ -138,8 +173,11 @@ namespace GoKart
 
         private void ComboBox_LiveTimingKartCenter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            (WebBrowser.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
-            WebBrowser.Navigate((WebBrowser.ObjectForScripting as WebBrowserScriptInterface).Uri);
+            (WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+            WebBrowserLiveTiming.Navigate((WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
+
+            (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+            WebBrowserBestTiming.Navigate((WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
         }
     }
 }

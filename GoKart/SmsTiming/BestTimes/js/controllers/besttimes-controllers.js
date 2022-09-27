@@ -1,15 +1,9 @@
 ﻿function getBestTimes(baseConnection, params) {
-    return createBestTimesModel(baseConnection, "/api/besttimes/records/", params);
-}
-
-function getBestTimesSettings(baseConnection, params) {
-    return createBestTimesSettingsModel(baseConnection, "/api/besttimes/settings/", params);
+    var bestTimes = getModel(createFullPath(baseConnection, "/api/besttimes/records/"));
+    return bestTimes.findAll({ locale: params.locale, rscId: params.rscId, scgId: params.scgId, startDate: params.startDate, endDate: params.endDate, maxResult: params.maxResult, accessToken: baseConnection.accessToken });
 }
 
 function getBestTimesResources(baseConnection, params) {
-    return createBestTimesResources(baseConnection, "/api/besttimes/resources/", params);
-}
-
-function getBestTimesTranslations(baseConnection, params) {
-    return createBestTimesTranslations(baseConnection, "/api/besttimes/translations/", params);
+    var resources = getModel(createFullPath(baseConnection, "/api/besttimes/resources/"));
+    return resources.findAll({ locale: params.locale, rscId: params.rscId, accessToken: baseConnection.accessToken });
 }

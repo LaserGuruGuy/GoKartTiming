@@ -195,6 +195,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BestTiming.cs" />
     <Compile Include="Events\CollectionChanged.cs" />
     <Compile Include="Converter\ActualHeatStartToStringConverter.cs" />
     <Compile Include="Converter\DateTimeToStringConverter.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="CommandBindings.cs" />
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
     <Compile Include="CpbTiming.cs" />
+    <Compile Include="LiveTiming.cs" />
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
     <Compile Include="Events\PropertyChanged.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
@@ -292,58 +294,13 @@
     <Content Include="SmsTiming\BestTimes.htm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SmsTiming\BestTimes\css\besttimes-stylesheet.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\css\fonts-stylesheets.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="SmsTiming\BestTimes\img\bronze_compact.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="SmsTiming\BestTimes\img\gold_compact.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="SmsTiming\BestTimes\img\silver_compact.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Content Include="SmsTiming\BestTimes\js\besttimes-mediator.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SmsTiming\BestTimes\js\controllers\besttimes-controllers.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SmsTiming\BestTimes\js\controls\besttimes-controls.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="SmsTiming\BestTimes\js\helpers\besttimes-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\js\models\besttimes-models.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\js\views\besttimes-stylers-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\js\views\besttimes-stylers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\js\views\besttimes-views.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-resources.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-scoregroups-items.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-scoregroups.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-table.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\templates\besttimes-template-times.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SmsTiming\Common\css\pace-stylesheet.css">
