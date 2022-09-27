@@ -27,25 +27,7 @@ namespace GoKart
             {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" }
         };
 
-        public static Dictionary<string, DateTime> DateTimeDict { get; private set; } = new Dictionary<string, DateTime>();
-
         public string KartCenterKey { get; set; } = "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==";
-
-        public string DateTimeKey { get; set; }
-
-        private void StampDateTimeDict()
-        {
-            var now = DateTime.Now;
-
-            int diff = (int)now.DayOfWeek - (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-            var week = now.AddDays(-(diff < 0 ? 7 + diff : diff));
-
-            DateTimeDict.Add("Forever", new DateTime(now.Year, 1, 1).AddYears(-20));
-            DateTimeDict.Add("This Year", new DateTime(now.Year, 1, 1));
-            DateTimeDict.Add("This Month", new DateTime(now.Year, now.Month, 1));
-            DateTimeDict.Add("This Week", new DateTime(week.Year, week.Month, week.Day));
-            DateTimeDict.Add("Today", new DateTime(now.Year, now.Month, now.Day));
-        }
 
         public MainWindow()
         {
@@ -58,6 +40,7 @@ namespace GoKart
             CpbTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
             CpbTiming.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
             CpbTiming.LiveTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            CpbTiming.BestTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
 
             DataContext = CpbTiming;
 
@@ -128,8 +111,6 @@ namespace GoKart
             finally
             {
             }
-
-            StampDateTimeDict();
 
             ComponentDispatcher.ThreadIdle += new EventHandler(ComponentDispatcher_ThreadIdle);
         }
@@ -203,18 +184,18 @@ namespace GoKart
             WebBrowserBestTiming.Navigate((WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
         }
 
-        private void ListView_BestTimingCollection_scoregroupcollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListView_BestTimingCollection_parametergroupcollection.Items.Refresh();
-            ListView_BestTimingCollection_recordgroupcollection.Items.Refresh();
+            GetRecordGroup(CpbTiming.BestTimingCollection.resourceId,
+                (ComboBox_BestTimes_ScoreGroup.SelectedItem as ScoreGroup)?.scoreGroupId,
+                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture));
         }
 
-        private void ListView_BestTimingCollection_parametergroupcollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBox_BestTimes_ScoreGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            GetRecordGroup((ListView_BestTimingCollection_parametergroupcollection.SelectedItem as ParameterGroup).rscId,
-                (ListView_BestTimingCollection_parametergroupcollection.SelectedItem as ParameterGroup).scgId,
-                (ListView_BestTimingCollection_parametergroupcollection.SelectedItem as ParameterGroup).startDate);
+            GetRecordGroup(CpbTiming.BestTimingCollection.resourceId,
+                (ComboBox_BestTimes_ScoreGroup.SelectedItem as ScoreGroup)?.scoreGroupId,
+                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture));
         }
 
         private void GetRecordGroup(string rscId, string scgId, string startDate)
@@ -225,13 +206,12 @@ namespace GoKart
                 objArray[0] = (Object)rscId;
                 objArray[1] = (Object)scgId;
                 objArray[2] = (Object)startDate;
-                WebBrowserBestTiming.InvokeScript("getBestTimesGroup", objArray);
+                try
+                {
+                    WebBrowserBestTiming.InvokeScript("getBestTimesGroup", objArray);
+                }
+                catch { }
             }
-        }
-
-        private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

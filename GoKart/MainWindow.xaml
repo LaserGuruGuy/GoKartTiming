@@ -31,17 +31,27 @@
                 <MenuItem Name="MenuItem_View_RelativeTime" Header="_Relative Time" Click="MenuItem_View_RelativeTime_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" Background="{DynamicResource NormalBrush}" >
-            <ComboBox x:Name="ComboBox_LiveTimingKartCenter" SelectedValue="{Binding KartCenterKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=KartCenterDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_LiveTimingKartCenter_SelectionChanged"/>
-            <ComboBox x:Name="ComboBox_LiveTimingHeatState" SelectedValue="{Binding HeatState}" ItemsSource="{Binding Path=HeatStateDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
-            <ComboBox x:Name="ComboBox_LiveTimingEndCondition" SelectedValue="{Binding EndCondition}" ItemsSource="{Binding Path=EndConditionDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
-            <ComboBox x:Name="ComboBox_LiveTimingRaceMode" SelectedValue="{Binding RaceMode}" ItemsSource="{Binding Path=RaceModeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
-            <ComboBox x:Name="ComboBox_LiveTimingCounterStarted" SelectedValue="{Binding ClockStarted}" ItemsSource="{Binding Path=ClockStartedDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
-            <Label Content="{Binding ActualHeatStart, Converter={StaticResource ActualHeatStartToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
-            <Label Content="{Binding RemainingLaps, Converter={StaticResource LapsLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
-            <Label Content="{Binding TimeLeft, Converter={StaticResource TimeLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
-            <ComboBox x:Name="ComboBox_BestTimingDateTime" SelectedValue="{Binding DateTimeKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=DateTimeDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingDateTime_SelectionChanged"/>
-        </StatusBar>
+        <DockPanel DockPanel.Dock="Bottom" Background="{DynamicResource NormalBrush}">
+            <StatusBar DockPanel.Dock="Left" Background="{DynamicResource NormalBrush}" >
+                <ComboBox x:Name="ComboBox_LiveTimingKartCenter" SelectedValue="{Binding KartCenterKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=KartCenterDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_LiveTimingKartCenter_SelectionChanged"/>
+                <WebBrowser Visibility="Collapsed" x:Name="WebBrowserLiveTiming"/>
+                <WebBrowser Visibility="Collapsed" x:Name="WebBrowserBestTiming"/>
+            </StatusBar>
+            <StatusBar DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" Background="{DynamicResource NormalBrush}" >
+                <ComboBox x:Name="ComboBox_LiveTimingHeatState" SelectedValue="{Binding HeatState}" ItemsSource="{Binding Path=HeatStateDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
+                <ComboBox x:Name="ComboBox_LiveTimingEndCondition" SelectedValue="{Binding EndCondition}" ItemsSource="{Binding Path=EndConditionDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
+                <ComboBox x:Name="ComboBox_LiveTimingRaceMode" SelectedValue="{Binding RaceMode}" ItemsSource="{Binding Path=RaceModeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
+                <ComboBox x:Name="ComboBox_LiveTimingCounterStarted" SelectedValue="{Binding ClockStarted}" ItemsSource="{Binding Path=ClockStartedDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
+                <Label Content="{Binding ActualHeatStart, Converter={StaticResource ActualHeatStartToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
+                <Label Content="{Binding RemainingLaps, Converter={StaticResource LapsLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
+                <Label Content="{Binding TimeLeft, Converter={StaticResource TimeLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
+            </StatusBar>
+            <StatusBar DockPanel.Dock="Right" DataContext="{Binding BestTimingCollection}" Background="{DynamicResource NormalBrush}" HorizontalAlignment="Right" >
+                <Label Content="Records"></Label>
+                <ComboBox x:Name="ComboBox_BestTimes_ScoreGroup" ItemsSource="{Binding Path=scoregroupcollection, Mode=OneWay}" DisplayMemberPath="scoreGroupName" SelectedValuePath="scoreGroupId" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimes_ScoreGroup_SelectionChanged"/>
+                <ComboBox x:Name="ComboBox_BestTimingDateTime" ItemsSource="{Binding Path=DateTimeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingDateTime_SelectionChanged"/>
+            </StatusBar>
+        </DockPanel>
         <TabControl>
             <TabItem Header="LiveTiming">
                 <DockPanel>
@@ -66,7 +76,7 @@
                         <ListView.View>
                             <GridView AllowsColumnReorder="true">
 
-                                <GridViewColumn Header="Pos" Width="auto">
+                                <GridViewColumn Header="Position" Width="auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock x:Name="PositionTextBlock" Text="{Binding Position}" Background="Transparent"/>
@@ -86,11 +96,11 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="Piloot" Width="auto" DisplayMemberBinding="{Binding DriverName}"/>
-                                <GridViewColumn Header="Vehicle" Width="auto" DisplayMemberBinding="{Binding KartNumber}"/>
-                                <GridViewColumn Header="Ronden" Width="auto" DisplayMemberBinding="{Binding Laps}"/>
+                                <GridViewColumn Header="Driver Name" Width="auto" DisplayMemberBinding="{Binding DriverName}"/>
+                                <GridViewColumn Header="Kart Number" Width="auto" DisplayMemberBinding="{Binding KartNumber}"/>
+                                <GridViewColumn Header="Laps" Width="auto" DisplayMemberBinding="{Binding Laps}"/>
 
-                                <GridViewColumn Header="Beste" Width="auto">
+                                <GridViewColumn Header="Best" Width="auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock x:Name="BestLapTimeTextBlock" Text="{Binding BestLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
@@ -105,9 +115,9 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="Gemiddelde" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
+                                <GridViewColumn Header="Average" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
 
-                                <GridViewColumn Header="Laatste" Width="auto">
+                                <GridViewColumn Header="Last" Width="auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock x:Name="LastLapTimeTextBlock" Text="{Binding LastLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
@@ -127,56 +137,24 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="Snelheid" Width="auto" DisplayMemberBinding="{Binding AverageSpeed, Converter={StaticResource SpeedToStringConverter}}"/>
-                                <GridViewColumn Header="Afstand" Width="auto" DisplayMemberBinding="{Binding GapTime}"/>
+                                <GridViewColumn Header="Speed" Width="auto" DisplayMemberBinding="{Binding AverageSpeed, Converter={StaticResource SpeedToStringConverter}}"/>
+                                <GridViewColumn Header="Gap" Width="auto" DisplayMemberBinding="{Binding GapTime}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
                     <ListView x:Name="ListView_LapTime" ItemsSource="{Binding ElementName=ListView_LiveTiming, Path=SelectedItem.LapTime, IsAsync=True}" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Ronde" Width="auto" DisplayMemberBinding="{Binding Key}"/>
-                                <GridViewColumn Header="Tijd" Width="auto" DisplayMemberBinding="{Binding Value, Converter={StaticResource TimeToStringConverter}}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </DockPanel>
-            </TabItem>
-            <TabItem Header="BestTiming">
-                <DockPanel>
-                    <ListView x:Name="ListView_BestTimingCollection_scoregroupcollection" ItemsSource="{Binding BestTimingCollection.scoregroupcollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_BestTimingCollection_scoregroupcollection_SelectionChanged">
-                        <ListView.View>
-                            <GridView >
-                                <GridViewColumn Header="Group" Width="auto" DisplayMemberBinding="{Binding name}"/>
-                                <GridViewColumn Header="ID" Width="auto" DisplayMemberBinding="{Binding scoreGroupId}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <ListView x:Name="ListView_BestTimingCollection_parametergroupcollection" ItemsSource="{Binding BestTimingCollection.parametergroupcollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_BestTimingCollection_parametergroupcollection_SelectionChanged">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
-                                <Setter Property="Visibility">
-                                    <Setter.Value>
-                                        <MultiBinding Converter="{StaticResource ComparisonToVisibleConverter}">
-                                            <Binding Path="scgId"/>
-                                            <Binding ElementName="ListView_BestTimingCollection_scoregroupcollection" Path="SelectedItem.scoreGroupId"/>
-                                        </MultiBinding>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.View>
-                            <GridView >
-                                <GridViewColumn Header="Date" Width="auto" DisplayMemberBinding="{Binding startDate}"/>
-                                <GridViewColumn Header="ID" Width="auto" DisplayMemberBinding="{Binding scgId}"/>
+                                <GridViewColumn Header="Lap" Width="auto" DisplayMemberBinding="{Binding Key}"/>
+                                <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Value, Converter={StaticResource TimeToStringConverter}}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
                     <ListView x:Name="ListView_BestTimingCollection_recordgroupcollection" ItemsSource="{Binding BestTimingCollection.recordgroupcollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False">
                         <ListView.View>
                             <GridView >
-                                <GridViewColumn Header="Driver" Width="auto" DisplayMemberBinding="{Binding Participant}"/>
                                 <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding Position}"/>
+                                <GridViewColumn Header="Driver" Width="auto" DisplayMemberBinding="{Binding Participant}"/>
                                 <GridViewColumn Header="Date" Width="auto" DisplayMemberBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}"/>
                                 <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Score, Converter={StaticResource TimeToStringConverter}}"/>
                             </GridView>
@@ -184,16 +162,13 @@
                     </ListView>
                 </DockPanel>
             </TabItem>
+            <!--
             <TabItem Header="WebBrowserLiveTiming">
                 <DockPanel Background="{DynamicResource NormalBrush}" >
                     <WebBrowser x:Name="WebBrowserLiveTiming"/>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="WebBrowserBestTiming">
-                <DockPanel Background="{DynamicResource NormalBrush}" >
-                    <WebBrowser x:Name="WebBrowserBestTiming"/>
-                </DockPanel>
-            </TabItem>
+-->
         </TabControl>
     </DockPanel>
 </Window>

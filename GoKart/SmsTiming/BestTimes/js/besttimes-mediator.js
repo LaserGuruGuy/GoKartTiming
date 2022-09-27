@@ -15,20 +15,7 @@ function initialize() {
         baseConnection = parseConnectionInfo(connectionInfo);
         can.when(getBestTimesResources(baseConnection, params)).then(function (resources) {
             params.rscId = resources[0]["resourceId"];
-            for (var j = 0; j < resources[0].scoregroups.length; j++) {
-                params.scgId = resources[0].scoregroups[j].id;
-                for (var i = 0; i < 5; i++) {
-                    params.startDate = getStartDate(i, getCurrentDate());
-                    try {
-                        window.external.onModel(JSON.stringify({ parametergroup: params }));
-                    }
-                    catch (error) {
-                    }
-                    finally {
-                        //getBestTimes(baseConnection, params);
-                    }
-                }
-            }
+            window.external.onModel(JSON.stringify({ resourceId: resources[0]["resourceId"] }));
         });
     });
 }
@@ -40,7 +27,10 @@ function getBestTimesResourcesGroup() {
 
     can.when(getConnectionInfo(baseUrl, auth)).then(function (connectionInfo) {
         baseConnection = parseConnectionInfo(connectionInfo);
-        getBestTimesResources(baseConnection, params);
+        can.when(getBestTimesResources(baseConnection, params)).then(function (resources) {
+            params.rscId = resources[0]["resourceId"];
+            window.external.onModel(JSON.stringify({ resourceId: resources[0]["resourceId"] }));
+        });
     });
 }
 
