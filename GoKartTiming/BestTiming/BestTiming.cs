@@ -12,7 +12,7 @@ namespace GoKartTiming.BestTiming
 
         private ObservableCollection<ScoreGroup> _scoregroupcollection = new ObservableCollection<ScoreGroup>();
         private ObservableCollection<ParameterGroup> _parametergroupcollection = new ObservableCollection<ParameterGroup>();
-        private ObservableCollection<RecordGroup[]> _recordgroupcollection = new ObservableCollection<RecordGroup[]>();
+        private ObservableCollection<RecordGroup> _recordgroupcollection = new ObservableCollection<RecordGroup>();
 
         public ScoreGroup[] scoregroup
         {
@@ -25,9 +25,25 @@ namespace GoKartTiming.BestTiming
             }
         }
 
-        public ParameterGroup parametergroup { set { parametergroupcollection.Add(value); } }
+        public ParameterGroup parametergroup
+        {
+            set
+            {
+                parametergroupcollection.Add(value);
+            }
+        }
 
-        public RecordGroup[] recordgroup { set { recordgroupcollection.Add(value); } }
+        public RecordGroup[] recordgroup
+        {
+            set
+            {
+                _recordgroupcollection.Clear();
+                foreach (var record in value)
+                {
+                    _recordgroupcollection.Add(record);
+                }
+            }
+        }
 
         [JsonIgnore]
         public ObservableCollection<ScoreGroup> scoregroupcollection
@@ -58,7 +74,7 @@ namespace GoKartTiming.BestTiming
         }
 
         [JsonIgnore]
-        public ObservableCollection<RecordGroup[]> recordgroupcollection
+        public ObservableCollection<RecordGroup> recordgroupcollection
         {
             get
             {

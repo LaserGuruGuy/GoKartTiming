@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Collections.Specialized;
 using GoKart.WebBrowser;
 using System.Collections.Generic;
+using GoKartTiming.BestTiming;
 
 namespace GoKart
 {
@@ -183,11 +184,27 @@ namespace GoKart
         private void ListView_BestTimingCollection_scoregroupcollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListView_BestTimingCollection_parametergroupcollection.Items.Refresh();
+            ListView_BestTimingCollection_recordgroupcollection.Items.Refresh();
         }
 
         private void ListView_BestTimingCollection_parametergroupcollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListView_BestTimingCollection_recordgroupcollection.Items.Refresh();
+
+            GetRecordGroup((ListView_BestTimingCollection_parametergroupcollection.SelectedItem as ParameterGroup).rscId,
+                (ListView_BestTimingCollection_parametergroupcollection.SelectedItem as ParameterGroup).scgId,
+                (ListView_BestTimingCollection_parametergroupcollection.SelectedItem as ParameterGroup).startDate);
+        }
+
+        private void GetRecordGroup(string rscId, string scgId, string startDate)
+        {
+            if (WebBrowserBestTiming.Document != null)
+            {
+                Object[] objArray = new Object[3];
+                objArray[0] = (Object)rscId;
+                objArray[1] = (Object)scgId;
+                objArray[2] = (Object)startDate;
+                WebBrowserBestTiming.InvokeScript("getBestTimesGroup", objArray);
+            }
         }
     }
 }

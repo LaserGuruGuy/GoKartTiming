@@ -15,19 +15,46 @@ function initialize() {
         baseConnection = parseConnectionInfo(connectionInfo);
         can.when(getBestTimesResources(baseConnection, params)).then(function (resources) {
             params.rscId = resources[0]["resourceId"];
-            for (var i = 0; i < 5; i++) {
-                params.startDate = getStartDate(i, getCurrentDate());
-                for (var j = 0; j < resources[0].scoregroups.length; j++) {
-                    params.scgId = resources[0].scoregroups[j].id;
+            for (var j = 0; j < resources[0].scoregroups.length; j++) {
+                params.scgId = resources[0].scoregroups[j].id;
+                for (var i = 0; i < 5; i++) {
+                    params.startDate = getStartDate(i, getCurrentDate());
                     try {
                         window.external.onModel(JSON.stringify({ parametergroup: params }));
                     }
                     catch (error) {
                     }
-                    can.when(getBestTimes(baseConnection, params)).then(function (records) {
-                    });
+                    finally {
+                        //getBestTimes(baseConnection, params);
+                    }
                 }
             }
         });
+    });
+}
+
+function getBestTimesResourcesGroup() {
+    var baseUrl = "https://backend.sms-timing.com";
+    auth = window.external.auth;
+    var params = getUrlParams();
+
+    can.when(getConnectionInfo(baseUrl, auth)).then(function (connectionInfo) {
+        baseConnection = parseConnectionInfo(connectionInfo);
+        getBestTimesResources(baseConnection, params);
+    });
+}
+
+function getBestTimesGroup(rscId, scgId, startDate) {
+    var baseUrl = "https://backend.sms-timing.com";
+    auth = window.external.auth;
+    var params = getUrlParams();
+
+    params.rscId = rscId;
+    params.scgId = scgId;
+    params.startDate = startDate;
+
+    can.when(getConnectionInfo(baseUrl, auth)).then(function (connectionInfo) {
+        baseConnection = parseConnectionInfo(connectionInfo);
+            getBestTimes(baseConnection, params);
     });
 }
