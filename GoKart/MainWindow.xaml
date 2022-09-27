@@ -20,7 +20,7 @@
         <CommandBinding Command="Close" Executed="CloseCommandBinding_Executed"/>
     </Window.CommandBindings>
     <DockPanel LastChildFill="True">
-        <Menu DockPanel.Dock="Top">
+        <Menu  DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Name="menuOpen" Header="_Open..." Command="Open" InputGestureText="Ctrl+O" ToolTip="Open pdf file"/>
                 <MenuItem Name ="menuClose" Header="_Exit" Command="Close" InputGestureText="Alt+F4"/>
@@ -40,6 +40,7 @@
             <Label Content="{Binding ActualHeatStart, Converter={StaticResource ActualHeatStartToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
             <Label Content="{Binding RemainingLaps, Converter={StaticResource LapsLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
             <Label Content="{Binding TimeLeft, Converter={StaticResource TimeLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
+            <ComboBox x:Name="ComboBox_BestTimingDateTime" SelectedValue="{Binding DateTimeKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=DateTimeDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingDateTime_SelectionChanged"/>
         </StatusBar>
         <TabControl>
             <TabItem Header="LiveTiming">

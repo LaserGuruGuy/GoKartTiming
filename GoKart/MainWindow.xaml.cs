@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using GoKart.WebBrowser;
 using System.Collections.Generic;
 using GoKartTiming.BestTiming;
+using System.Globalization;
 
 namespace GoKart
 {
@@ -26,7 +27,25 @@ namespace GoKart
             {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" }
         };
 
+        public static Dictionary<string, DateTime> DateTimeDict { get; private set; } = new Dictionary<string, DateTime>();
+
         public string KartCenterKey { get; set; } = "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==";
+
+        public string DateTimeKey { get; set; }
+
+        private void StampDateTimeDict()
+        {
+            var now = DateTime.Now;
+
+            int diff = (int)now.DayOfWeek - (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            var week = now.AddDays(-(diff < 0 ? 7 + diff : diff));
+
+            DateTimeDict.Add("Forever", new DateTime(now.Year, 1, 1).AddYears(-20));
+            DateTimeDict.Add("This Year", new DateTime(now.Year, 1, 1));
+            DateTimeDict.Add("This Month", new DateTime(now.Year, now.Month, 1));
+            DateTimeDict.Add("This Week", new DateTime(week.Year, week.Month, week.Day));
+            DateTimeDict.Add("Today", new DateTime(now.Year, now.Month, now.Day));
+        }
 
         public MainWindow()
         {
@@ -110,6 +129,8 @@ namespace GoKart
             {
             }
 
+            StampDateTimeDict();
+
             ComponentDispatcher.ThreadIdle += new EventHandler(ComponentDispatcher_ThreadIdle);
         }
 
@@ -177,6 +198,7 @@ namespace GoKart
             (WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
             WebBrowserLiveTiming.Navigate((WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
 
+            CpbTiming.BestTimingCollection.Reset();
             (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
             WebBrowserBestTiming.Navigate((WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
         }
@@ -205,6 +227,11 @@ namespace GoKart
                 objArray[2] = (Object)startDate;
                 WebBrowserBestTiming.InvokeScript("getBestTimesGroup", objArray);
             }
+        }
+
+        private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

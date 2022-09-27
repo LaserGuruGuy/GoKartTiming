@@ -52,7 +52,7 @@ namespace GoKartTiming.BestTiming
             {
                 return _scoregroupcollection;
             }
-            private set
+            set
             {
                 _scoregroupcollection = value;
                 RaisePropertyChanged();
@@ -66,7 +66,7 @@ namespace GoKartTiming.BestTiming
             {
                 return _parametergroupcollection;
             }
-            private set
+            set
             {
                 _parametergroupcollection = value;
                 RaisePropertyChanged();
@@ -80,11 +80,26 @@ namespace GoKartTiming.BestTiming
             {
                 return _recordgroupcollection;
             }
-            private set
+            set
             {
                 _recordgroupcollection = value;
                 RaisePropertyChanged();
             }
+        }
+
+        private void Resetscoregroupcollection()
+        {
+            _scoregroupcollection.Clear();
+        }
+
+        private void Resetparametergroupcollection()
+        {
+            _parametergroupcollection.Clear();
+        }
+
+        private void Resetrecordgroupcollection()
+        {
+            _recordgroupcollection.Clear();
         }
 
         public void Reset()
