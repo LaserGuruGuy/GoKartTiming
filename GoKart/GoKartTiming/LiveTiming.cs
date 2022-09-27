@@ -5,7 +5,7 @@ using GoKartTiming.LiveTiming;
 
 namespace GoKart
 {
-    public partial class CpbTiming
+    public partial class GoKartTiming
     {
         private UniqueObservableCollection<LiveTimingEx> _LiveTimingCollection = new UniqueObservableCollection<LiveTimingEx>();
 

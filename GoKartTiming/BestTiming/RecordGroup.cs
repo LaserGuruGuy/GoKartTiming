@@ -1,10 +1,59 @@
-﻿namespace GoKartTiming.BestTiming
+﻿using System;
+using System.Globalization;
+
+namespace GoKartTiming.BestTiming
 {
     public class RecordGroup
     {
-        public string position { get; set; } // "1"
-        public string date { get; set; } // "2022-09-13T21:19:19.447"
-        public string participant { get; set; } // "blalba"
-        public string score { get; set; } // "38.288"
+        #region translaters
+        public string position
+        {
+            set
+            {
+                Position = int.Parse(value);
+            }
+        }
+        public string date
+        {
+            set
+            {
+                Date = DateTime.Parse(value.Replace('T',' '));
+            }
+        }
+        public string participant
+        {
+            set
+            {
+                Participant = value;
+            }
+        }
+        public string score
+        {
+            set
+            {
+                try
+                {
+                    Score = TimeSpan.ParseExact(value, @"s\.fff", CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    try
+                    {
+                        Score = TimeSpan.ParseExact(value, @"m\:ss\.fff", CultureInfo.InvariantCulture);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region properties
+        public int Position { get; private set; }
+        public DateTime Date { get; private set; }
+        public string Participant { get; private set; }
+        public TimeSpan Score { get; private set; }
+        #endregion
     }
 }

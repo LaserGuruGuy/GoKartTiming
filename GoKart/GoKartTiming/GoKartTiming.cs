@@ -4,20 +4,20 @@ using System.IO;
 
 namespace GoKart
 {
-    public partial class CpbTiming : INotifyPropertyChanged, INotifyCollectionChanged
+    public partial class GoKartTiming : INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
 
         private object _lock = new object();
 
-        public CpbTiming()
+        public GoKartTiming()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
         }
 
-        ~CpbTiming()
+        ~GoKartTiming()
         {
         }
 

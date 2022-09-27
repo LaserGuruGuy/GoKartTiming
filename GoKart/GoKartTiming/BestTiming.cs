@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GoKart
 {
-    public partial class CpbTiming
+    public partial class GoKartTiming
     {
         private BestTiming _BestTimingCollection = new BestTiming();
 

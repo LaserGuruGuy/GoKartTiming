@@ -15,7 +15,7 @@ namespace GoKart
     {
         Thread WorkerThread;
 
-        private CpbTiming CpbTiming { get; set; } = new CpbTiming();
+        private GoKartTiming CpbTiming { get; set; } = new GoKartTiming();
 
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 
@@ -178,6 +178,16 @@ namespace GoKart
 
             (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
             WebBrowserBestTiming.Navigate((WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
+        }
+
+        private void ListView_BestTimingCollection_scoregroupcollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView_BestTimingCollection_parametergroupcollection.Items.Refresh();
+        }
+
+        private void ListView_BestTimingCollection_parametergroupcollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView_BestTimingCollection_recordgroupcollection.Items.Refresh();
         }
     }
 }

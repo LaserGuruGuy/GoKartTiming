@@ -42,9 +42,9 @@
             <Label Content="{Binding TimeLeft, Converter={StaticResource TimeLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
         </StatusBar>
         <TabControl>
-            <TabItem Header="SmsTiming">
+            <TabItem Header="LiveTiming">
                 <DockPanel>
-                    <ListView x:Name="ListView_LiveTimingCollection" ItemsSource="{Binding LiveTimingCollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False" DockPanel.Dock="Left">
+                    <ListView x:Name="ListView_LiveTimingCollection" ItemsSource="{Binding LiveTimingCollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False">
                         <ListView.ContextMenu>
                             <ContextMenu Selector.IsSelected="True">
                                 <MenuItem
@@ -141,12 +141,54 @@
                     </ListView>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="LiveTiming">
+            <TabItem Header="BestTiming">
+                <DockPanel>
+                    <ListView x:Name="ListView_BestTimingCollection_scoregroupcollection" ItemsSource="{Binding BestTimingCollection.scoregroupcollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_BestTimingCollection_scoregroupcollection_SelectionChanged">
+                        <ListView.View>
+                            <GridView >
+                                <GridViewColumn Header="Group" Width="auto" DisplayMemberBinding="{Binding name}"/>
+                                <GridViewColumn Header="ID" Width="auto" DisplayMemberBinding="{Binding scoreGroupId}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView x:Name="ListView_BestTimingCollection_parametergroupcollection" ItemsSource="{Binding BestTimingCollection.parametergroupcollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False" SelectionChanged="ListView_BestTimingCollection_parametergroupcollection_SelectionChanged">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                                <Setter Property="Visibility">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource ComparisonToVisibleConverter}">
+                                            <Binding Path="scgId"/>
+                                            <Binding ElementName="ListView_BestTimingCollection_scoregroupcollection" Path="SelectedItem.scoreGroupId"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView >
+                                <GridViewColumn Header="Date" Width="auto" DisplayMemberBinding="{Binding startDate}"/>
+                                <GridViewColumn Header="ID" Width="auto" DisplayMemberBinding="{Binding scgId}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView x:Name="ListView_BestTimingCollection_recordgroupcollection" ItemsSource="{Binding BestTimingCollection.recordgroupcollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False">
+                        <ListView.View>
+                            <GridView >
+                                <GridViewColumn Header="Driver" Width="auto" DisplayMemberBinding="{Binding Participant}"/>
+                                <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding Position}"/>
+                                <GridViewColumn Header="Date" Width="auto" DisplayMemberBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}"/>
+                                <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Score, Converter={StaticResource TimeToStringConverter}}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="WebBrowserLiveTiming">
                 <DockPanel Background="{DynamicResource NormalBrush}" >
                     <WebBrowser x:Name="WebBrowserLiveTiming"/>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="BestTiming">
+            <TabItem Header="WebBrowserBestTiming">
                 <DockPanel Background="{DynamicResource NormalBrush}" >
                     <WebBrowser x:Name="WebBrowserBestTiming"/>
                 </DockPanel>

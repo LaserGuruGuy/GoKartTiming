@@ -7,7 +7,7 @@ using GoKart.Pdf;
 
 namespace GoKart
 {
-    public partial class CpbTiming
+    public partial class GoKartTiming
     {
         public static List<string> ExtractTextBookFromPdf(string path)
         {

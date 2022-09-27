@@ -195,7 +195,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BestTiming.cs" />
+    <Compile Include="Converter\ComparisonToVisibleConverter.cs" />
+    <Compile Include="GoKartTiming\BestTiming.cs" />
     <Compile Include="Events\CollectionChanged.cs" />
     <Compile Include="Converter\ActualHeatStartToStringConverter.cs" />
     <Compile Include="Converter\DateTimeToStringConverter.cs" />
@@ -210,8 +211,8 @@
     <Compile Include="JSON\ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
-    <Compile Include="CpbTiming.cs" />
-    <Compile Include="LiveTiming.cs" />
+    <Compile Include="GoKartTiming\GoKartTiming.cs" />
+    <Compile Include="GoKartTiming\LiveTiming.cs" />
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
     <Compile Include="Events\PropertyChanged.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
