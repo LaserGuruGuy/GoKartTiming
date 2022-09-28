@@ -34,8 +34,10 @@
         <DockPanel DockPanel.Dock="Bottom" Background="{DynamicResource NormalBrush}">
             <StatusBar DockPanel.Dock="Left" Background="{DynamicResource NormalBrush}" >
                 <ComboBox x:Name="ComboBox_LiveTimingKartCenter" SelectedValue="{Binding KartCenterKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=KartCenterDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_LiveTimingKartCenter_SelectionChanged"/>
+                <!--
                 <WebBrowser Visibility="Collapsed" x:Name="WebBrowserLiveTiming"/>
-                <WebBrowser Visibility="Collapsed" x:Name="WebBrowserBestTiming"/>
+                <WebBrowser Visibility="Collapsed" x:Name="WebBrowserBestTimes"/>
+                -->
             </StatusBar>
             <StatusBar DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" Background="{DynamicResource NormalBrush}" >
                 <ComboBox x:Name="ComboBox_LiveTimingHeatState" SelectedValue="{Binding HeatState}" ItemsSource="{Binding Path=HeatStateDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
@@ -162,13 +164,18 @@
                     </ListView>
                 </DockPanel>
             </TabItem>
-            <!--
+            <!---->
             <TabItem Header="WebBrowserLiveTiming">
                 <DockPanel Background="{DynamicResource NormalBrush}" >
                     <WebBrowser x:Name="WebBrowserLiveTiming"/>
                 </DockPanel>
             </TabItem>
--->
+            <TabItem Header="WebBrowserBestTiming">
+                <DockPanel Background="{DynamicResource NormalBrush}" >
+                    <WebBrowser x:Name="WebBrowserBestTimes"/>
+                </DockPanel>
+            </TabItem>
+            <!---->
         </TabControl>
     </DockPanel>
 </Window>

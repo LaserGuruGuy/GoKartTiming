@@ -10,6 +10,7 @@ using GoKart.WebBrowser;
 using System.Collections.Generic;
 using GoKartTiming.BestTiming;
 using System.Globalization;
+using System.Reflection;
 
 namespace GoKart
 {
@@ -80,7 +81,7 @@ namespace GoKart
 
             try
             {
-                WebBrowserBestTiming.ObjectForScripting = new WebBrowserScriptInterface(OnBestTiming);
+                WebBrowserBestTimes.ObjectForScripting = new WebBrowserScriptInterface(OnBestTiming);
             }
             catch (ArgumentException Ex)
             {
@@ -88,13 +89,15 @@ namespace GoKart
             }
             finally
             {
-                (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
-                (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri = new Uri("pack://siteoforigin:,,,/SmsTiming/BestTimes.htm");
+                (WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+                (WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).Uri = new Uri("pack://siteoforigin:,,,/SmsTiming/BestTimes.htm");
+
+                //string UriPath = @"file://127.0.0.1/" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace(':', '$').Replace('\\', '/') + @"/SmsTiming/BestTimes.htm";
             }
 
             try
             {
-                WebBrowserBestTiming.Navigate((WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
+                WebBrowserBestTimes.Navigate((WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).Uri);
             }
             catch (ObjectDisposedException Ex)
             {
@@ -180,8 +183,8 @@ namespace GoKart
             WebBrowserLiveTiming.Navigate((WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
 
             CpbTiming.BestTimingCollection.Reset();
-            (WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
-            WebBrowserBestTiming.Navigate((WebBrowserBestTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
+            (WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
+            WebBrowserBestTimes.Navigate((WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).Uri);
         }
 
         private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -200,7 +203,7 @@ namespace GoKart
 
         private void GetRecordGroup(string rscId, string scgId, string startDate)
         {
-            if (WebBrowserBestTiming.Document != null)
+            if (WebBrowserBestTimes.Document != null)
             {
                 Object[] objArray = new Object[3];
                 objArray[0] = (Object)rscId;
@@ -208,7 +211,7 @@ namespace GoKart
                 objArray[2] = (Object)startDate;
                 try
                 {
-                    WebBrowserBestTiming.InvokeScript("getBestTimesGroup", objArray);
+                    WebBrowserBestTimes.InvokeScript("getBestTimesGroup", objArray);
                 }
                 catch { }
             }
