@@ -170,11 +170,6 @@
                     <WebBrowser x:Name="WebBrowserLiveTiming"/>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="WebBrowserBestTiming">
-                <DockPanel Background="{DynamicResource NormalBrush}" >
-                    <WebBrowser x:Name="WebBrowserBestTimes"/>
-                </DockPanel>
-            </TabItem>
             <!---->
         </TabControl>
     </DockPanel>

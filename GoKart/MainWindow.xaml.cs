@@ -10,7 +10,6 @@ using GoKart.WebBrowser;
 using System.Collections.Generic;
 using GoKartTiming.BestTiming;
 using System.Globalization;
-using System.Reflection;
 
 namespace GoKart
 {
@@ -30,6 +29,8 @@ namespace GoKart
 
         public string KartCenterKey { get; set; } = "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==";
 
+        ConnectionService ConnectionService;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -44,6 +45,10 @@ namespace GoKart
             CpbTiming.BestTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
 
             DataContext = CpbTiming;
+
+            ///////////////////////
+            ConnectionService = new ConnectionService(OnBestTiming);
+            ///////////////////////
 
             try
             {
@@ -62,42 +67,6 @@ namespace GoKart
             try
             {
                 WebBrowserLiveTiming.Navigate((WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
-            }
-            catch (ObjectDisposedException Ex)
-            {
-                Console.WriteLine(Ex.Message);
-            }
-            catch (InvalidOperationException Ex)
-            {
-                Console.WriteLine(Ex.Message);
-            }
-            catch (System.Security.SecurityException Ex)
-            {
-                MessageBox.Show(Ex.Message);
-            }
-            finally
-            {
-            }
-
-            try
-            {
-                WebBrowserBestTimes.ObjectForScripting = new WebBrowserScriptInterface(OnBestTiming);
-            }
-            catch (ArgumentException Ex)
-            {
-                Console.WriteLine(Ex.Message);
-            }
-            finally
-            {
-                (WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
-                (WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).Uri = new Uri("pack://siteoforigin:,,,/SmsTiming/BestTimes.htm");
-
-                //string UriPath = @"file://127.0.0.1/" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace(':', '$').Replace('\\', '/') + @"/SmsTiming/BestTimes.htm";
-            }
-
-            try
-            {
-                WebBrowserBestTimes.Navigate((WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).Uri);
             }
             catch (ObjectDisposedException Ex)
             {
@@ -179,42 +148,35 @@ namespace GoKart
 
         private void ComboBox_LiveTimingKartCenter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            (WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
-            WebBrowserLiveTiming.Navigate((WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
-
             CpbTiming.BestTimingCollection.Reset();
-            (WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
-            WebBrowserBestTimes.Navigate((WebBrowserBestTimes.ObjectForScripting as WebBrowserScriptInterface).Uri);
+            ConnectionService.Init(KartCenterKey);
         }
 
         private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetRecordGroup(CpbTiming.BestTimingCollection.resourceId,
+            var now = DateTime.Now;
+            GetRecordGroup(
+                CpbTiming.BestTimingCollection.resourceId,
                 (ComboBox_BestTimes_ScoreGroup.SelectedItem as ScoreGroup)?.scoreGroupId,
-                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture));
+                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture),
+                "",
+                "20");
         }
 
         private void ComboBox_BestTimes_ScoreGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetRecordGroup(CpbTiming.BestTimingCollection.resourceId,
+            var now = DateTime.Now;
+            GetRecordGroup(
+                CpbTiming.BestTimingCollection.resourceId,
                 (ComboBox_BestTimes_ScoreGroup.SelectedItem as ScoreGroup)?.scoreGroupId,
-                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture));
+                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture),
+                "",
+                "20");
         }
 
-        private void GetRecordGroup(string rscId, string scgId, string startDate)
+        private void GetRecordGroup(string rscId, string scgId, string startDate, string endDate, string maxResults)
         {
-            if (WebBrowserBestTimes.Document != null)
-            {
-                Object[] objArray = new Object[3];
-                objArray[0] = (Object)rscId;
-                objArray[1] = (Object)scgId;
-                objArray[2] = (Object)startDate;
-                try
-                {
-                    WebBrowserBestTimes.InvokeScript("getBestTimesGroup", objArray);
-                }
-                catch { }
-            }
+            ConnectionService.Update(rscId, scgId, startDate, endDate, maxResults);
         }
     }
 }

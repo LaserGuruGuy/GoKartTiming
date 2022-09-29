@@ -8,6 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>GoKart</RootNamespace>
     <AssemblyName>GoKart</AssemblyName>
+	<LangVersion>9.0</LangVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -213,6 +214,7 @@
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
     <Compile Include="GoKartTiming\GoKartTiming.cs" />
     <Compile Include="GoKartTiming\LiveTiming.cs" />
+    <Compile Include="MyTest.cs" />
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
     <Compile Include="Events\PropertyChanged.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />

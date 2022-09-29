@@ -18,10 +18,10 @@ function getModel(mainPath) {
         parseModels: function (data) {
             try {
                 if (data.records != null) {
-                    var report = { recordgroup: data.records }
+                    var report = { recordgroups: data.records }
                 }
                 else if (data[0].scoregroups != null) {
-                    var report = { scoregroup: data[0].scoregroups }
+                    var report = { scoregroups: data[0].scoregroups }
                 }
                 else {
                     var report = data;

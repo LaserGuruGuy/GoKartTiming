@@ -16,8 +16,19 @@ namespace GoKartTiming.BestTiming
         private ObservableCollection<ScoreGroup> _scoregroupcollection = new ObservableCollection<ScoreGroup>();
         private ObservableCollection<RecordGroup> _recordgroupcollection = new ObservableCollection<RecordGroup>();
 
+        public string key { get; set; }
+
+        public string id { get; set; }
+
+        public string name { get; set; }
+
         public string resourceId { get; set; }
 
+        public string resourceName { get; set; }
+
+        public int resourceKind { get; set; }
+
+        [JsonProperty(PropertyName = "scoregroups")]
         public ScoreGroup[] scoregroup
         {
             set
@@ -32,6 +43,7 @@ namespace GoKartTiming.BestTiming
             }
         }
 
+        [JsonProperty(PropertyName = "records")]
         public RecordGroup[] recordgroup
         {
             set

@@ -28,6 +28,7 @@ function initialize() {
             }
             catch (error) {
             }
+            getBestTimes(baseConnection, params);
         });
     });
 }
