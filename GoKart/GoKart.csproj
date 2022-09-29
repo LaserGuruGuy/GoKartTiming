@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>GoKart</RootNamespace>
     <AssemblyName>GoKart</AssemblyName>
-	<LangVersion>9.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -214,7 +214,7 @@
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
     <Compile Include="GoKartTiming\GoKartTiming.cs" />
     <Compile Include="GoKartTiming\LiveTiming.cs" />
-    <Compile Include="MyTest.cs" />
+    <Compile Include="SmsTiming.cs" />
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
     <Compile Include="Events\PropertyChanged.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
@@ -294,18 +294,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.png" />
-    <Content Include="SmsTiming\BestTimes.htm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\js\besttimes-mediator.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\js\controllers\besttimes-controllers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\BestTimes\js\helpers\besttimes-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="SmsTiming\Common\css\pace-stylesheet.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -84,24 +84,9 @@ namespace GoKartTiming.BestTiming
             }
         }
 
-        public static Dictionary<string, DateTime> DateTimeDict { get; private set; } = new Dictionary<string, DateTime>();
+        public Dictionary<string, DateTime> DateTimeDict { get; private set; } = new Dictionary<string, DateTime>();
 
         public BestTiming()
-        {
-            ResetDateTimeDict();
-        }
-
-        private void Resetscoregroupcollection()
-        {
-            _scoregroupcollection.Clear();
-        }
-
-        private void Resetrecordgroupcollection()
-        {
-            _recordgroupcollection.Clear();
-        }
-
-        private void ResetDateTimeDict()
         {
             var now = DateTime.Now;
 
@@ -113,6 +98,16 @@ namespace GoKartTiming.BestTiming
             DateTimeDict.Add("This Month", new DateTime(now.Year, now.Month, 1));
             DateTimeDict.Add("This Week", new DateTime(week.Year, week.Month, week.Day));
             DateTimeDict.Add("Today", new DateTime(now.Year, now.Month, now.Day));
+        }
+
+        private void Resetscoregroupcollection()
+        {
+            _scoregroupcollection.Clear();
+        }
+
+        private void Resetrecordgroupcollection()
+        {
+            _recordgroupcollection.Clear();
         }
 
         public void Reset()
