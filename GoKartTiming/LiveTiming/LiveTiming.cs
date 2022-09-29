@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace GoKartTiming.LiveTiming
 {
-    public class LiveTiming : INotifyPropertyChanged, INotifyCollectionChanged
+    public class LiveTiming : LiveTimingBase, INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };

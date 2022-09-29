@@ -32,7 +32,64 @@ namespace GoKart
         }
     }
 
-    public class UrlParams
+    public class UrlParamsLiveTiming
+    {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string locale { get; set; } = "nl";
+        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
+        public string styleId { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
+        public string resourceId { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string customCSS { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string nodeId { get; set; }
+
+        private void Resetlocale() { locale = "nl"; }
+        private void ResetstyleId() { styleId = null; }
+        private void ResetresourceId() { resourceId = null; }
+        private void ResetcustomCSS() { customCSS = null; }
+        private void ResetnodeId() { nodeId = null; }
+
+        public void Reset()
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(GetType()))
+            {
+                if (prop.CanResetValue(this))
+                {
+                    prop.ResetValue(this);
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            string PropString = string.Empty;
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(GetType()))
+            {
+                if (prop.GetValue(this) != null)
+                {
+                    PropString += prop.Name + "=" + prop.GetValue(this) + "&";
+                }
+                else
+                {
+                    foreach (var Attribute in prop.Attributes)
+                    {
+                        if (Attribute.GetType().Equals(typeof(JsonPropertyAttribute)))
+                        {
+                            if ((Attribute as JsonPropertyAttribute).NullValueHandling == NullValueHandling.Include)
+                            {
+                                PropString += prop.Name + "=" + prop.GetValue(this) + "&";
+                            }
+                        }
+                    }
+                }
+            }
+            return PropString;
+        }
+    }
+
+    public class UrlParamsBestTimes
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string locale { get; set; } = "nl";
@@ -164,60 +221,26 @@ namespace GoKart
     {
         // https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient?redirectedfrom=MSDN
 
-        private OnJSONReceived OnJSONReceived = null;
+        protected OnJSONReceived OnJSONReceived = null;
 
-        private HttpClient httpClient;
+        protected HttpClient httpClient;
 
-        private BaseConnection baseConnection;
-        private UrlParams urlParams;
-        private string authorizationToken;
+        protected BaseConnection baseConnection;
 
-        const string constBaseUrl = @"https://backend.sms-timing.com";
+        protected string authorizationToken;
+
+        const string constAccessToken = @"accessToken=";
+        const string constQuestionMark = @"?";
+        const string constBasic = @"Basic";
+
+        const string constApplicationJson = @"application/json";
+
         const string constHttps = @"https://";
-        const string constApiBestTimes = @"/api/besttimes/";
-        const string constResources = @"resources/";
-        const string constRecords = @"records/";
-        const string constConnectionInfo = @"/api/connectioninfo?type=modules";
 
-        public ConnectionService(OnJSONReceived OnJSONReceived = null)
-        {
-            this.OnJSONReceived = OnJSONReceived;
-            httpClient = new HttpClient();
-            urlParams = new UrlParams();
-        }
+        protected readonly string constBaseUrl = @"https://backend.sms-timing.com";
+        protected readonly string constConnectionInfo = @"/api/connectioninfo?type=modules";
 
-        public void Init(string authorizationToken)
-        {
-            this.authorizationToken = authorizationToken;
-            urlParams.Reset();
-            Task task = InitAsync();
-        }
-
-        public void Update(string rscId, string scgId, string startDate, string endDate, string maxResults)
-        {
-            if (rscId != null && scgId != null)
-            {
-                urlParams.rscId = rscId;
-                urlParams.scgId = scgId;
-                urlParams.startDate = startDate;
-                urlParams.endDate = endDate;
-                urlParams.maxResult = maxResults;
-
-                Task task = GetRecordsAsync(httpClient, FindAll(createFullPath(constRecords)));
-            }
-        }
-
-        private async Task InitAsync()
-        {
-            // https://backend.sms-timing.com/api/connectioninfo?type=modules
-            string url = constBaseUrl + constConnectionInfo;
-
-            if (await GetOptionsAsync(httpClient, url, authorizationToken))
-                if (await GetClientParamsAsync(httpClient, url, authorizationToken))
-                    await GetResourcesAsync(httpClient, FindAll(createFullPath(constResources)));
-        }
-
-        private async Task<bool> GetOptionsAsync(HttpClient client, string url, string authorizationToken)
+        protected async Task<bool> GetOptionsAsync(HttpClient client, string url, string authorizationToken)
         {
             using (HttpRequestMessage request = new(HttpMethod.Options, url))
             {
@@ -242,9 +265,9 @@ namespace GoKart
             }
         }
 
-        private async Task<bool> GetClientParamsAsync(HttpClient client, string url, string authorizationToken)
+        protected async Task<bool> GetClientParamsAsync(HttpClient client, string url, string authorizationToken)
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authorizationToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(constBasic, authorizationToken);
 
             using (HttpResponseMessage response = await client.GetAsync(url))
             {
@@ -267,7 +290,7 @@ namespace GoKart
             }
         }
 
-        private async Task<bool> GetResourcesAsync(HttpClient client, string url)
+        protected async Task<bool> GetResourcesAsync(HttpClient client, string url)
         {
             using (HttpResponseMessage response = await client.GetAsync(url))
             {
@@ -275,14 +298,20 @@ namespace GoKart
 
                 var Content = await response.Content.ReadAsStringAsync();
 
-                if (response.Content.Headers.ContentType.MediaType.Equals("application/json"))
+                if (response.Content.Headers.ContentType.MediaType.Equals(constApplicationJson))
                 {
                     Console.WriteLine($"{Content}\n");
-
-                    object[] resources = JsonConvert.DeserializeObject<object[]>(Content);
-
-                    foreach (var resource in resources)
+                    if (Content.EndsWith("]"))
                     {
+                        object[] resources = JsonConvert.DeserializeObject<object[]>(Content);
+                        foreach(var resource in resources)
+                        {
+                            OnJSONReceived?.Invoke(JsonConvert.SerializeObject(resource));
+                        }
+                    }
+                    else
+                    {
+                        object resource = JsonConvert.DeserializeObject<object>(Content);
                         OnJSONReceived?.Invoke(JsonConvert.SerializeObject(resource));
                     }
                 }
@@ -298,7 +327,7 @@ namespace GoKart
             }
         }
 
-        private async Task<bool> GetRecordsAsync(HttpClient client, string url)
+        protected async Task<bool> GetRecordsAsync(HttpClient client, string url)
         {
             using (HttpResponseMessage response = await client.GetAsync(url))
             {
@@ -306,7 +335,7 @@ namespace GoKart
 
                 var Content = await response.Content.ReadAsStringAsync();
 
-                if (response.Content.Headers.ContentType.MediaType.Equals("application/json"))
+                if (response.Content.Headers.ContentType.MediaType.Equals(constApplicationJson))
                 {
                     Console.WriteLine($"{Content}\n");
 
@@ -326,16 +355,97 @@ namespace GoKart
             }
         }
 
-        private string createFullPath(string path)
+        protected string createFullPath(string path)
         {
             // https://modules-api10.sms-timing.com/api/besttimes/resources/hezemans
-            return constHttps + baseConnection.ServiceAddress + constApiBestTimes + path + baseConnection.ClientKey;
+            // https://modules-api1.sms-timing.com/api/livetiming/settings/circuitparkberghem
+            return constHttps + baseConnection.ServiceAddress + path + baseConnection.ClientKey;
         }
 
-        private string FindAll(string path)
+        protected string FindAll(Object urlParams, string path)
         {
             // https://modules-api10.sms-timing.com/api/besttimes/resources/hezemans?locale=nl&rscId=&accessToken=69cweiiidsjjsssxbdr
-            return path + "?" + urlParams.ToString() + "accessToken=" + baseConnection.AccessToken;
+            // https://modules-api1.sms-timing.com/api/livetiming/settings/circuitparkberghem?locale=nl&styleId=&resourceId=&accessToken=00npoqqamipyklkpqpl
+            return path + constQuestionMark + urlParams.ToString() + constAccessToken + baseConnection.AccessToken;
+        }
+    }
+
+    public class ConnectionServiceLiveTiming : ConnectionService
+    {
+        private UrlParamsLiveTiming urlParamsLiveTiming;
+
+        const string constApiLiveTiming = @"/api/livetiming/";
+        const string constSettings = @"settings/";
+
+        public ConnectionServiceLiveTiming(OnJSONReceived OnJSONReceived = null)
+        {
+            this.OnJSONReceived = OnJSONReceived;
+            httpClient = new HttpClient();
+            urlParamsLiveTiming = new UrlParamsLiveTiming();
+        }
+
+        public void Init(string authorizationToken)
+        {
+            this.authorizationToken = authorizationToken;
+            urlParamsLiveTiming.Reset();
+            Task task = InitAsync();
+        }
+
+        private async Task InitAsync()
+        {
+            // https://backend.sms-timing.com/api/connectioninfo?type=modules
+            string url = constBaseUrl + constConnectionInfo;
+
+            if (await GetOptionsAsync(httpClient, url, authorizationToken))
+                if (await GetClientParamsAsync(httpClient, url, authorizationToken))
+                    await GetResourcesAsync(httpClient, FindAll(urlParamsLiveTiming, createFullPath(constApiLiveTiming + constSettings)));
+        }
+    }
+
+    public class ConnectionServiceBestTimes : ConnectionService
+    {
+        private UrlParamsBestTimes urlParamsBestTimes;
+
+        const string constApiBestTimes = @"/api/besttimes/";
+        const string constResources = @"resources/";
+        const string constRecords = @"records/";
+
+        public ConnectionServiceBestTimes(OnJSONReceived OnJSONReceived = null)
+        {
+            this.OnJSONReceived = OnJSONReceived;
+            httpClient = new HttpClient();
+            urlParamsBestTimes = new UrlParamsBestTimes();
+        }
+
+        public void Init(string authorizationToken)
+        {
+            this.authorizationToken = authorizationToken;
+            urlParamsBestTimes.Reset();
+            Task task = InitAsync();
+        }
+
+        public void Update(string rscId, string scgId, string startDate, string endDate, string maxResults)
+        {
+            if (rscId != null && scgId != null)
+            {
+                urlParamsBestTimes.rscId = rscId;
+                urlParamsBestTimes.scgId = scgId;
+                urlParamsBestTimes.startDate = startDate;
+                urlParamsBestTimes.endDate = endDate;
+                urlParamsBestTimes.maxResult = maxResults;
+
+                Task task = GetRecordsAsync(httpClient, FindAll(urlParamsBestTimes, createFullPath(constApiBestTimes + constRecords)));
+            }
+        }
+
+        private async Task InitAsync()
+        {
+            // https://backend.sms-timing.com/api/connectioninfo?type=modules
+            string url = constBaseUrl + constConnectionInfo;
+
+            if (await GetOptionsAsync(httpClient, url, authorizationToken))
+                if (await GetClientParamsAsync(httpClient, url, authorizationToken))
+                    await GetResourcesAsync(httpClient, FindAll(urlParamsBestTimes, createFullPath(constApiBestTimes + constResources)));
         }
     }
 }

@@ -27,9 +27,10 @@ namespace GoKart
             {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" }
         };
 
-        public string KartCenterKey { get; set; } = "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==";
+        public string KartCenterKey { get; set; } = "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==";
 
-        ConnectionService ConnectionService;
+        ConnectionServiceBestTimes ConnectionServiceBestTimes;
+        ConnectionServiceLiveTiming ConnectionServiceLiveTiming;
 
         public MainWindow()
         {
@@ -47,7 +48,8 @@ namespace GoKart
             DataContext = CpbTiming;
 
             ///////////////////////
-            ConnectionService = new ConnectionService(OnBestTiming);
+            ConnectionServiceBestTimes = new ConnectionServiceBestTimes(OnBestTiming);
+            ConnectionServiceLiveTiming = new ConnectionServiceLiveTiming(OnLiveTiming);
             ///////////////////////
 
             try
@@ -149,7 +151,8 @@ namespace GoKart
         private void ComboBox_LiveTimingKartCenter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CpbTiming.BestTimingCollection.Reset();
-            ConnectionService.Init(KartCenterKey);
+            ConnectionServiceBestTimes.Init(KartCenterKey);
+            ConnectionServiceLiveTiming.Init(KartCenterKey);
         }
 
         private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -176,7 +179,7 @@ namespace GoKart
 
         private void GetRecordGroup(string rscId, string scgId, string startDate, string endDate, string maxResults)
         {
-            ConnectionService.Update(rscId, scgId, startDate, endDate, maxResults);
+            ConnectionServiceBestTimes.Update(rscId, scgId, startDate, endDate, maxResults);
         }
     }
 }

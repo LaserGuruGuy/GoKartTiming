@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CpbTiming</RootNamespace>
     <AssemblyName>CpbTiming</AssemblyName>
-	<LangVersion>9.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -81,6 +81,7 @@
     <Compile Include="HeatOverzicht.cs" />
     <Compile Include="LiveTiming\Driver.cs" />
     <Compile Include="LiveTiming\DriverEx.cs" />
+    <Compile Include="LiveTiming\LiveTimingBase.cs" />
     <Compile Include="UniqueObservableCollection\Extensions.cs" />
     <Compile Include="LiveTiming\LiveTiming.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
