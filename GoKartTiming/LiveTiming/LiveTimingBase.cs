@@ -2,11 +2,6 @@
 {
     public class LiveTimingBase
     {
-        public string liveServerKey { get; set; }
-        public string liveServerHost { get; set; }
-        public int liveServerWsPort { get; set; }
-        public int liveServerWssPort { get; set; }
-        public int liveServerHttpPort { get; set; }
         public string styleBackColor { get; set; }
         public string styleFontColor { get; set; }
         public string styleHighlightBackColor { get; set; }

@@ -10,6 +10,7 @@ using GoKart.WebBrowser;
 using System.Collections.Generic;
 using GoKartTiming.BestTiming;
 using System.Globalization;
+using GoKart.SmsTiming;
 
 namespace GoKart
 {

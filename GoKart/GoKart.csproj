@@ -214,9 +214,12 @@
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
     <Compile Include="GoKartTiming\GoKartTiming.cs" />
     <Compile Include="GoKartTiming\LiveTiming.cs" />
-    <Compile Include="SmsTiming.cs" />
+    <Compile Include="SmsTiming\ConnectionServiceBestTimes.cs" />
+    <Compile Include="SmsTiming\ConnectionServiceLiveTiming.cs" />
+    <Compile Include="SmsTiming\ConnectionService.cs" />
     <Compile Include="Pdf\LaxTextChunkLocationStrategy.cs" />
     <Compile Include="Events\PropertyChanged.cs" />
+    <Compile Include="SmsTiming\WebSocketService.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
     <Compile Include="WebBrowser\IConfiguration.cs" />
     <Compile Include="Interface\IConnectionService.cs" />
