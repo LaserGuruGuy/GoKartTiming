@@ -8,7 +8,7 @@ namespace GoKart
     public partial class MainWindow
     {
         private GridViewColumnHeader LastHeaderClicked = null;
-        private ListSortDirection LastDirection;
+        private ListSortDirection? LastDirection = null;
 
         public void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
         {
@@ -22,33 +22,46 @@ namespace GoKart
 
                     if (GridViewColumnHeader != LastHeaderClicked)
                     {
-                        LastDirection = ListSortDirection.Descending;
                         ListSortDirection = ListSortDirection.Ascending;
+                        LastDirection = ListSortDirection;
                     }
                     else
                     {
                         if (LastDirection == ListSortDirection.Ascending)
                         {
                             ListSortDirection = ListSortDirection.Descending;
+                            LastDirection = ListSortDirection;
+                        }
+                        else if (LastDirection == ListSortDirection.Descending)
+                        {
+                            ListSortDirection = ListSortDirection.Ascending;
+                            LastDirection = null;
                         }
                         else
                         {
                             ListSortDirection = ListSortDirection.Ascending;
+                            LastDirection = ListSortDirection;
                         }
                     }
 
                     var GridViewColumnBinding = GridViewColumnHeader.Column.DisplayMemberBinding as Binding;
                     var SortListBy = GridViewColumnBinding?.Path.Path ?? GridViewColumnHeader.Column.Header as string;
 
-                    ListViewSort(sender, SortListBy, ListSortDirection);
+                    if (LastDirection != null || LastHeaderClicked != GridViewColumnHeader)
+                    {
+                        ListViewSort(sender, SortListBy, ListSortDirection);
+                    }
+                    else
+                    {
+                        ListViewSort(sender);
+                    }
 
                     LastHeaderClicked = GridViewColumnHeader;
-                    LastDirection = ListSortDirection;
                 }
             }
         }
 
-        private void ListViewSort(object sender, string SortListBy, ListSortDirection ListSortDirection = ListSortDirection.Ascending)
+        private void ListViewSort(object sender, string SortListBy = null, ListSortDirection ListSortDirection = ListSortDirection.Ascending)
         {
             var ListView = sender as ListView;
             ICollectionView CollectionView = CollectionViewSource.GetDefaultView(ListView.ItemsSource);
@@ -56,8 +69,11 @@ namespace GoKart
             if (CollectionView?.SortDescriptions.Contains(new SortDescription(SortListBy, ListSortDirection)) == false)
             {
                 CollectionView?.SortDescriptions.Clear();
-                SortDescription SortDescription = new SortDescription(SortListBy, ListSortDirection);
-                CollectionView?.SortDescriptions.Add(SortDescription);
+                if (!string.IsNullOrEmpty(SortListBy))
+                {
+                    SortDescription SortDescription = new SortDescription(SortListBy, ListSortDirection);
+                    CollectionView?.SortDescriptions.Add(SortDescription);
+                }
             }
             CollectionView?.Refresh();
         }

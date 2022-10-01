@@ -178,8 +178,8 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -207,7 +207,7 @@
     <Compile Include="Converter\SpeedToStringConverter.cs" />
     <Compile Include="Converter\TimeToStringConverter.cs" />
     <Compile Include="Events\ThreadIdle.cs" />
-    <Compile Include="Events\WebBrowser.cs" />
+    <Compile Include="Events\CallBack.cs" />
     <Compile Include="LapTimeWindow\AbsoluteLapTimeWindow.cs" />
     <Compile Include="JSON\ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />
@@ -221,16 +221,11 @@
     <Compile Include="Events\PropertyChanged.cs" />
     <Compile Include="SmsTiming\WebSocketService.cs" />
     <Compile Include="Sort\GridViewListSort.cs" />
-    <Compile Include="WebBrowser\IConfiguration.cs" />
-    <Compile Include="Interface\IConnectionService.cs" />
     <Compile Include="Pdf\PdfReader.cs" />
     <Compile Include="LapTimeWindow\RelativeLapTimeWindow.cs" />
     <Compile Include="LapTimeWindow\LapTimeWindow.xaml.cs">
       <DependentUpon>LapTimeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WebBrowser\Settings.cs" />
-    <Compile Include="WebBrowser\WebBrowserScriptInterface.cs" />
-    <Compile Include="WebBrowser\WebSocket.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -293,118 +288,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\cpb-logo.ico" />
+    <Content Include="Icons\cpb-logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.png" />
-    <Content Include="SmsTiming\Common\css\pace-stylesheet.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="SmsTiming\Common\images\logo-leisure.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="SmsTiming\Common\js\connection\api-connection-service.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\js\connection\connection-service-methods.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\js\helpers\common-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\CanJS\can.custom.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\DataTables\dataTables.responsive.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\DataTables\jquery.dataTables.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\DropDownMenu\dropdown.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\FlowType\flowtype.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\jQuery\jquery-1.11.2.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\jQuery\jquery-ui.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\js-url-master\url.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\Common\library\pace\pace.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\back6.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\bronze_compact.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\finished_small.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\gold_compact.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\green.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\no_races.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\red.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\silver_compact.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="SmsTiming\LiveTiming\js\controllers\livetiming-controllers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\helpers\livetiming-driver-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\helpers\livetiming-heat-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\helpers\livetiming-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\helpers\livetiming-scriptBrowser-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\helpers\livetiming-stylers-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\helpers\livetiming-translations-helpers.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\helpers\livetiming-webSocket.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\livetiming-mediator.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SmsTiming\LiveTiming\js\models\livetiming-models.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="SmsTiming\LiveTiming\css\img\bg.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="SmsTiming\LiveTiming\css\style.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="SmsTiming\Common\images\logo-smstiming.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="SmsTiming\LiveTiming.htm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Images\Bronze.png" />
+    <Resource Include="Images\Down.png" />
+    <Resource Include="Images\Finished.png" />
+    <Resource Include="Images\Gold.png" />
+    <Resource Include="Images\NoRaces.png" />
+    <Resource Include="Images\Silver.png" />
+    <Resource Include="Images\Up.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SHDocVw">
@@ -429,7 +325,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Icons\hezemans-logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.1\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.1\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

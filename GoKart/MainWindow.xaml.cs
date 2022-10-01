@@ -6,7 +6,6 @@ using System.Windows.Interop;
 using System.Threading;
 using System.ComponentModel;
 using System.Collections.Specialized;
-using GoKart.WebBrowser;
 using System.Collections.Generic;
 using GoKartTiming.BestTiming;
 using System.Globalization;
@@ -17,7 +16,6 @@ namespace GoKart
     public partial class MainWindow : Window
     {
         Thread WorkerThread;
-
         private GoKartTiming CpbTiming { get; set; } = new GoKartTiming();
 
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
@@ -28,7 +26,13 @@ namespace GoKart
             {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" }
         };
 
-        public string KartCenterKey { get; set; } = "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==";
+        public static Dictionary<string, Uri> KartCenterIconDict { get; } = new Dictionary<string, Uri>
+        {
+            {"Hezemans Indoor Karting", new Uri("./Icons/hezemans-logo.ico", UriKind.Relative) },
+            {"Circuit Park Berghem", new Uri("./Icons/cpb-logo.ico", UriKind.Relative) }
+        };
+
+        public string KartCenterKey { get; set; } = "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==";
 
         ConnectionServiceBestTimes ConnectionServiceBestTimes;
         ConnectionServiceLiveTiming ConnectionServiceLiveTiming;
@@ -48,46 +52,10 @@ namespace GoKart
 
             DataContext = CpbTiming;
 
-            ///////////////////////
+            ComponentDispatcher.ThreadIdle += new EventHandler(ComponentDispatcher_ThreadIdle);
+
             ConnectionServiceBestTimes = new ConnectionServiceBestTimes(OnBestTiming);
             ConnectionServiceLiveTiming = new ConnectionServiceLiveTiming(OnLiveTiming);
-            ///////////////////////
-
-            try
-            {
-                WebBrowserLiveTiming.ObjectForScripting = new WebBrowserScriptInterface(OnLiveTiming);
-            }
-            catch (ArgumentException Ex)
-            {
-                Console.WriteLine(Ex.Message);
-            }
-            finally
-            {
-                (WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).auth = KartCenterKey;
-                (WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri = new Uri("pack://siteoforigin:,,,/SmsTiming/LiveTiming.htm");
-            }
-
-            try
-            {
-                WebBrowserLiveTiming.Navigate((WebBrowserLiveTiming.ObjectForScripting as WebBrowserScriptInterface).Uri);
-            }
-            catch (ObjectDisposedException Ex)
-            {
-                Console.WriteLine(Ex.Message);
-            }
-            catch (InvalidOperationException Ex)
-            {
-                Console.WriteLine(Ex.Message);
-            }
-            catch (System.Security.SecurityException Ex)
-            {
-                MessageBox.Show(Ex.Message);
-            }
-            finally
-            {
-            }
-
-            ComponentDispatcher.ThreadIdle += new EventHandler(ComponentDispatcher_ThreadIdle);
         }
 
         protected void MainWindow_Closed(object sender, EventArgs args)
@@ -151,9 +119,16 @@ namespace GoKart
 
         private void ComboBox_LiveTimingKartCenter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ComboBox comboBox = sender as ComboBox;
+            string KartCenter = ((KeyValuePair<string, string>)(comboBox.SelectedItem)).Key;
+
             CpbTiming.BestTimingCollection.Reset();
             ConnectionServiceBestTimes.Init(KartCenterKey);
             ConnectionServiceLiveTiming.Init(KartCenterKey);
+
+            Uri IconUri;
+            KartCenterIconDict.TryGetValue(KartCenter, out IconUri);
+            this.Icon = new System.Windows.Media.Imaging.BitmapImage(IconUri);
         }
 
         private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)

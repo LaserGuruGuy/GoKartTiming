@@ -11,6 +11,16 @@ namespace GoKartTiming.LiveTiming
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
 
+        private static Dictionary<int, string> LastRecordDict { get; } = new Dictionary<int, string>
+        {
+            {0, "Day"},
+            {1, "Week"},
+            {2, "Month"},
+            {3, "Year"},
+            {4, "Ever"},
+            {5, ""}
+        };
+
         private bool? _LastPassing;
         private TimeSpan _AvarageLapTime;
         private TimeSpan _BestLapTime;
@@ -27,6 +37,8 @@ namespace GoKartTiming.LiveTiming
         private int? _Position;
         private int? _ImprovedPosition;
         private int? _MemberID;
+
+        private string _LastRecordString;
 
         /// <summary>
         /// "LP" = LastPassing
@@ -294,8 +306,26 @@ namespace GoKartTiming.LiveTiming
             {
                 _LastRecord = value;
                 RaisePropertyChanged();
+                if (LastRecordDict.TryGetValue((int)value, out _LastRecordString))
+                {
+                    RaisePropertyChanged("LastRecordString");
+                }
             }
         }
+
+        public string LastRecordString
+        {
+            get
+            {
+                return _LastRecordString;
+            }
+            set
+            {
+                _LastRecordString = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         /// <summary>
         /// "N" = DriverName

@@ -7,19 +7,19 @@ namespace GoKart
     {
         public void OnLiveTiming(string Serialized)
         {
-            if (!Serialized.Equals("{}"))
+            if (Serialized.Equals("{}"))
+            {
+#if DEBUG
+                Console.WriteLine("No Races");
+#endif
+            }
+            else
             {
 #if DEBUG
                 Console.WriteLine(Serialized);
                 File.AppendAllText("logfile.json", Serialized + "\n");
 #endif
                 CpbTiming.AddLiveTiming(Serialized);
-            }
-            else
-            {
-#if DEBUG
-                Console.WriteLine("No Races");
-#endif
             }
         }
 

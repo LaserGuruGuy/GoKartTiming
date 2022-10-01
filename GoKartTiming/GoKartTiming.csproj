@@ -81,7 +81,6 @@
     <Compile Include="HeatOverzicht.cs" />
     <Compile Include="LiveTiming\Driver.cs" />
     <Compile Include="LiveTiming\DriverEx.cs" />
-    <Compile Include="LiveTiming\LiveTimingBase.cs" />
     <Compile Include="UniqueObservableCollection\Extensions.cs" />
     <Compile Include="LiveTiming\LiveTiming.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

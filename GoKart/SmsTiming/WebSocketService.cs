@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
 using System.Net.WebSockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace GoKart.SmsTiming
 {
@@ -46,24 +45,34 @@ namespace GoKart.SmsTiming
 
         private async Task ReceiveAsync(ClientWebSocket socket, CancellationToken stoppingToken)
         {
-            var buffer = new ArraySegment<byte>(new byte[2048]);
+            var buffer = new ArraySegment<byte>(new byte[4096]);
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 WebSocketReceiveResult result;
+
                 using (var memoryStream = new MemoryStream())
                 {
                     do
                     {
                         result = await socket.ReceiveAsync(buffer, stoppingToken);
-                        memoryStream.Write(buffer.Array, buffer.Offset, result.Count);
+                        if (result.MessageType == WebSocketMessageType.Text)
+                        {
+                            memoryStream.Write(buffer.Array, buffer.Offset, result.Count);
+                        }
+
                     } while (!result.EndOfMessage);
 
-                    if (result.MessageType == WebSocketMessageType.Close) break;
+                    if (result.MessageType == WebSocketMessageType.Close)
+                    {
+                        Console.WriteLine(result.CloseStatusDescription);
+                        break;
+                    }
 
                     memoryStream.Seek(0, SeekOrigin.Begin);
-                    using (var reader = new StreamReader(memoryStream, System.Text.Encoding.UTF8))
+                    using (var reader = new StreamReader(memoryStream, Encoding.UTF8))
                     {
-                        OnJSONReceived?.Invoke(JsonConvert.SerializeObject(reader.ReadToEndAsync().Result));
+                        OnJSONReceived?.Invoke(reader.ReadToEndAsync().Result);
                     }
                 }
             };

@@ -148,16 +148,14 @@ namespace GoKart.SmsTiming
                     if (Content.EndsWith("]"))
                     {
                         object[] resources = JsonConvert.DeserializeObject<object[]>(Content);
-                        foreach(var resource in resources)
+                        foreach (var resource in resources)
                         {
                             OnJSONReceived?.Invoke(JsonConvert.SerializeObject(resource));
                         }
                     }
                     else
                     {
-                        // TODO: now that we receive all livetiming through this delegate we have to push down the collection???
                         object resource = JsonConvert.DeserializeObject<object>(Content);
-                        OnJSONReceived?.Invoke(JsonConvert.SerializeObject(resource));
                     }
                 }
 

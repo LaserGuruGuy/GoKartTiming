@@ -148,7 +148,6 @@ namespace GoKart.SmsTiming
 
         private async Task InitAsync()
         {
-            // https://backend.sms-timing.com/api/connectioninfo?type=modules
             string url = constBaseUrl + constConnectionInfo;
 
             if (await GetOptionsAsync(httpClient, url))
