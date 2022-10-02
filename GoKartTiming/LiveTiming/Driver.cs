@@ -306,26 +306,24 @@ namespace GoKartTiming.LiveTiming
             {
                 _LastRecord = value;
                 RaisePropertyChanged();
-                if (LastRecordDict.TryGetValue((int)value, out _LastRecordString))
+                if (value < 5 && !_LastLapTime.Equals(TimeSpan.Zero))
                 {
-                    RaisePropertyChanged("LastRecordString");
+                    if (LastRecordDict.TryGetValue((int)value, out _LastRecordString))
+                    {
+                        RaisePropertyChanged("LastRecordString");
+                    }
                 }
             }
         }
 
+        [JsonIgnore]
         public string LastRecordString
         {
             get
             {
                 return _LastRecordString;
             }
-            set
-            {
-                _LastRecordString = value;
-                RaisePropertyChanged();
-            }
         }
-
 
         /// <summary>
         /// "N" = DriverName
