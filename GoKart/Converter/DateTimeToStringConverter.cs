@@ -9,7 +9,7 @@ namespace GoKart
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? ((DateTime)value).ToUniversalTime().ToString("u").TrimEnd('Z') : string.Empty;
+            return value != null ? ((DateTime)value).ToString("u").TrimEnd('Z') : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
