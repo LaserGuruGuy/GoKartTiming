@@ -20,6 +20,8 @@ namespace GoKart
 
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 
+        private string LocalApplicationDataFolder { get; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\GoKart\\";
+
         public static Dictionary<string, string> KartCenterDict { get; } = new Dictionary<string, string>
         {
             {"Hezemans Indoor Karting", "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==" },
@@ -45,14 +47,39 @@ namespace GoKart
 
             Closed += new EventHandler(MainWindow_Closed);
 
-            CpbTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
+            CpbTiming.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);           
             CpbTiming.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+
             CpbTiming.LiveTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            
+            CpbTiming.BestTimingCollection.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
             CpbTiming.BestTimingCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            CpbTiming.BestTimingCollection.scoregroupcollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            CpbTiming.BestTimingCollection.recordgroupcollection.CollectionChanged += new NotifyCollectionChangedEventHandler(OnCollectionChanged);
+            for (var i = 0; i < CpbTiming.BestTimingCollection.scoregroupcollection.Count; i++)
+            {
+                CpbTiming.BestTimingCollection.scoregroupcollection[i].PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
+            }
+            for (var i = 0; i < CpbTiming.BestTimingCollection.recordgroupcollection.Count; i++)
+            {
+                CpbTiming.BestTimingCollection.recordgroupcollection[i].PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
+            }
+
 
             DataContext = CpbTiming;
 
             ComponentDispatcher.ThreadIdle += new EventHandler(ComponentDispatcher_ThreadIdle);
+            
+            try
+            {
+                if (!Directory.Exists(LocalApplicationDataFolder))
+                {
+                    Directory.CreateDirectory(LocalApplicationDataFolder);
+                }
+            }
+            catch (Exception)
+            {
+            }
 
             ConnectionServiceBestTimes = new ConnectionServiceBestTimes(OnBestTiming);
             ConnectionServiceLiveTiming = new ConnectionServiceLiveTiming(OnLiveTiming);

@@ -68,7 +68,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers, IsAsync=True}" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
+                    <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers, IsAsync=True}" VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
                         <ListView.View>
                             <GridView AllowsColumnReorder="true">
 
@@ -148,7 +148,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="ListView_BestTimingCollection_recordgroupcollection" ItemsSource="{Binding BestTimingCollection.recordgroupcollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False">
+                    <ListView x:Name="ListView_BestTimingCollection" ItemsSource="{Binding BestTimingCollection.recordgroupcollection, IsAsync=True}"  VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False">
                         <ListView.View>
                             <GridView >
                                 <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding Position}"/>

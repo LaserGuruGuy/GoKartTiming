@@ -8,19 +8,17 @@ namespace GoKart
     {
         private void listView_UpdateWidth(ListView listView)
         {
-            //    GridView gridView = listView.View as GridView;
+            GridView gridView = listView.View as GridView;
 
-            //    var ActualWidth = listView.ActualWidth - SystemParameters.VerticalScrollBarWidth;
-
-            //    for (var i = 0; i < gridView.Columns.Count; i++)
-            //    {
-            //        gridView.Columns[i].Width = gridView.Columns[i].ActualWidth;
-            //        //ActualWidth += gridView.Columns[i].ActualWidth;
-            //    }
-
-            //    // listView.Width = ActualWidth + SystemParameters.VerticalScrollBarWidth;
+            foreach (var Column in gridView.Columns)
+            {
+                if (double.IsNaN(Column.Width))
+                {
+                    Column.Width = Column.ActualWidth;
+                }
+                Column.Width = double.NaN;
+            }
         }
-
         void ComponentDispatcher_ThreadIdle(object sender, EventArgs e)
         {
             if (UpdateLiveTiming)
@@ -46,12 +44,18 @@ namespace GoKart
             {
                 UpdateLapTime = false;
                 //ListView_LapTime.Items.Refresh();
+                listView_UpdateWidth(ListView_LiveTiming);
 
                 AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
                 CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
                 RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
 
-                listView_UpdateWidth(ListView_LiveTiming);
+            }
+
+            if (UpdateRecordGroup)
+            {
+                UpdateRecordGroup = false;
+                listView_UpdateWidth(ListView_BestTimingCollection);
             }
         }
     }

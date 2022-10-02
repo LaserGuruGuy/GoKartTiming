@@ -17,7 +17,6 @@ namespace GoKart
             {
 #if DEBUG
                 Console.WriteLine(Serialized);
-                File.AppendAllText("logfile.json", Serialized + "\n");
 #endif
                 CpbTiming.AddLiveTiming(Serialized);
             }
@@ -27,7 +26,6 @@ namespace GoKart
         {
 #if DEBUG
             Console.WriteLine(Serialized);
-            File.AppendAllText("logfile.json", Serialized + "\n");
 #endif
             CpbTiming.AddBestTiming(Serialized);
         }

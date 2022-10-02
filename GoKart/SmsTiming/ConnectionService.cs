@@ -34,6 +34,7 @@ namespace GoKart.SmsTiming
     {
         internal static void WriteRequestToConsole(this HttpResponseMessage response)
         {
+#if DEBUG
             if (response is null)
             {
                 return;
@@ -55,6 +56,7 @@ namespace GoKart.SmsTiming
                 }
                 Console.WriteLine();
             }
+#endif
         }
     }
 
@@ -88,12 +90,12 @@ namespace GoKart.SmsTiming
                 using (HttpResponseMessage response = await client.SendAsync(request))
                 {
                     response.EnsureSuccessStatusCode().WriteRequestToConsole();
-
+#if DEBUG
                     foreach (var header in response.Content.Headers)
                     {
                         Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
                     }
-
+#endif
                     if (response is { StatusCode: HttpStatusCode.OK })
                     {
                         return true;
@@ -118,11 +120,12 @@ namespace GoKart.SmsTiming
 
                 if (response.Content.Headers.ContentType.MediaType.Equals(constApplicationJson))
                 {
+#if DEBUG
                     Console.WriteLine($"{Content}\n");
-
+#endif
                     baseConnection = JsonConvert.DeserializeObject<BaseConnection>(Content);
                 }
-
+                
                 if (response is { StatusCode: HttpStatusCode.OK })
                 {
                     return true;
@@ -144,18 +147,17 @@ namespace GoKart.SmsTiming
 
                 if (response.Content.Headers.ContentType.MediaType.Equals(constApplicationJson))
                 {
+#if DEBUG
                     Console.WriteLine($"{Content}\n");
-                    if (Content.EndsWith("]"))
+#endif
+                    try
                     {
                         object[] resources = JsonConvert.DeserializeObject<object[]>(Content);
-                        foreach (var resource in resources)
-                        {
-                            OnJSONReceived?.Invoke(JsonConvert.SerializeObject(resource));
-                        }
+                        OnJSONReceived?.Invoke(JsonConvert.SerializeObject(resources[0]));
                     }
-                    else
+                    catch
                     {
-                        object resource = JsonConvert.DeserializeObject<object>(Content);
+                        OnJSONReceived?.Invoke(JsonConvert.SerializeObject(Content));
                     }
                 }
 
@@ -180,11 +182,10 @@ namespace GoKart.SmsTiming
 
                 if (response.Content.Headers.ContentType.MediaType.Equals(constApplicationJson))
                 {
+#if DEBUG
                     Console.WriteLine($"{Content}\n");
-
-                    object resources = JsonConvert.DeserializeObject<object>(Content);
-
-                    OnJSONReceived?.Invoke(JsonConvert.SerializeObject(resources));
+#endif
+                    OnJSONReceived?.Invoke(Content);
                 }
 
                 if (response is { StatusCode: HttpStatusCode.OK })

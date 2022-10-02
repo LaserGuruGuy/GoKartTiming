@@ -1,10 +1,20 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace GoKartTiming.BestTiming
 {
-    public class RecordGroup
+    public class RecordGroup : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        #region backing
+        private int _Position;
+        private DateTime _Date;
+        private string _Participant;
+        private TimeSpan _Score;
+        #endregion
+
         #region translaters
         public string position
         {
@@ -17,7 +27,7 @@ namespace GoKartTiming.BestTiming
         {
             set
             {
-                Date = DateTime.Parse(value.Replace('T',' '));
+                Date = DateTime.Parse(value.Replace('T', ' '));
             }
         }
         public string participant
@@ -50,10 +60,62 @@ namespace GoKartTiming.BestTiming
         #endregion
 
         #region properties
-        public int Position { get; private set; }
-        public DateTime Date { get; private set; }
-        public string Participant { get; private set; }
-        public TimeSpan Score { get; private set; }
+        public int Position
+        {
+            get
+            {
+                return _Position;
+            }
+            private set
+            {
+                _Position = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public DateTime Date
+        {
+            get
+            {
+                return _Date;
+            }
+            private set
+            {
+                _Date = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Participant
+        {
+            get
+            {
+                return _Participant;
+            }
+            private set
+            {
+                _Participant = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public TimeSpan Score
+        {
+            get
+            {
+                return _Score;
+            }
+            private set
+            {
+                _Score = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
+        }
     }
 }

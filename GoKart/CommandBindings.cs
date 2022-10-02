@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace GoKart
 {
@@ -6,15 +7,16 @@ namespace GoKart
     {
         private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-        
-            dlg.Multiselect = true;
-            dlg.DefaultExt = ".pdf";
-            dlg.Filter = "CPB (*.pdf)|*.pdf|CPB (*.json)|*.json";
+            Microsoft.Win32.OpenFileDialog OpenFileDialog = new Microsoft.Win32.OpenFileDialog();
 
-            if (dlg.ShowDialog() == true)
+            OpenFileDialog.InitialDirectory = LocalApplicationDataFolder;
+            OpenFileDialog.Multiselect = true;
+            OpenFileDialog.DefaultExt = ".json";
+            OpenFileDialog.Filter = "(*.json)|*.json|(*.pdf)|*.pdf";
+
+            if (OpenFileDialog.ShowDialog() == true)
             {
-                HandleFile(dlg.FileNames);
+                HandleFile(OpenFileDialog.FileNames);
             }
         }
 

@@ -2,11 +2,15 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using GoKartTiming.LiveTiming;
+using System;
+using System.IO;
 
 namespace GoKart
 {
     public partial class GoKartTiming
     {
+        private string LocalApplicationDataFolder { get; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\GoKart\\";
+
         private UniqueObservableCollection<LiveTimingEx> _LiveTimingCollection = new UniqueObservableCollection<LiveTimingEx>();
 
         public UniqueObservableCollection<LiveTimingEx> LiveTimingCollection
@@ -61,8 +65,10 @@ namespace GoKart
                                 catch { }
                                 finally
                                 {
-                                    //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
                                     LiveTimingCollection[i].Drivers.Sort();
+
+                                    string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
+                                    File.AppendAllText(FileName, Serialized + "\n");
                                 }
                             }
                             return;
@@ -84,19 +90,25 @@ namespace GoKart
                     {
                         if (LiveTimingCollection.Count > 0)
                         {
-                            LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Sort();
-                            //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
-                            LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
-                            LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
-                            if (LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers != null)
+                            var i = LiveTimingCollection.Count - 1;
+
+                            LiveTimingCollection[i].Drivers.Sort();
+
+                            LiveTimingCollection[i].PropertyChanged += PropertyChanged;
+                            LiveTimingCollection[i].CollectionChanged += CollectionChanged;
+
+                            if (LiveTimingCollection[i].Drivers != null)
                             {
-                                for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
+                                for (var j = 0; j < LiveTimingCollection[i].Drivers.Count; j++)
                                 {
-                                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
-                                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
-                                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
+                                    LiveTimingCollection[i].Drivers[j].PropertyChanged += PropertyChanged;
+                                    LiveTimingCollection[i].Drivers[j].CollectionChanged += CollectionChanged;
+                                    LiveTimingCollection[i].Drivers[j].LapTime.CollectionChanged += CollectionChanged;
                                 }
                             }
+
+                            string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
+                            File.AppendAllText(FileName, Serialized + "\n");
                         }
                     }
                 }
@@ -118,19 +130,25 @@ namespace GoKart
                     {
                         if (LiveTimingCollection.Count > 0)
                         {
-                            LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Sort();
-                            //RaiseCollectionChanged(NotifyCollectionChangedAction.Add, LiveTimingCollection);
-                            LiveTimingCollection[LiveTimingCollection.Count - 1].PropertyChanged += PropertyChanged;
-                            LiveTimingCollection[LiveTimingCollection.Count - 1].CollectionChanged += CollectionChanged;
-                            if (LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers != null)
+                            var i = LiveTimingCollection.Count - 1;
+
+                            LiveTimingCollection[i].Drivers.Sort();
+
+                            LiveTimingCollection[i].PropertyChanged += PropertyChanged;
+                            LiveTimingCollection[i].CollectionChanged += CollectionChanged;
+
+                            if (LiveTimingCollection[i].Drivers != null)
                             {
-                                for (var i = 0; i < LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers.Count; i++)
+                                for (var j = 0; j < LiveTimingCollection[i].Drivers.Count; j++)
                                 {
-                                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].PropertyChanged += PropertyChanged;
-                                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].CollectionChanged += CollectionChanged;
-                                    LiveTimingCollection[LiveTimingCollection.Count - 1].Drivers[i].LapTime.CollectionChanged += CollectionChanged;
+                                    LiveTimingCollection[i].Drivers[j].PropertyChanged += PropertyChanged;
+                                    LiveTimingCollection[i].Drivers[j].CollectionChanged += CollectionChanged;
+                                    LiveTimingCollection[i].Drivers[j].LapTime.CollectionChanged += CollectionChanged;
                                 }
                             }
+
+                            string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
+                            File.AppendAllText(FileName, Serialized + "\n");
                         }
                     }
                 }
