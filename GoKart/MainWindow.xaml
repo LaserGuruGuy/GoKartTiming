@@ -46,8 +46,9 @@
             </StatusBar>
             <StatusBar DockPanel.Dock="Right" DataContext="{Binding BestTimingCollection}" Background="{DynamicResource NormalBrush}" HorizontalAlignment="Right" >
                 <Label Content="Records"></Label>
-                <ComboBox x:Name="ComboBox_BestTimes_ScoreGroup" ItemsSource="{Binding Path=scoregroupcollection, Mode=OneWay}" DisplayMemberPath="scoreGroupName" SelectedValuePath="scoreGroupId" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimes_ScoreGroup_SelectionChanged"/>
-                <ComboBox x:Name="ComboBox_BestTimingDateTime" ItemsSource="{Binding Path=DateTimeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingDateTime_SelectionChanged"/>
+                <ComboBox x:Name="ComboBox_BestTimes_ScoreGroup" ItemsSource="{Binding Path=scoregroupcollection, Mode=OneWay}" DisplayMemberPath="scoreGroupName" SelectedValuePath="scoreGroupId" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingCollection_SelectionChanged"/>
+                <ComboBox x:Name="ComboBox_MaxDriver" ItemsSource="{Binding Path=MaxDriverDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingCollection_SelectionChanged"/>
+                <ComboBox x:Name="ComboBox_BestTimingDateTime" ItemsSource="{Binding Path=DateTimeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingCollection_SelectionChanged"/>
             </StatusBar>
         </DockPanel>
                 <DockPanel>

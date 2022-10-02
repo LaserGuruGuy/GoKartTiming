@@ -158,26 +158,17 @@ namespace GoKart
             this.Icon = new System.Windows.Media.Imaging.BitmapImage(IconUri);
         }
 
-        private void ComboBox_BestTimingDateTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBox_BestTimingCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var now = DateTime.Now;
-            GetRecordGroup(
-                CpbTiming.BestTimingCollection.resourceId,
-                (ComboBox_BestTimes_ScoreGroup.SelectedItem as ScoreGroup)?.scoreGroupId,
-                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture),
-                "",
-                "20");
-        }
-
-        private void ComboBox_BestTimes_ScoreGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var now = DateTime.Now;
-            GetRecordGroup(
-                CpbTiming.BestTimingCollection.resourceId,
-                (ComboBox_BestTimes_ScoreGroup.SelectedItem as ScoreGroup)?.scoreGroupId,
-                ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture),
-                "",
-                "20");
+            if (CpbTiming.BestTimingCollection.resourceId != null)
+            {
+                GetRecordGroup(
+                    CpbTiming.BestTimingCollection.resourceId,
+                    (ComboBox_BestTimes_ScoreGroup.SelectedItem as ScoreGroup)?.scoreGroupId,
+                    ((KeyValuePair<string, DateTime>)ComboBox_BestTimingDateTime.SelectedItem).Value.ToString(CultureInfo.InvariantCulture),
+                    "",
+                    ((KeyValuePair<string, string>)ComboBox_MaxDriver.SelectedItem).Value);
+            }
         }
 
         private void GetRecordGroup(string rscId, string scgId, string startDate, string endDate, string maxResults)

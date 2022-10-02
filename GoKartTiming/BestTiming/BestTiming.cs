@@ -86,6 +86,8 @@ namespace GoKartTiming.BestTiming
 
         public Dictionary<string, DateTime> DateTimeDict { get; private set; } = new Dictionary<string, DateTime>();
 
+        public Dictionary<string, string> MaxDriverDict { get; private set; } = new Dictionary<string, string>() { { "Top 10", "10" }, { "Top 25", "25" }, { "Top 50", "50" }, { "Top 100", "100"} };
+
         public BestTiming()
         {
             var now = DateTime.Now;
