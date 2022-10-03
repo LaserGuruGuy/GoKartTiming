@@ -11,6 +11,27 @@ namespace GoKart
 
         private object _lock = new object();
 
+        private string _RaceStatus;
+
+        public string RaceStatus
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _RaceStatus;
+                }
+            }
+            set
+            {
+                lock (_lock)
+                {
+                    _RaceStatus = value;
+                }
+                RaisePropertyChanged();
+            }
+        }
+
         public GoKartTiming()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
@@ -46,9 +67,9 @@ namespace GoKart
             System.Windows.Data.BindingOperations.DisableCollectionSynchronization(_LiveTimingCollection);
         }
 
-        private void RaisePropertyChanged(string propertyName)
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
         }
 
         protected void RaiseCollectionChanged(NotifyCollectionChangedAction action, object changedItem)

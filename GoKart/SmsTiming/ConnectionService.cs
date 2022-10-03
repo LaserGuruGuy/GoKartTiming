@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GoKart.SmsTiming
@@ -64,13 +65,16 @@ namespace GoKart.SmsTiming
     {
         // https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient?redirectedfrom=MSDN
 
-        protected OnJSONReceived OnJSONReceived = null;
+        protected OnJSONReceived OnJSONReceived;
 
         protected HttpClient httpClient;
 
         protected BaseConnection baseConnection;
 
         protected string authorizationToken;
+
+        protected Task task;
+        protected CancellationTokenSource cancellationTokenSource;
 
         const string constAccessToken = @"accessToken=";
         const string constQuestionMark = @"?";
@@ -83,11 +87,11 @@ namespace GoKart.SmsTiming
         protected readonly string constBaseUrl = @"https://backend.sms-timing.com";
         protected readonly string constConnectionInfo = @"/api/connectioninfo?type=modules";
 
-        protected async Task<bool> GetOptionsAsync(HttpClient client, string url)
+        protected async Task<bool> GetOptionsAsync(HttpClient client, string url, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (HttpRequestMessage request = new(HttpMethod.Options, url))
             {
-                using (HttpResponseMessage response = await client.SendAsync(request))
+                using (HttpResponseMessage response = await client.SendAsync(request, cancellationToken))
                 {
                     response.EnsureSuccessStatusCode().WriteRequestToConsole();
 #if DEBUG
@@ -108,11 +112,11 @@ namespace GoKart.SmsTiming
             }
         }
 
-        protected async Task<bool> GetClientParamsAsync(HttpClient client, string url, string authorizationToken)
+        protected async Task<bool> GetClientParamsAsync(HttpClient client, string url, string authorizationToken, CancellationToken cancellationToken = default(CancellationToken))
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(constBasic, authorizationToken);
 
-            using (HttpResponseMessage response = await client.GetAsync(url))
+            using (HttpResponseMessage response = await client.GetAsync(url, cancellationToken))
             {
                 response.EnsureSuccessStatusCode().WriteRequestToConsole();
 
@@ -137,9 +141,9 @@ namespace GoKart.SmsTiming
             }
         }
 
-        protected async Task<string> GetResourcesAsync(HttpClient client, string url)
+        protected async Task<string> GetResourcesAsync(HttpClient client, string url, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (HttpResponseMessage response = await client.GetAsync(url))
+            using (HttpResponseMessage response = await client.GetAsync(url, cancellationToken))
             {
                 response.EnsureSuccessStatusCode().WriteRequestToConsole();
 
@@ -157,7 +161,6 @@ namespace GoKart.SmsTiming
                     }
                     catch
                     {
-                        OnJSONReceived?.Invoke(JsonConvert.SerializeObject(Content));
                     }
                 }
 
@@ -172,9 +175,9 @@ namespace GoKart.SmsTiming
             }
         }
 
-        protected async Task<bool> GetRecordsAsync(HttpClient client, string url)
+        protected async Task<bool> GetRecordsAsync(HttpClient client, string url, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (HttpResponseMessage response = await client.GetAsync(url))
+            using (HttpResponseMessage response = await client.GetAsync(url, cancellationToken))
             {
                 response.EnsureSuccessStatusCode().WriteRequestToConsole();
 

@@ -19,6 +19,7 @@ namespace GoKart
                 Column.Width = double.NaN;
             }
         }
+
         void ComponentDispatcher_ThreadIdle(object sender, EventArgs e)
         {
             if (UpdateLiveTiming)

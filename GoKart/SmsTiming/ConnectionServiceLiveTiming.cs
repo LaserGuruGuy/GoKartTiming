@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GoKart.SmsTiming
 {
@@ -122,8 +123,6 @@ namespace GoKart.SmsTiming
 
         private LiveTimingBase LiveTimingBase;
 
-        private WebSocketService WebSocketService;
-
         const string constApiLiveTiming = @"/api/livetiming/";
         const string constSettings = @"settings/";
 
@@ -136,25 +135,30 @@ namespace GoKart.SmsTiming
 
         public void Init(string authorizationToken)
         {
-            this.authorizationToken = authorizationToken;
-            urlParamsLiveTiming.Reset();
-            Task task = InitAsync();
-        }
+            cancellationTokenSource?.Cancel();
+            task?.Wait();
 
-        private string LiveTimingWsUri(LiveTimingBase LiveTimingBase)
-        {
-            return @"ws://" + LiveTimingBase.liveServerHost + ":" + LiveTimingBase.liveServerWsPort;
+            urlParamsLiveTiming.Reset();
+            this.authorizationToken = authorizationToken;
+
+            cancellationTokenSource = new CancellationTokenSource();
+            task = InitAsync();
         }
 
         private async Task InitAsync()
         {
             string url = constBaseUrl + constConnectionInfo;
 
-            if (await GetOptionsAsync(httpClient, url))
-                if (await GetClientParamsAsync(httpClient, url, authorizationToken))
-                    LiveTimingBase = JsonConvert.DeserializeObject < LiveTimingBase > (await GetResourcesAsync(httpClient, FindAll(urlParamsLiveTiming, createFullPath(constApiLiveTiming + constSettings))));
+            if (await GetOptionsAsync(httpClient, url, cancellationTokenSource.Token))
+                if (await GetClientParamsAsync(httpClient, url, authorizationToken, cancellationTokenSource.Token))
+                    LiveTimingBase = JsonConvert.DeserializeObject < LiveTimingBase > (await GetResourcesAsync(httpClient, FindAll(urlParamsLiveTiming, createFullPath(constApiLiveTiming + constSettings)), cancellationTokenSource.Token));
 
-            WebSocketService = new WebSocketService(LiveTimingWsUri(LiveTimingBase), LiveTimingBase.liveServerKey, OnJSONReceived);
+            WebSocketService WebSocketService = new WebSocketService(LiveTimingWsUri(LiveTimingBase), LiveTimingBase.liveServerKey, OnJSONReceived, cancellationTokenSource.Token);
+        }
+
+        private string LiveTimingWsUri(LiveTimingBase LiveTimingBase)
+        {
+            return @"ws://" + LiveTimingBase.liveServerHost + ":" + LiveTimingBase.liveServerWsPort;
         }
     }
 }

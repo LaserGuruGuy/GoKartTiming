@@ -22,7 +22,7 @@ namespace GoKart
                 {
                     _BestTimingCollection = value;
                 }
-                RaisePropertyChanged("BestTimingCollection");
+                RaisePropertyChanged();
             }
         }
 

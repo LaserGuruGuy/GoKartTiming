@@ -32,7 +32,7 @@
             </MenuItem>
         </Menu>
         <DockPanel DockPanel.Dock="Bottom" Background="{DynamicResource NormalBrush}">
-            <StatusBar DockPanel.Dock="Left" Background="{DynamicResource NormalBrush}" >
+            <StatusBar Background="{DynamicResource NormalBrush}" >
                 <ComboBox x:Name="ComboBox_LiveTimingKartCenter" SelectedValue="{Binding KartCenterKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=KartCenterDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_LiveTimingKartCenter_SelectionChanged"/>
             </StatusBar>
             <StatusBar DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" Background="{DynamicResource NormalBrush}" >
@@ -44,7 +44,10 @@
                 <Label Content="{Binding RemainingLaps, Converter={StaticResource LapsLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
                 <Label Content="{Binding TimeLeft, Converter={StaticResource TimeLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
             </StatusBar>
-            <StatusBar DockPanel.Dock="Right" DataContext="{Binding BestTimingCollection}" Background="{DynamicResource NormalBrush}" HorizontalAlignment="Right" >
+            <StatusBar Background="{DynamicResource NormalBrush}" HorizontalAlignment="Center">
+                <Label Content="{Binding RaceStatus}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
+            </StatusBar>
+            <StatusBar DataContext="{Binding BestTimingCollection}" Background="{DynamicResource NormalBrush}" HorizontalAlignment="Right" >
                 <Label Content="Records"></Label>
                 <ComboBox x:Name="ComboBox_BestTimes_ScoreGroup" ItemsSource="{Binding Path=scoregroupcollection, Mode=OneWay}" DisplayMemberPath="scoreGroupName" SelectedValuePath="scoreGroupId" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingCollection_SelectionChanged"/>
                 <ComboBox x:Name="ComboBox_MaxDriver" ItemsSource="{Binding Path=MaxDriverDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingCollection_SelectionChanged"/>

@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GoKart.SmsTiming
 {
@@ -78,9 +79,23 @@ namespace GoKart.SmsTiming
 
         public void Init(string authorizationToken)
         {
+            cancellationTokenSource?.Cancel();
+            task?.Wait();
+
             this.authorizationToken = authorizationToken;
             urlParamsBestTimes.Reset();
-            Task task = InitAsync();
+            
+            cancellationTokenSource = new CancellationTokenSource();
+            task = InitAsync();
+        }
+
+        private async Task InitAsync()
+        {
+            string url = constBaseUrl + constConnectionInfo;
+
+            if (await GetOptionsAsync(httpClient, url, cancellationTokenSource.Token))
+                if (await GetClientParamsAsync(httpClient, url, authorizationToken, cancellationTokenSource.Token))
+                    await GetResourcesAsync(httpClient, FindAll(urlParamsBestTimes, createFullPath(constApiBestTimes + constResources)), cancellationTokenSource.Token);
         }
 
         public void Update(string rscId, string scgId, string startDate, string endDate, string maxResults)
@@ -93,17 +108,8 @@ namespace GoKart.SmsTiming
                 urlParamsBestTimes.endDate = endDate;
                 urlParamsBestTimes.maxResult = maxResults;
 
-                Task task = GetRecordsAsync(httpClient, FindAll(urlParamsBestTimes, createFullPath(constApiBestTimes + constRecords)));
+                Task task = GetRecordsAsync(httpClient, FindAll(urlParamsBestTimes, createFullPath(constApiBestTimes + constRecords)), cancellationTokenSource.Token);
             }
-        }
-
-        private async Task InitAsync()
-        {
-            string url = constBaseUrl + constConnectionInfo;
-
-            if (await GetOptionsAsync(httpClient, url))
-                if (await GetClientParamsAsync(httpClient, url, authorizationToken))
-                    await GetResourcesAsync(httpClient, FindAll(urlParamsBestTimes, createFullPath(constApiBestTimes + constResources)));
         }
     }
 }

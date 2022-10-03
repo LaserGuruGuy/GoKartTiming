@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace GoKart
 {
@@ -9,6 +8,7 @@ namespace GoKart
         {
             if (Serialized.Equals("{}"))
             {
+                CpbTiming.RaceStatus = "No Races";
 #if DEBUG
                 Console.WriteLine("No Races");
 #endif
@@ -18,6 +18,7 @@ namespace GoKart
 #if DEBUG
                 Console.WriteLine(Serialized);
 #endif
+                CpbTiming.RaceStatus = string.Empty;
                 CpbTiming.AddLiveTiming(Serialized);
             }
         }
