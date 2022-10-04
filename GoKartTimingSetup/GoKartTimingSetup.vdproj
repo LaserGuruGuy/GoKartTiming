@@ -117,6 +117,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_11A5E026F7B2488081235CE9BED5E845"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1529814CCA6858360D5B614D8254D3AF"
         "OwnerKey" = "8:_59DA145C63D24C6FB66ADBEDF59D3859"
         "MsmSig" = "8:_UNDEFINED"
@@ -167,6 +173,12 @@
         {
         "MsmKey" = "8:_1D58D8BBA7D09EAB02C76B7C1A28803C"
         "OwnerKey" = "8:_59DA145C63D24C6FB66ADBEDF59D3859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1DC79216BF3A49769558B3274D101A1E"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -405,6 +417,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_3F9DE66164504E26A367C3F75E288CE5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_40C42B7A276B10A519C65C06E2846F96"
         "OwnerKey" = "8:_59DA145C63D24C6FB66ADBEDF59D3859"
         "MsmSig" = "8:_UNDEFINED"
@@ -455,6 +473,12 @@
         {
         "MsmKey" = "8:_4A04DEE6783C378B1B426FFED3C4D034"
         "OwnerKey" = "8:_92A7625D1B816D909C3BE1497F028ADB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4B74ECA58EB9E6D37707B3D051DAA5A5"
+        "OwnerKey" = "8:_59DA145C63D24C6FB66ADBEDF59D3859"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -515,6 +539,12 @@
         {
         "MsmKey" = "8:_52DC996B833A90B5DF568CA4F29DA71F"
         "OwnerKey" = "8:_59DA145C63D24C6FB66ADBEDF59D3859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_53E6AC7E31C34BC894728B1DFF744AB7"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -616,13 +646,25 @@
         "Entry"
         {
         "MsmKey" = "8:_60932D7E8C91E3C3AA93E388AE69325E"
-        "OwnerKey" = "8:_2BE898BAB5A910F49D1DAB4EF9CC1D53"
+        "OwnerKey" = "8:_4B74ECA58EB9E6D37707B3D051DAA5A5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_60932D7E8C91E3C3AA93E388AE69325E"
         "OwnerKey" = "8:_59DA145C63D24C6FB66ADBEDF59D3859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_60932D7E8C91E3C3AA93E388AE69325E"
+        "OwnerKey" = "8:_2BE898BAB5A910F49D1DAB4EF9CC1D53"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_60E72B4B8749443ABCFD412BE55505A3"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1071,6 +1113,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_B3DB704017174125AE2E913670589542"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B4D42BD3517F07147829BA3044A733CB"
         "OwnerKey" = "8:_B8F41A24D09C66B2B7BE609D10F72CB2"
         "MsmSig" = "8:_UNDEFINED"
@@ -1169,6 +1217,12 @@
         {
         "MsmKey" = "8:_C4B8FBAA05397EF9CDC878229E872642"
         "OwnerKey" = "8:_B8F41A24D09C66B2B7BE609D10F72CB2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4CF7C6905574132B82985CF0867D122"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2200,12 +2254,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_60932D7E8C91E3C3AA93E388AE69325E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0C1234BAF28F50C181C7A2476FA98D69"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2285,6 +2333,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FD0E5DA9258A460A830A15E9C97F960A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4B74ECA58EB9E6D37707B3D051DAA5A5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_60932D7E8C91E3C3AA93E388AE69325E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3075,6 +3135,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_11A5E026F7B2488081235CE9BED5E845"
+            {
+            "SourcePath" = "8:..\\GoKart\\Images\\Gold.png"
+            "TargetName" = "8:Gold.png"
+            "Tag" = "8:"
+            "Folder" = "8:_577E75AE9D56486DA48FD5790D390037"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1529814CCA6858360D5B614D8254D3AF"
             {
             "AssemblyRegister" = "3:1"
@@ -3321,6 +3401,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1DC79216BF3A49769558B3274D101A1E"
+            {
+            "SourcePath" = "8:..\\GoKart\\Images\\BackgroundNoRaces.png"
+            "TargetName" = "8:BackgroundNoRaces.png"
+            "Tag" = "8:"
+            "Folder" = "8:_577E75AE9D56486DA48FD5790D390037"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1F65E99F3B5AFCF1C55EB6FD42961F3F"
@@ -3881,6 +3981,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3F9DE66164504E26A367C3F75E288CE5"
+            {
+            "SourcePath" = "8:..\\GoKart\\Images\\Bronze.png"
+            "TargetName" = "8:Bronze.png"
+            "Tag" = "8:"
+            "Folder" = "8:_577E75AE9D56486DA48FD5790D390037"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_40C42B7A276B10A519C65C06E2846F96"
             {
             "AssemblyRegister" = "3:1"
@@ -4098,6 +4218,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4B74ECA58EB9E6D37707B3D051DAA5A5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CpbTiming, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_4B74ECA58EB9E6D37707B3D051DAA5A5"
+                    {
+                    "Name" = "8:CpbTiming.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CpbTiming.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_7B3E81850913473F8CAACDB12ABA104E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4DE7DA952450EBFDDB29AC37B0768743"
             {
             "AssemblyRegister" = "3:1"
@@ -4282,6 +4433,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_53E6AC7E31C34BC894728B1DFF744AB7"
+            {
+            "SourcePath" = "8:..\\GoKart\\Images\\Silver.png"
+            "TargetName" = "8:Silver.png"
+            "Tag" = "8:"
+            "Folder" = "8:_577E75AE9D56486DA48FD5790D390037"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5401E73C500B53987B89AA37A6F229A6"
@@ -4736,6 +4907,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_60E72B4B8749443ABCFD412BE55505A3"
+            {
+            "SourcePath" = "8:..\\GoKart\\Images\\Down.png"
+            "TargetName" = "8:Down.png"
+            "Tag" = "8:"
+            "Folder" = "8:_577E75AE9D56486DA48FD5790D390037"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6245C4E907013F317C091DF9D8D3C403"
@@ -6246,6 +6437,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B3DB704017174125AE2E913670589542"
+            {
+            "SourcePath" = "8:..\\GoKart\\Images\\Up.png"
+            "TargetName" = "8:Up.png"
+            "Tag" = "8:"
+            "Folder" = "8:_577E75AE9D56486DA48FD5790D390037"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B4D42BD3517F07147829BA3044A733CB"
             {
             "AssemblyRegister" = "3:1"
@@ -6709,6 +6920,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C4CF7C6905574132B82985CF0867D122"
+            {
+            "SourcePath" = "8:..\\GoKart\\Images\\Background.png"
+            "TargetName" = "8:Background.png"
+            "Tag" = "8:"
+            "Folder" = "8:_577E75AE9D56486DA48FD5790D390037"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C5A94DEDFBD4271EF884A71DC6C69C2E"
@@ -8412,6 +8643,17 @@
                         {
                         }
                     }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_577E75AE9D56486DA48FD5790D390037"
+                    {
+                    "Name" = "8:Images"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_785D50198EA04964907033630EFBC5CD"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_89EF13D599494A7192DD58126DF461B2"
@@ -8982,7 +9224,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_59DA145C63D24C6FB66ADBEDF59D3859"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\GoKart\\obj\\Release\\GoKart.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7B3E81850913473F8CAACDB12ABA104E"
