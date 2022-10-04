@@ -16,10 +16,10 @@ namespace GoKart.Converter
 
             switch (improvedPosition)
             {
-                case +1:
+                case -1:
                     bitmap = new BitmapImage(new Uri("./Images/Up.png", UriKind.Relative));
                     break;
-                case -1:
+                case +1:
                     bitmap = new BitmapImage(new Uri("./Images/Down.png", UriKind.Relative));
                     break;
                 default:
