@@ -364,7 +364,7 @@ namespace GoKartTiming.LiveTiming
         /// <summary>
         /// ImprovedPosition => viewmodel
         /// Fires the DataTrigger StoryBoard
-        /// {-1, "Green"} {+1, "Red"}
+        /// {+1, "Up.png"} {-1, "Down.png"}
         /// </summary>
         [JsonIgnore]
         public int? ImprovedPosition

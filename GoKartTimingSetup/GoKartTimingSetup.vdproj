@@ -8474,15 +8474,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GoKartTiming"
-        "ProductCode" = "8:{9C003224-39A4-447A-8A1D-721314B20FC2}"
-        "PackageCode" = "8:{8D96B3D6-0CA7-4FDE-A7BA-7C093750EC4F}"
+        "ProductCode" = "8:{F75C358C-F790-4721-AE88-BF31682845D7}"
+        "PackageCode" = "8:{E95317A7-A7DC-46AC-A515-94B31DCF7BFE}"
         "UpgradeCode" = "8:{0642152E-F064-43F1-9FB2-759A1F8F0E3E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.6"
+        "ProductVersion" = "8:0.0.7"
         "Manufacturer" = "8:GoKartTiming"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -8982,7 +8982,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_59DA145C63D24C6FB66ADBEDF59D3859"
             {
-            "SourcePath" = "8:..\\GoKart\\obj\\Release\\GoKart.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7B3E81850913473F8CAACDB12ABA104E"

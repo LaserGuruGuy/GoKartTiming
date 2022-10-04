@@ -197,6 +197,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\ComparisonToVisibleConverter.cs" />
+    <Compile Include="Converter\ImprovedPoitionToImageConverter.cs" />
+    <Compile Include="Converter\PositionToImageConverter.cs" />
     <Compile Include="GoKartTiming\BestTiming.cs" />
     <Compile Include="Events\CollectionChanged.cs" />
     <Compile Include="Converter\ActualHeatStartToStringConverter.cs" />
@@ -282,13 +284,23 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.png" />
-    <Resource Include="Images\Bronze.png" />
-    <Resource Include="Images\Down.png" />
+    <Content Include="Images\Bronze.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Down.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\Finished.png" />
-    <Resource Include="Images\Gold.png" />
+    <Content Include="Images\Gold.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\NoRaces.png" />
-    <Resource Include="Images\Silver.png" />
-    <Resource Include="Images\Up.png" />
+    <Content Include="Images\Silver.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Up.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SHDocVw">

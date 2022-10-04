@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace GoKart
+namespace GoKart.Converter
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class ComparisonToVisibleConverter : IMultiValueConverter

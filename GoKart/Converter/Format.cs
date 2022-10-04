@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace GoKart
+namespace GoKart.Converter
 {
     internal static class Format
     {

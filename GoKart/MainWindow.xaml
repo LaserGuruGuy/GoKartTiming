@@ -54,114 +54,115 @@
                 <ComboBox x:Name="ComboBox_BestTimingDateTime" ItemsSource="{Binding Path=DateTimeDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_BestTimingCollection_SelectionChanged"/>
             </StatusBar>
         </DockPanel>
-                <DockPanel>
-                    <ListView x:Name="ListView_LiveTimingCollection" ItemsSource="{Binding LiveTimingCollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False">
-                        <ListView.ContextMenu>
-                            <ContextMenu Selector.IsSelected="True">
-                                <MenuItem
-                                    Header="Delete File"
-                                    Command="{Binding DeleteLiveTiming}"
-                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}">
-                                </MenuItem>
-                            </ContextMenu>
-                        </ListView.ContextMenu>
-                        <ListView.View>
-                            <GridView >
-                                <GridViewColumn Header="Heat Name" Width="auto" DisplayMemberBinding="{Binding HeatName}"/>
-                                <GridViewColumn Header="Date Time" Width="auto" DisplayMemberBinding="{Binding DateTime, Converter={StaticResource DateTimeToStringConverter}}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers, IsAsync=True}" VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
-                        <ListView.View>
-                            <GridView AllowsColumnReorder="true">
+        <DockPanel>
+            <ListView x:Name="ListView_LiveTimingCollection" ItemsSource="{Binding LiveTimingCollection, IsAsync=True}" IsSynchronizedWithCurrentItem="False">
+                <ListView.ContextMenu>
+                    <ContextMenu Selector.IsSelected="True">
+                        <MenuItem
+                            Header="Delete File"
+                            Command="{Binding DeleteLiveTiming}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}">
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.View>
+                    <GridView >
+                        <GridViewColumn Header="Heat Name" Width="auto" DisplayMemberBinding="{Binding HeatName}"/>
+                        <GridViewColumn Header="Date Time" Width="auto" DisplayMemberBinding="{Binding DateTime, Converter={StaticResource DateTimeToStringConverter}}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers, IsAsync=True}" VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="true">
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="10" Height="10" Source="{Binding Position, Converter={StaticResource PositionToImageConverter}}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                                <GridViewColumn Header="Position" Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock x:Name="PositionTextBlock" Text="{Binding Position}" Background="Transparent"/>
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding ImprovedPosition}" Value="-1">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard Storyboard="{StaticResource BetterPositionAnimation}"/>
-                                                    </DataTrigger.EnterActions>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding ImprovedPosition}" Value="+1">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard Storyboard="{StaticResource WorsePositionAnimation}"/>
-                                                    </DataTrigger.EnterActions>
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                        <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding Position}"/>
 
-                                <GridViewColumn Header="Driver Name" Width="auto" DisplayMemberBinding="{Binding DriverName}"/>
-                                <GridViewColumn Header="Kart Number" Width="auto" DisplayMemberBinding="{Binding KartNumber}"/>
-                                <GridViewColumn Header="Laps" Width="auto" DisplayMemberBinding="{Binding Laps}"/>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="10" Height="10" Source="{Binding ImprovedPosition, Converter={StaticResource ImprovedPositionToImageConverter}}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                                <GridViewColumn Header="Best" Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock x:Name="BestLapTimeTextBlock" Text="{Binding BestLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding ImprovedBestLapTime}" Value="true">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard Storyboard="{StaticResource FasterBestLapTimeAnimation}"/>
-                                                    </DataTrigger.EnterActions>
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                        <GridViewColumn Header="Driver Name" Width="auto" DisplayMemberBinding="{Binding DriverName}"/>
+                        <GridViewColumn Header="Kart Number" Width="auto" DisplayMemberBinding="{Binding KartNumber}"/>
+                        <GridViewColumn Header="Laps" Width="auto" DisplayMemberBinding="{Binding Laps}"/>
 
-                                <GridViewColumn Header="Average" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
+                        <GridViewColumn Header="Best" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock x:Name="BestLapTimeTextBlock" Text="{Binding BestLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding ImprovedBestLapTime}" Value="true">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource FasterBestLapTimeAnimation}"/>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                                <GridViewColumn Header="Last" Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock x:Name="LastLapTimeTextBlock" Text="{Binding LastLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding ImprovedLastLapTime}" Value="-1">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard Storyboard="{StaticResource FasterLastLapTimeAnimation}"/>
-                                                    </DataTrigger.EnterActions>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding ImprovedLastLapTime}" Value="+1">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard Storyboard="{StaticResource SlowerLastLapTimeAnimation}"/>
-                                                    </DataTrigger.EnterActions>
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                        <GridViewColumn Header="Average" Width="auto" DisplayMemberBinding="{Binding AvarageLapTime, Converter={StaticResource TimeToStringConverter}}"/>
 
-                                <GridViewColumn Header="Speed" Width="auto" DisplayMemberBinding="{Binding AverageSpeed, Converter={StaticResource SpeedToStringConverter}}"/>
-                                <GridViewColumn Header="Gap" Width="auto"  DisplayMemberBinding="{Binding GapTime}"/>
+                        <GridViewColumn Header="Last" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock x:Name="LastLapTimeTextBlock" Text="{Binding LastLapTime, Converter={StaticResource TimeToStringConverter}}" Background="Transparent"/>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding ImprovedLastLapTime}" Value="-1">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource FasterLastLapTimeAnimation}"/>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ImprovedLastLapTime}" Value="+1">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource SlowerLastLapTimeAnimation}"/>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                                <GridViewColumn Header="Record" DisplayMemberBinding="{Binding LastRecordString}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <ListView x:Name="ListView_LapTime" ItemsSource="{Binding ElementName=ListView_LiveTiming, Path=SelectedItem.LapTime, IsAsync=True}" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Lap" Width="auto" DisplayMemberBinding="{Binding Key}"/>
-                                <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Value, Converter={StaticResource TimeToStringConverter}}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <ListView x:Name="ListView_BestTimingCollection" ItemsSource="{Binding BestTimingCollection.recordgroupcollection, IsAsync=True}"  VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False">
-                        <ListView.View>
-                            <GridView >
-                                <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding Position}"/>
-                                <GridViewColumn Header="Driver" Width="auto" DisplayMemberBinding="{Binding Participant}"/>
-                                <GridViewColumn Header="Date" Width="auto" DisplayMemberBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}"/>
-                                <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Score, Converter={StaticResource TimeToStringConverter}}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </DockPanel>
+                        <GridViewColumn Header="Speed" Width="auto" DisplayMemberBinding="{Binding AverageSpeed, Converter={StaticResource SpeedToStringConverter}}"/>
+                        <GridViewColumn Header="Gap" Width="auto"  DisplayMemberBinding="{Binding GapTime}"/>
+
+                        <GridViewColumn Header="Record" DisplayMemberBinding="{Binding LastRecordString}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="ListView_LapTime" ItemsSource="{Binding ElementName=ListView_LiveTiming, Path=SelectedItem.LapTime, IsAsync=True}" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Lap" Width="auto" DisplayMemberBinding="{Binding Key}"/>
+                        <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Value, Converter={StaticResource TimeToStringConverter}}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="ListView_BestTimingCollection" ItemsSource="{Binding BestTimingCollection.recordgroupcollection, IsAsync=True}"  VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False">
+                <ListView.View>
+                    <GridView >
+                        <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding Position}"/>
+                        <GridViewColumn Header="Driver" Width="auto" DisplayMemberBinding="{Binding Participant}"/>
+                        <GridViewColumn Header="Date" Width="auto" DisplayMemberBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}"/>
+                        <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Score, Converter={StaticResource TimeToStringConverter}}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
     </DockPanel>
 </Window>

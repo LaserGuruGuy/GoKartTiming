@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Converters="clr-namespace:GoKart">
+    xmlns:Converters="clr-namespace:GoKart.Converter">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ExpressionDark.xaml"/>
@@ -14,42 +14,8 @@
     <Converters:TimeToStringConverter x:Key="TimeToStringConverter"/>
     <Converters:SpeedToStringConverter x:Key="SpeedToStringConverter"/>
     <Converters:ComparisonToVisibleConverter x:Key="ComparisonToVisibleConverter"/>
-
-    <Storyboard x:Key="BetterPositionAnimation">
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="PositionTextBlock"
-            To="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="PositionTextBlock"
-            From="Green" To="Green"
-            FillBehavior="Stop" Duration="0:0:0:6.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="PositionTextBlock"
-            From="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
-    </Storyboard>
-
-    <Storyboard x:Key="WorsePositionAnimation">
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="PositionTextBlock"
-            To="Red"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="PositionTextBlock"
-            From="Red" To="Red"
-            FillBehavior="Stop" Duration="0:0:0:6.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="PositionTextBlock"
-            From="Red"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
-    </Storyboard>
+    <Converters:PositionToImageConverter x:Key="PositionToImageConverter"/>
+    <Converters:ImprovedPositionToImageConverter x:Key="ImprovedPositionToImageConverter"/>
 
 
     <Storyboard x:Key="FasterBestLapTimeAnimation">
