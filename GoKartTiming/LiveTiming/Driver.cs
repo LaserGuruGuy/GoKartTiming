@@ -222,6 +222,23 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
+                if (_Laps != null && value != null && value > _Laps && _Position > 0)
+                {
+                    // decreased position => "up"
+                    if (ImprovedPosition < 0)
+                    {
+                        // If a driver overtakes then the new position is
+                        // reported when this driver passes the finish line
+                        ImprovedPosition++; // so this condition is never encountered?!
+                    }
+                    // increased position => "down"
+                    else if (ImprovedPosition > 0)
+                    {
+                        // If a driver is overtaken the new position is reported
+                        // before this overtaken driver passes the finish line
+                        ImprovedPosition--;
+                    }
+                }
                 _Laps = value;
                 RaisePropertyChanged();
             }
@@ -354,10 +371,25 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                bool bUpdate = _Position != null && value != null && _Position != value ? true : false;
-                if (bUpdate) ImprovedPosition = _Position != null && value != null ? value < _Position ? -1 : value > _Position ? +1 : 0 : 0;
+                if (_Position != null && value != null && _Position != value)
+                {
+                    // decreased position => "up"
+                    if (value < _Position)
+                    {
+                        // If a driver overtakes then the new position is
+                        // reported when this driver passes the finish line
+                        ImprovedPosition = -1;
+                    }
+                    // increased position => "down"
+                    else if (value > _Position)
+                    {
+                        // If a driver is overtaken the new position is reported
+                        // before this overtaken driver passes the finish line
+                        ImprovedPosition = +2;
+                    }
+                }
                 _Position = value;
-                if (bUpdate) RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 

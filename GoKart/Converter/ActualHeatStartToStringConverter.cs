@@ -9,7 +9,7 @@ namespace GoKart.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? "Actual Heat Start: " + (int)value : string.Empty;
+            return value != null ? (int)value : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

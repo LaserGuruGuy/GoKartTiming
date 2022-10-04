@@ -9,7 +9,7 @@ namespace GoKart.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? value.Equals(0) ? string.Empty : "Laps left: " + (int)value : string.Empty;
+            return value != null ? value.Equals(0) ? string.Empty : ((int)value + (int)value > 1 ? " laps" : " lap") : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1063,9 +1063,11 @@
                         <Trigger Property="Height" Value="Auto">
                             <Setter Property="MinHeight" Value="20" />
                         </Trigger>
+                        <!--
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
+                        -->
                         <Trigger Property="Role" Value="Padding">
                             <Setter TargetName="PART_HeaderGripper" Property="Visibility" Value="Collapsed" />
                         </Trigger>
@@ -1123,6 +1125,7 @@
             </Trigger>
             <Trigger Property="IsChecked" Value="true" />
             <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Width" Value="0"/>
                 <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
                 <Setter Property="Stroke" TargetName="Arrow" Value="{DynamicResource DisabledForegroundBrush}"/>
                 <Setter Property="Background" TargetName="border" Value="{DynamicResource DisabledBorderBrush}"/>
@@ -1159,8 +1162,10 @@
                             <Setter Property="MinHeight" Value="95" TargetName="DropDownBorder" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
+                            <!--
                             <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
                             <Setter Property="Opacity" TargetName="grid" Value="0.5"/>
+                            -->
                         </Trigger>
                         <Trigger Property="IsGrouping" Value="true">
                             <Setter Property="ScrollViewer.CanContentScroll" Value="false" />

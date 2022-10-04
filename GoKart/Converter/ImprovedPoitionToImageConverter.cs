@@ -14,16 +14,13 @@ namespace GoKart.Converter
 
             BitmapImage bitmap = null;
 
-            switch (improvedPosition)
+            if (improvedPosition < 0)
             {
-                case -1:
-                    bitmap = new BitmapImage(new Uri("./Images/Up.png", UriKind.Relative));
-                    break;
-                case +1:
-                    bitmap = new BitmapImage(new Uri("./Images/Down.png", UriKind.Relative));
-                    break;
-                default:
-                    break;
+                bitmap = new BitmapImage(new Uri("./Images/Up.png", UriKind.Relative));
+            }
+            else if (improvedPosition > 0)
+            {
+                bitmap = new BitmapImage(new Uri("./Images/Down.png", UriKind.Relative));
             }
 
             return bitmap;
