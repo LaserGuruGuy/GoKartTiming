@@ -22,6 +22,11 @@ namespace GoKart
 
         void ComponentDispatcher_ThreadIdle(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(CpbTiming.RaceStatus))
+                ListView_LiveTiming.IsEnabled = true;
+            else
+                ListView_LiveTiming.IsEnabled = false;
+
             if (UpdateLiveTiming)
             {
                 UpdateLiveTiming = false;
@@ -50,7 +55,6 @@ namespace GoKart
                 AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
                 CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
                 RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
-
             }
 
             if (UpdateRecordGroup)

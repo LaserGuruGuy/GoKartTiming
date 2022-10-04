@@ -73,6 +73,7 @@
                 </ListView.View>
             </ListView>
             <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers, IsAsync=True}" VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
+
                 <ListView.View>
                     <GridView AllowsColumnReorder="true">
                         <GridViewColumn>

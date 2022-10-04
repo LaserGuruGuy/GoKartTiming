@@ -284,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.png" />
+    <Resource Include="Images\BackgroundNoRaces.png" />
     <Content Include="Images\Bronze.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
