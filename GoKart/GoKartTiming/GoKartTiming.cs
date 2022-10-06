@@ -62,6 +62,7 @@ namespace GoKart
                 foreach (string Serialized in File.ReadAllLines(FileName))
                 {
                     AddLiveTiming(Serialized);
+                    //System.Threading.Thread.Sleep(250);
                 }
             }
             System.Windows.Data.BindingOperations.DisableCollectionSynchronization(_LiveTimingCollection);

@@ -2,21 +2,21 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
-using Newtonsoft.Json;
 
 namespace GoKartTiming.LiveTiming
 {
-    public class LiveTimingEx : LiveTiming, INotifyPropertyChanged, INotifyCollectionChanged
+    public class LiveTimingEx : LiveTiming, ILiveTimingEx, INotifyPropertyChanged, INotifyCollectionChanged
     {
-        private new UniqueObservableCollection<DriverEx> _Drivers;
-
         private DateTime _DateTime = DateTime.Now;
 
+        private new UniqueObservableCollection<DriverEx> _Drivers;
+
+        /* pdf */
         private HeatOverzicht _HeatOverzicht = new HeatOverzicht();
 
+        /* pdf */
         private Records _Records = new Records();
 
-        [JsonIgnore]
         public DateTime DateTime
         {
             get
@@ -30,38 +30,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        [JsonIgnore]
-        public HeatOverzicht HeatOverzicht
-        {
-            get
-            {
-                return _HeatOverzicht;
-            }
-            set
-            {
-                _HeatOverzicht = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        [JsonIgnore]
-        public Records Records
-        {
-            get
-            {
-                return _Records;
-            }
-            set
-            {
-                _Records = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// "D" = Drivers [array]
-        /// </summary>
-        [JsonProperty(PropertyName = "D")]
         public new UniqueObservableCollection<DriverEx> Drivers
         {
             get
@@ -75,6 +43,35 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
+        /* pdf */
+        public HeatOverzicht HeatOverzicht
+        {
+            get
+            {
+                return _HeatOverzicht;
+            }
+            set
+            {
+                _HeatOverzicht = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /* pdf */
+        public Records Records
+        {
+            get
+            {
+                return _Records;
+            }
+            set
+            {
+                _Records = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /* pdf */
         public void Parse(string Page)
         {
             if (Drivers == null)
@@ -121,7 +118,7 @@ namespace GoKartTiming.LiveTiming
                                         }
                                     }
                                 }
-                                Driver.BestLapTime = BestLapTime;
+                                Driver.BestLapTimeTotalMilliseconds = (int)BestLapTime.TotalMilliseconds;
                                 break;
                             // Gemiddelde snelheid
                             case 1:
@@ -146,7 +143,7 @@ namespace GoKartTiming.LiveTiming
                                         }
                                     }
                                 }
-                                Driver.AvarageLapTime = AvarageLapTime;
+                                Driver.AvarageLapTimeTotalMilliseconds = (int)AvarageLapTime.TotalMilliseconds;
                                 break;
                             default:
                                 break;
@@ -176,6 +173,11 @@ namespace GoKartTiming.LiveTiming
             _DateTime = DateTime.Now;
         }
 
+        private void ResetDrivers()
+        {
+            _Drivers.Clear();
+        }
+
         private void ResetHeatOverzicht()
         {
             _HeatOverzicht = new HeatOverzicht();
@@ -184,11 +186,6 @@ namespace GoKartTiming.LiveTiming
         private void ResetRecords()
         {
             _Records = new Records();
-        }
-        
-        private void ResetDrivers()
-        {
-            _Drivers.Clear();
         }
     }
 }

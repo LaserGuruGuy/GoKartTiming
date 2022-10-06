@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace GoKartTiming.LiveTiming
 {
-    public class LiveTiming : INotifyPropertyChanged, INotifyCollectionChanged
+    public class LiveTiming : ILiveTiming, INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
@@ -54,10 +53,6 @@ namespace GoKartTiming.LiveTiming
         protected int? _RemainingLaps;
         protected int? _HeatState;
 
-        /// <summary>
-        /// "T" = ActualHeatStart
-        /// </summary>
-        [JsonProperty(PropertyName = "T")]
         public int? ActualHeatStart
         {
             get
@@ -71,10 +66,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "CE" = ClockEnabled
-        /// </summary>
-        [JsonProperty(PropertyName = "CE")]
         public int? ClockEnabled
         {
             get
@@ -88,10 +79,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "CS" = ClockStarted
-        /// </summary>
-        [JsonProperty(PropertyName = "CS")]
         public int? ClockStarted
         {
             get
@@ -105,10 +92,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "D" = Drivers [array]
-        /// </summary>
-        [JsonProperty(PropertyName = "D")]
         public UniqueObservableCollection<Driver> Drivers
         {
             get
@@ -122,10 +105,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "EM" = EndMode
-        /// </summary>
-        [JsonProperty(PropertyName = "EM")]
         public int? EndMode
         {
             get
@@ -139,22 +118,18 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "C" = Counter (in milliseconds)
-        /// </summary>
-        [JsonProperty(PropertyName = "C")]
         public int Counter
         {
             set
             {
                 TimeLeft = TimeSpan.FromMilliseconds(value);
             }
+            get
+            {
+                return (int)TimeLeft.TotalMilliseconds;
+            }
         }
 
-        /// <summary>
-        /// TimeLeft => viewmodel
-        /// </summary>
-        [JsonIgnore]
         public TimeSpan TimeLeft
         {
             get
@@ -168,10 +143,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "N" = HeatName
-        /// </summary>
-        [JsonProperty(PropertyName = "N")]
         public string HeatName
         {
             get
@@ -185,10 +156,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "E" = EndCondition
-        /// </summary>
-        [JsonProperty(PropertyName = "E")]
         public int? EndCondition
         {
             get
@@ -202,10 +169,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "R" = RaceMode
-        /// </summary>
-        [JsonProperty(PropertyName = "R")]
         public int? RaceMode
         {
             get
@@ -219,10 +182,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "L" = RemainingLaps
-        /// </summary>
-        [JsonProperty(PropertyName = "L")]
         public int? RemainingLaps
         {
             get
@@ -236,10 +195,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "S" = HeatState 
-        /// </summary>
-        [JsonProperty(PropertyName = "S")]
         public int? HeatState
         {
             get

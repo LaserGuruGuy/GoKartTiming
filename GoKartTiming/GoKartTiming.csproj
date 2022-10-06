@@ -79,8 +79,12 @@
     <Compile Include="BestTiming\RecordGroup.cs" />
     <Compile Include="BestTiming\ScoreGroup.cs" />
     <Compile Include="HeatOverzicht.cs" />
+    <Compile Include="LiveTiming\IDriver.cs" />
     <Compile Include="LiveTiming\Driver.cs" />
+    <Compile Include="LiveTiming\IDriverEx.cs" />
     <Compile Include="LiveTiming\DriverEx.cs" />
+    <Compile Include="LiveTiming\ILiveTiming.cs" />
+    <Compile Include="LiveTiming\ILiveTimingEx.cs" />
     <Compile Include="UniqueObservableCollection\Extensions.cs" />
     <Compile Include="LiveTiming\LiveTiming.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +92,7 @@
     <Compile Include="Ronden.cs" />
     <Compile Include="RondeTijdDatum.cs" />
     <Compile Include="LiveTiming\LiveTimingEx.cs" />
+    <Compile Include="UniqueObservableCollection\ObservableDictionary.cs" />
     <Compile Include="UniqueObservableCollection\UniqueObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>

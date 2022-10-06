@@ -7,14 +7,10 @@ using Newtonsoft.Json;
 
 namespace GoKartTiming.LiveTiming
 {
-    public class DriverEx : Driver, INotifyPropertyChanged, INotifyCollectionChanged
+    public class DriverEx : Driver, IDriverEx, INotifyPropertyChanged, INotifyCollectionChanged
     {
         private float? _AverageSpeed;
 
-        /// <summary>
-        /// Only provided in the pdf files!
-        /// </summary>
-        [JsonIgnore]
         public float? AverageSpeed
         {
             get
@@ -57,7 +53,7 @@ namespace GoKartTiming.LiveTiming
                     int _KartNumber;
                     if (int.TryParse(Suffix, out _KartNumber))
                     {
-                        KartNumber = _KartNumber;
+                        KartNumberString = _KartNumber.ToString();
                         return true;
                     }
                 }
@@ -137,7 +133,7 @@ namespace GoKartTiming.LiveTiming
                             }
                         }
                     }
-                    LastLapTime = RondeTijd;
+                    LastLapTimeTotalMilliseconds = (int)RondeTijd.TotalMilliseconds;
                     return true;
                 }
             }

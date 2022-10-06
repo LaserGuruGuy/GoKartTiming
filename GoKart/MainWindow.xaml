@@ -80,7 +80,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="10" Height="10" Source="{Binding Position, Converter={StaticResource PositionToImageConverter}}"/>
+                                        <Image Width="15" Height="15" Source="{Binding Position, Converter={StaticResource PositionToImageConverter}}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -92,7 +92,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="10" Height="10" Source="{Binding ImprovedPosition, Converter={StaticResource ImprovedPositionToImageConverter}}"/>
+                                        <Image Width="15" Height="15" Source="{Binding DeltaPosition, Converter={StaticResource DeltaPositionToImageConverter}}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

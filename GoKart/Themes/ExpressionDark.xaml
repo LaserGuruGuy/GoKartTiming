@@ -822,7 +822,7 @@
                         </ScrollViewer>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsSynchronizedWithCurrentItem" Value="true">
                             <Setter TargetName="Border" Property="Background">
                                 <Setter.Value>
                                     <ImageBrush ImageSource="../Images/BackgroundNoRaces.png"/>

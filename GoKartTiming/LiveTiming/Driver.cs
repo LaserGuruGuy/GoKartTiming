@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace GoKartTiming.LiveTiming
 {
-    public class Driver : INotifyPropertyChanged, INotifyCollectionChanged
+    public class Driver : IDriver, INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
@@ -35,17 +34,11 @@ namespace GoKartTiming.LiveTiming
         private int? _LastRecord;
         private string _DriverName;
         private int? _Position;
-        private int? _ImprovedPosition;
+        private int? _DeltaPosition;
         private int? _MemberID;
 
         private string _LastRecordString;
 
-        /// <summary>
-        /// "LP" = LastPassing
-        ///      0 = not the last passing
-        ///      1 = last passing
-        /// </summary>
-        [JsonProperty(PropertyName = "LP")]
         public bool? LastPassing
         {
             get
@@ -59,19 +52,14 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "A" = AvarageLapTimeMS
-        /// </summary>
-        [JsonProperty(PropertyName = "A")]
         public int AvarageLapTimeTotalMilliseconds
         {
             set
             {
-                _AvarageLapTime = TimeSpan.FromMilliseconds(value);
+                AvarageLapTime = TimeSpan.FromMilliseconds(value);
             }
         }
 
-        [JsonIgnore]
         public TimeSpan AvarageLapTime
         {
             get
@@ -80,27 +68,22 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                _AvarageLapTime = value;
-                RaisePropertyChanged();
+                if (value != null)
+                {
+                    _AvarageLapTime = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
-        /// <summary>
-        /// "B" = BestLapTimeMS
-        /// </summary>
-        [JsonProperty(PropertyName = "B")]
         public int BestLapTimeTotalMilliseconds
         {
             set
             {
-                _BestLapTime = TimeSpan.FromMilliseconds(value);
+                BestLapTime = TimeSpan.FromMilliseconds(value);
             }
         }
 
-        /// <summary>
-        /// BestLaptime => viewmodel
-        /// </summary>
-        [JsonIgnore]
         public TimeSpan BestLapTime
         {
             get
@@ -109,17 +92,25 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                ImprovedBestLapTime = value != null && _BestLapTime != null ? value < _BestLapTime && _BestLapTime != TimeSpan.Zero ? true : false : false;
-                _BestLapTime = value;
-                RaisePropertyChanged();
+                if (value != null)
+                {
+                    if (value != TimeSpan.Zero)
+                    {
+                        if (value < _BestLapTime || _BestLapTime == TimeSpan.Zero)
+                        {
+                            ImprovedBestLapTime = true;
+                        }
+                        else
+                        {
+                            ImprovedBestLapTime = false;
+                        }
+                    }
+                    _BestLapTime = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
-        /// <summary>
-        /// ImprovedBestLapTime => viewmodel
-        /// Fires the DataTrigger StoryBoard
-        /// </summary>
-        [JsonIgnore]
         public bool? ImprovedBestLapTime
         {
             get
@@ -136,10 +127,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "K" = KartNumber
-        /// </summary>
-        [JsonProperty(PropertyName = "K")]
         public string KartNumberString
         {
             set
@@ -158,10 +145,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// KartNumber => viewmodel
-        /// </summary>
-        [JsonIgnore]
         public int? KartNumber
         {
             get
@@ -170,16 +153,14 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                _KartNumber = value;
-                RaisePropertyChanged();
+                if(value != null)
+                {
+                    _KartNumber = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
-        /// <summary>
-        /// "G" = GapTime
-        /// Gap in laps
-        /// </summary>
-        [JsonProperty(PropertyName = "G")]
         public string GapTime
         {
             get
@@ -193,10 +174,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "D" = DriverID
-        /// </summary>
-        [JsonProperty(PropertyName = "D")]
         public int? DriverID
         {
             get
@@ -210,10 +187,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "L" = Laps
-        /// </summary>
-        [JsonProperty(PropertyName = "L")]
         public int? Laps
         {
             get
@@ -222,32 +195,11 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                if (_Laps != null && value != null && value > _Laps && _Position > 0)
-                {
-                    // decreased position => "up"
-                    if (ImprovedPosition < 0)
-                    {
-                        // If a driver overtakes then the new position is
-                        // reported when this driver passes the finish line
-                        ImprovedPosition++; // so this condition is never encountered?!
-                    }
-                    // increased position => "down"
-                    else if (ImprovedPosition > 0)
-                    {
-                        // If a driver is overtaken the new position is reported
-                        // before this overtaken driver passes the finish line
-                        ImprovedPosition--;
-                    }
-                }
                 _Laps = value;
                 RaisePropertyChanged();
             }
         }
 
-        /// <summary>
-        /// "T" = LastLapTimeMS
-        /// </summary>
-        [JsonProperty(PropertyName = "T")]
         public int LastLapTimeTotalMilliseconds
         {
             set
@@ -256,10 +208,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// LastLapTime => viewmodel
-        /// </summary>
-        [JsonIgnore]
         public TimeSpan LastLapTime
         {
             get
@@ -268,19 +216,27 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                ImprovedLastLapTime = value != null && _LastLapTime != null ? value < _LastLapTime && _LastLapTime != TimeSpan.Zero ? -1 : value > _LastLapTime && _LastLapTime != TimeSpan.Zero ? +1 : 0 : 0;
+                if (value != null && value != TimeSpan.Zero)
+                {
+                    if (value < _LastLapTime && _LastLapTime != TimeSpan.Zero)
+                    {
+                        ImprovedLastLapTime = -1;
+                    }
+                    else if (value > _LastLapTime && _LastLapTime != TimeSpan.Zero)
+                    {
+                        ImprovedLastLapTime = +1;
+                    }
+                    else
+                    {
+                        ImprovedLastLapTime = 0;
+                    }
+                }
                 _LastLapTime = value;
                 RaisePropertyChanged();
                 _LapTime.Add(new KeyValuePair<int, TimeSpan>((int)_Laps, _LastLapTime));
             }
         }
 
-        /// <summary>
-        /// ImprovedLastLapTime => viewmodel
-        /// Fires the DataTrigger StoryBoard
-        /// {-1, "Green"} {+1, "Red"}
-        /// </summary>
-        [JsonIgnore]
         public int? ImprovedLastLapTime
         {
             get
@@ -292,15 +248,11 @@ namespace GoKartTiming.LiveTiming
                 if (value != null)
                 {
                     _ImprovedLastLapTime = value;
-                    RaisePropertyChanged();
                 }
+                RaisePropertyChanged();
             }
         }
 
-        /// <summary>
-        /// LapTime List => viewmodel
-        /// </summary>
-        [JsonIgnore]
         public UniqueObservableCollection<KeyValuePair<int, TimeSpan>> LapTime
         {
             get
@@ -309,10 +261,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "R" = LastRecord
-        /// </summary>
-        [JsonProperty(PropertyName = "R")]
         public int? LastRecord
         {
             get
@@ -321,31 +269,35 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                _LastRecord = value;
-                RaisePropertyChanged();
                 if (value < 5 && !_LastLapTime.Equals(TimeSpan.Zero))
                 {
+                    string _LastRecordString;
                     if (LastRecordDict.TryGetValue((int)value, out _LastRecordString))
                     {
-                        RaisePropertyChanged("LastRecordString");
+                        LastRecordString = _LastRecordString;
                     }
                 }
+                _LastRecord = value;
+                RaisePropertyChanged();
             }
         }
 
-        [JsonIgnore]
         public string LastRecordString
         {
             get
             {
                 return _LastRecordString;
             }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _LastRecordString = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-        /// <summary>
-        /// "N" = DriverName
-        /// </summary>
-        [JsonProperty(PropertyName = "N")]
         public string DriverName
         {
             get
@@ -359,10 +311,6 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
-        /// <summary>
-        /// "P" = Position
-        /// </summary>
-        [JsonProperty(PropertyName = "P")]
         public int? Position
         {
             get
@@ -371,54 +319,52 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                if (_Position != null && value != null && _Position != value)
-                {
-                    // decreased position => "up"
-                    if (value < _Position)
-                    {
-                        // If a driver overtakes then the new position is
-                        // reported when this driver passes the finish line
-                        ImprovedPosition = -1;
-                    }
-                    // increased position => "down"
-                    else if (value > _Position)
-                    {
-                        // If a driver is overtaken the new position is reported
-                        // before this overtaken driver passes the finish line
-                        ImprovedPosition = +2;
-                    }
-                }
-                _Position = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// ImprovedPosition => viewmodel
-        /// Fires the DataTrigger StoryBoard
-        /// {+1, "Up.png"} {-1, "Down.png"}
-        /// </summary>
-        [JsonIgnore]
-        public int? ImprovedPosition
-        {
-            get
-            {
-                return _ImprovedPosition;
-            }
-            set
-            {
                 if (value != null)
                 {
-                    _ImprovedPosition = value;
+                    if (Position != null)
+                    {
+                        if (value < Position)
+                        {
+                            DeltaPosition = -30;
+                        }
+                        else if (value > Position)
+                        {
+                            DeltaPosition = +30;
+                        }
+                        else
+                        {
+                            if (DeltaPosition > 0)
+                            {
+                                DeltaPosition--;
+                            }
+                            else if (_DeltaPosition < 0)
+                            {
+                                DeltaPosition++;
+                            }
+                        }
+                    }
+                    _Position = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        /// <summary>
-        /// "M" = MemberID
-        /// </summary>
-        [JsonProperty(PropertyName = "M")]
+        public int? DeltaPosition
+        {
+            get
+            {
+                return _DeltaPosition;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _DeltaPosition = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public int? MemberID
         {
             get
@@ -502,9 +448,9 @@ namespace GoKartTiming.LiveTiming
             _Position = null;
         }
 
-        private void ResetImprovedPosition()
+        private void ResetDeltaPosition()
         {
-            _ImprovedPosition = 0;
+            _DeltaPosition = 0;
         }
 
         private void ResetMemberID()

@@ -42,7 +42,18 @@ namespace GoKart
             LiveTimingCollection.Add(LiveTiming);
         }
 
-        public void AddLiveTiming(string Serialized)
+        public void AddLiveTiming(string Serialized, bool LogToFile = false)
+        {
+            lock (_lock)
+            {
+                if (!AssignItem(Serialized, LogToFile))
+                {
+                    AddItem(Serialized, LogToFile);
+                }
+            }
+        }
+
+        private bool AssignItem(string Serialized, bool LogToFile)
         {
             if (LiveTimingCollection.Count > 0)
             {
@@ -52,108 +63,74 @@ namespace GoKart
                     {
                         if (Serialized.Contains(LiveTimingCollection[i].HeatName))
                         {
-                            lock (_lock)
+                            try
                             {
-                                try
+                                JsonConvert.PopulateObject(Serialized, LiveTimingCollection[i], new JsonSerializerSettings
                                 {
-                                    JsonConvert.PopulateObject(Serialized, LiveTimingCollection[i], new JsonSerializerSettings
-                                    {
-                                        ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                                        ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
-                                    });
-                                }
-                                catch { }
-                                finally
-                                {
-                                    LiveTimingCollection[i].Drivers.Sort();
+                                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                                    ContractResolver = new InterfaceContractResolver(typeof(ILiveTimingEx), typeof(IDriverEx))
+                                });
+                            }
+                            catch { }
+                            finally
+                            {
+                                LiveTimingCollection[i].Drivers.Sort();
 
+                                if (LogToFile)
+                                {
                                     string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
                                     File.AppendAllText(FileName, Serialized + "\n");
                                 }
                             }
-                            return;
-                        }
-                    }
-                }
-                lock (_lock)
-                {
-                    try
-                    {
-                        LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized, new JsonSerializerSettings
-                        {
-                            ObjectCreationHandling = ObjectCreationHandling.Auto,
-                            ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
-                        }));
-                    }
-                    catch { }
-                    finally
-                    {
-                        if (LiveTimingCollection.Count > 0)
-                        {
-                            var i = LiveTimingCollection.Count - 1;
-
-                            LiveTimingCollection[i].Drivers.Sort();
-
-                            LiveTimingCollection[i].PropertyChanged += PropertyChanged;
-                            LiveTimingCollection[i].CollectionChanged += CollectionChanged;
-
-                            if (LiveTimingCollection[i].Drivers != null)
-                            {
-                                for (var j = 0; j < LiveTimingCollection[i].Drivers.Count; j++)
-                                {
-                                    LiveTimingCollection[i].Drivers[j].PropertyChanged += PropertyChanged;
-                                    LiveTimingCollection[i].Drivers[j].CollectionChanged += CollectionChanged;
-                                    LiveTimingCollection[i].Drivers[j].LapTime.CollectionChanged += CollectionChanged;
-                                }
-                            }
-
-                            string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
-                            File.AppendAllText(FileName, Serialized + "\n");
+                            return true;
                         }
                     }
                 }
             }
-            else
+            return false;
+        }
+
+        private void AddItem(string Serialized, bool LogToFile)
+        {
+            try
             {
-                lock (_lock)
+                LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized, new JsonSerializerSettings
                 {
-                    try
+                    ObjectCreationHandling = ObjectCreationHandling.Auto,
+                    ContractResolver = new InterfaceContractResolver(typeof(ILiveTimingEx), typeof(IDriverEx))
+                }));
+            }
+            catch { }
+            finally
+            {
+                if (LiveTimingCollection.Count > 0)
+                {
+                    var i = LiveTimingCollection.Count - 1;
+
+                    LiveTimingCollection[i].Drivers.Sort();
+
+                    LiveTimingCollection[i].PropertyChanged += PropertyChanged;
+                    LiveTimingCollection[i].CollectionChanged += CollectionChanged;
+
+                    if (LiveTimingCollection[i].Drivers != null)
                     {
-                        LiveTimingCollection.Add(JsonConvert.DeserializeObject<LiveTimingEx>(Serialized, new JsonSerializerSettings
+                        for (var j = 0; j < LiveTimingCollection[i].Drivers.Count; j++)
                         {
-                            ObjectCreationHandling = ObjectCreationHandling.Auto,
-                            ContractResolver = new InterfaceContractResolver(typeof(LiveTimingEx))
-                        }));
-                    }
-                    catch { }
-                    finally
-                    {
-                        if (LiveTimingCollection.Count > 0)
-                        {
-                            var i = LiveTimingCollection.Count - 1;
-
-                            LiveTimingCollection[i].Drivers.Sort();
-
-                            LiveTimingCollection[i].PropertyChanged += PropertyChanged;
-                            LiveTimingCollection[i].CollectionChanged += CollectionChanged;
-
-                            if (LiveTimingCollection[i].Drivers != null)
-                            {
-                                for (var j = 0; j < LiveTimingCollection[i].Drivers.Count; j++)
-                                {
-                                    LiveTimingCollection[i].Drivers[j].PropertyChanged += PropertyChanged;
-                                    LiveTimingCollection[i].Drivers[j].CollectionChanged += CollectionChanged;
-                                    LiveTimingCollection[i].Drivers[j].LapTime.CollectionChanged += CollectionChanged;
-                                }
-                            }
-
-                            string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
-                            File.AppendAllText(FileName, Serialized + "\n");
+                            LiveTimingCollection[i].Drivers[j].PropertyChanged += PropertyChanged;
+                            LiveTimingCollection[i].Drivers[j].CollectionChanged += CollectionChanged;
+                            LiveTimingCollection[i].Drivers[j].LapTime.CollectionChanged += CollectionChanged;
                         }
+                    }
+
+                    if (LogToFile)
+                    {
+                        string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
+                        File.AppendAllText(FileName, Serialized + "\n");
                     }
                 }
             }
         }
+
 
         private System.Windows.Input.ICommand _DeleteLiveTiming;
 

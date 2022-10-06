@@ -19,7 +19,7 @@ namespace GoKart
                 Console.WriteLine(Serialized);
 #endif
                 CpbTiming.RaceStatus = string.Empty;
-                CpbTiming.AddLiveTiming(Serialized);
+                CpbTiming.AddLiveTiming(Serialized, true);
             }
         }
 

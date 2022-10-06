@@ -15,44 +15,22 @@
     <Converters:SpeedToStringConverter x:Key="SpeedToStringConverter"/>
     <Converters:ComparisonToVisibleConverter x:Key="ComparisonToVisibleConverter"/>
     <Converters:PositionToImageConverter x:Key="PositionToImageConverter"/>
-    <Converters:ImprovedPositionToImageConverter x:Key="ImprovedPositionToImageConverter"/>
-
+    <Converters:DeltaPositionToImageConverter x:Key="DeltaPositionToImageConverter"/>
 
     <Storyboard x:Key="FasterBestLapTimeAnimation">
         <ColorAnimation
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="BestLapTimeTextBlock"
             To="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="BestLapTimeTextBlock"
-            From="Green" To="Green"
-            FillBehavior="Stop" Duration="0:0:0:6.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="BestLapTimeTextBlock"
-            From="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+            FillBehavior="Stop" AutoReverse="True" Duration="0:0:0:5.0"/>
     </Storyboard>
-
 
     <Storyboard x:Key="FasterLastLapTimeAnimation">
         <ColorAnimation
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="LastLapTimeTextBlock"
             To="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="LastLapTimeTextBlock"
-            From="Green" To="Green"
-            FillBehavior="Stop" Duration="0:0:0:6.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="LastLapTimeTextBlock"
-            From="Green"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+            FillBehavior="Stop" AutoReverse="True" Duration="0:0:0:5.0"/>
     </Storyboard>
 
     <Storyboard x:Key="SlowerLastLapTimeAnimation">
@@ -60,17 +38,7 @@
             Storyboard.TargetProperty="(TextBlock.Background).Color"
             Storyboard.TargetName="LastLapTimeTextBlock"
             To="Red"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="LastLapTimeTextBlock"
-            From="Red" To="Red"
-            FillBehavior="Stop" Duration="0:0:0:6.0"/>
-        <ColorAnimation
-            Storyboard.TargetProperty="(TextBlock.Background).Color"
-            Storyboard.TargetName="LastLapTimeTextBlock"
-            From="Red"
-            FillBehavior="Stop" Duration="0:0:0:2.0"/>
+            FillBehavior="Stop" AutoReverse="True" Duration="0:0:0:5.0"/>
     </Storyboard>
 
 </ResourceDictionary>

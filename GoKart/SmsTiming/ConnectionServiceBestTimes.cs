@@ -6,23 +6,66 @@ using System.Threading.Tasks;
 
 namespace GoKart.SmsTiming
 {
-    public class UrlParamsLiveTiming
+    public class UrlParamsBestTimes
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string locale { get; set; } = "nl";
-        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string styleId { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Include)]
-        public string resourceId { get; set; }
+        public string rscId { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string scgId { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string startDate { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string endDate { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string maxResult { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string customCSS { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string scgha { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string scGroup { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string scgHideArray { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string nodeId { get; set; }
 
         private void Resetlocale() { locale = "nl"; }
+
         private void ResetstyleId() { styleId = null; }
-        private void ResetresourceId() { resourceId = null; }
+
+        private void ResetrscId() { rscId = null; }
+
+        private void ResetscgId() { scgId = null; }
+
+        private void ResetstartDate() { startDate = null; }
+
+        private void ResetendDate() { endDate = null; }
+
+        private void ResetmaxResult() { maxResult = null; }
+
         private void ResetcustomCSS() { customCSS = null; }
+
+        private void Resetscgha() { scgha = null; }
+
+        private void ResetscGroup() { scGroup = null; }
+
+        private void ResetscgHideArray() { scgHideArray = null; }
+
         private void ResetnodeId() { nodeId = null; }
 
         public void Reset()
@@ -62,6 +105,7 @@ namespace GoKart.SmsTiming
             return PropString;
         }
     }
+
     public class ConnectionServiceBestTimes : ConnectionService
     {
         private UrlParamsBestTimes urlParamsBestTimes;

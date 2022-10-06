@@ -25,16 +25,20 @@ namespace GoKart
         public static Dictionary<string, string> KartCenterDict { get; } = new Dictionary<string, string>
         {
             {"Hezemans Indoor Karting", "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==" },
-            {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" }
+            {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" },
+            {"Outdoor Demo", "ZnVuYm9vOm9tZWQ=" },
+            {"Indoor Demo", "ZnVuYm9vOm9tZWQ=" }
         };
 
         public static Dictionary<string, Uri> KartCenterIconDict { get; } = new Dictionary<string, Uri>
         {
             {"Hezemans Indoor Karting", new Uri("./Icons/hezemans-logo.ico", UriKind.Relative) },
-            {"Circuit Park Berghem", new Uri("./Icons/cpb-logo.ico", UriKind.Relative) }
+            {"Circuit Park Berghem", new Uri("./Icons/cpb-logo.ico", UriKind.Relative) },
+            {"Outdoor Demo", null},
+            {"Indoor Demo", null}
         };
 
-        public string KartCenterKey { get; set; } = "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==";
+        public string KartCenterKey { get; set; } = "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==";
 
         ConnectionServiceBestTimes ConnectionServiceBestTimes;
         ConnectionServiceLiveTiming ConnectionServiceLiveTiming;
@@ -155,7 +159,11 @@ namespace GoKart
 
             Uri IconUri;
             KartCenterIconDict.TryGetValue(KartCenter, out IconUri);
-            this.Icon = new System.Windows.Media.Imaging.BitmapImage(IconUri);
+
+            if (IconUri != null)
+                Icon = new System.Windows.Media.Imaging.BitmapImage(IconUri);
+            else
+                Icon = null;
         }
 
         private void ComboBox_BestTimingCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)

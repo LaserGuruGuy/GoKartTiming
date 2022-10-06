@@ -197,7 +197,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\ComparisonToVisibleConverter.cs" />
-    <Compile Include="Converter\ImprovedPoitionToImageConverter.cs" />
+    <Compile Include="Converter\DeltaPositionToImageConverter.cs" />
     <Compile Include="Converter\PositionToImageConverter.cs" />
     <Compile Include="GoKartTiming\BestTiming.cs" />
     <Compile Include="Events\CollectionChanged.cs" />
@@ -216,6 +216,7 @@
     <Compile Include="LapTimeWindow\CumulativeLapTimeWindow.cs" />
     <Compile Include="GoKartTiming\GoKartTiming.cs" />
     <Compile Include="GoKartTiming\LiveTiming.cs" />
+    <Compile Include="SmsTiming\ConnectionServiceTrackRecordTimes.cs" />
     <Compile Include="SmsTiming\ConnectionServiceBestTimes.cs" />
     <Compile Include="SmsTiming\ConnectionServiceLiveTiming.cs" />
     <Compile Include="SmsTiming\ConnectionService.cs" />

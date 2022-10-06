@@ -23,9 +23,9 @@ namespace GoKart
         void ComponentDispatcher_ThreadIdle(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(CpbTiming.RaceStatus))
-                ListView_LiveTiming.IsEnabled = true;
+                ListView_LiveTiming.IsSynchronizedWithCurrentItem = false;
             else
-                ListView_LiveTiming.IsEnabled = false;
+                ListView_LiveTiming.IsSynchronizedWithCurrentItem = true;
 
             if (UpdateLiveTiming)
             {

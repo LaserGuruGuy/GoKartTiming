@@ -6,35 +6,38 @@ using System.Threading.Tasks;
 
 namespace GoKart.SmsTiming
 {
-    public delegate void OnJSONReceived(string Serialized);
-
-    public class LiveTimingBase
-    {
-        public string liveServerKey { get; set; }
-        public string liveServerHost { get; set; }
-        public int liveServerWsPort { get; set; }
-        public int liveServerWssPort { get; set; }
-        public int liveServerHttpPort { get; set; }
-    }
-
-    public class UrlParamsLiveTiming
+    public class UrlParamsTrackRecordTimes
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string locale { get; set; } = "nl";
-        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string styleId { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Include)]
-        public string resourceId { get; set; }
+        public string rscId { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string scgId { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string customCSS { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string nodeId { get; set; }
+        public string scGroup { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string scHide { get; set; }
 
         private void Resetlocale() { locale = "nl"; }
-        private void ResetstyleId() { styleId = null; }
-        private void ResetresourceId() { resourceId = null; }
-        private void ResetcustomCSS() { customCSS = null; }
-        private void ResetnodeId() { nodeId = null; }
+
+        private void ResetrscId() { rscId = null; }
+
+        private void ResetscgId() { scgId = null; }
+
+        private void ResetscGroup() { scGroup = null; }
+
+        private void ResetscHide() { scHide = null; }
 
         public void Reset()
         {
@@ -74,20 +77,19 @@ namespace GoKart.SmsTiming
         }
     }
 
-    public class ConnectionServiceLiveTiming : ConnectionService
+    public class ConnectionServiceTrackRecordTimes : ConnectionService
     {
-        private UrlParamsLiveTiming urlParamsLiveTiming;
+        private UrlParamsTrackRecordTimes urlParamsTrackRecordTimes;
 
-        private LiveTimingBase LiveTimingBase;
-
-        const string constApiLiveTiming = @"/api/livetiming/";
+        const string constApiTrackRecord = @"/api/trackrecord/";
         const string constSettings = @"settings/";
+        const string constRecords = @"records/";
 
-        public ConnectionServiceLiveTiming(OnJSONReceived OnJSONReceived = null)
+        public ConnectionServiceTrackRecordTimes(OnJSONReceived OnJSONReceived = null)
         {
             this.OnJSONReceived = OnJSONReceived;
             httpClient = new HttpClient();
-            urlParamsLiveTiming = new UrlParamsLiveTiming();
+            urlParamsTrackRecordTimes = new UrlParamsTrackRecordTimes();
         }
 
         public void Init(string authorizationToken)
@@ -95,9 +97,9 @@ namespace GoKart.SmsTiming
             cancellationTokenSource?.Cancel();
             task?.Wait();
 
-            urlParamsLiveTiming.Reset();
             this.authorizationToken = authorizationToken;
-
+            urlParamsTrackRecordTimes.Reset();
+            
             cancellationTokenSource = new CancellationTokenSource();
             task = InitAsync();
         }
@@ -108,14 +110,20 @@ namespace GoKart.SmsTiming
 
             if (await GetOptionsAsync(httpClient, url, cancellationTokenSource.Token))
                 if (await GetClientParamsAsync(httpClient, url, authorizationToken, cancellationTokenSource.Token))
-                    LiveTimingBase = JsonConvert.DeserializeObject < LiveTimingBase > (await GetResourcesAsync(httpClient, FindAll(urlParamsLiveTiming, createFullPath(constApiLiveTiming + constSettings)), cancellationTokenSource.Token));
-
-            WebSocketService WebSocketService = new WebSocketService(LiveTimingWsUri(LiveTimingBase), LiveTimingBase.liveServerKey, OnJSONReceived, cancellationTokenSource.Token);
+                    await GetResourcesAsync(httpClient, FindAll(urlParamsTrackRecordTimes, createFullPath(constApiTrackRecord + constSettings)), cancellationTokenSource.Token);
         }
 
-        private string LiveTimingWsUri(LiveTimingBase LiveTimingBase)
+        public void Update(string rscId, string scgId, string scGroup, string scHide = null)
         {
-            return @"ws://" + LiveTimingBase.liveServerHost + ":" + LiveTimingBase.liveServerWsPort;
+            if (rscId != null && scgId != null)
+            {
+                urlParamsTrackRecordTimes.rscId = rscId;
+                urlParamsTrackRecordTimes.scgId = scgId;
+                urlParamsTrackRecordTimes.scGroup = scGroup;
+                urlParamsTrackRecordTimes.scHide = scHide;
+
+                Task task = GetRecordsAsync(httpClient, FindAll(urlParamsTrackRecordTimes, createFullPath(constApiTrackRecord + constRecords)), cancellationTokenSource.Token);
+            }
         }
     }
 }
