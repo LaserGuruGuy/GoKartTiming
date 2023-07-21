@@ -32,12 +32,11 @@ namespace GoKartTiming.LiveTiming
         private int? _ImprovedLastLapTime;
         private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         private int? _LastRecord;
+        private string _LastRecordString;
         private string _DriverName;
         private int? _Position;
         private int? _DeltaPosition;
         private int? _MemberID;
-
-        private string _LastRecordString;
 
         public bool? LastPassing
         {
@@ -66,13 +65,10 @@ namespace GoKartTiming.LiveTiming
             {
                 return _AvarageLapTime;
             }
-            set
+            protected set
             {
-                if (value != null)
-                {
-                    _AvarageLapTime = value;
-                    RaisePropertyChanged();
-                }
+                _AvarageLapTime = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -90,24 +86,18 @@ namespace GoKartTiming.LiveTiming
             {
                 return _BestLapTime;
             }
-            set
+            protected set
             {
-                if (value != null)
+                if (value < _BestLapTime)
                 {
-                    if (value != TimeSpan.Zero)
-                    {
-                        if (value < _BestLapTime || _BestLapTime == TimeSpan.Zero)
-                        {
-                            ImprovedBestLapTime = true;
-                        }
-                        else
-                        {
-                            ImprovedBestLapTime = false;
-                        }
-                    }
-                    _BestLapTime = value;
-                    RaisePropertyChanged();
+                    ImprovedBestLapTime = true;
                 }
+                else
+                {
+                    ImprovedBestLapTime = false;
+                }
+                _BestLapTime = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -117,13 +107,10 @@ namespace GoKartTiming.LiveTiming
             {
                 return _ImprovedBestLapTime;
             }
-            set
+            private set
             {
-                if (value != null)
-                {
-                    _ImprovedBestLapTime = value;
-                    RaisePropertyChanged();
-                }
+                _ImprovedBestLapTime = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -135,7 +122,7 @@ namespace GoKartTiming.LiveTiming
                 {
                     try
                     {
-                        _KartNumber = int.Parse(value);
+                        KartNumber = int.Parse(value);
                     }
                     catch
                     {
@@ -151,13 +138,10 @@ namespace GoKartTiming.LiveTiming
             {
                 return _KartNumber;
             }
-            set
+            protected set
             {
-                if(value != null)
-                {
-                    _KartNumber = value;
-                    RaisePropertyChanged();
-                }
+                _KartNumber = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -204,7 +188,7 @@ namespace GoKartTiming.LiveTiming
         {
             set
             {
-                _LastLapTime = TimeSpan.FromMilliseconds(value);
+                LastLapTime = TimeSpan.FromMilliseconds(value);
             }
         }
 
@@ -216,24 +200,25 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                if (value != null && value != TimeSpan.Zero)
+                if (value != TimeSpan.Zero)
                 {
                     if (value < _LastLapTime && _LastLapTime != TimeSpan.Zero)
                     {
-                        ImprovedLastLapTime = -1;
+                        _ImprovedLastLapTime = -1;
                     }
                     else if (value > _LastLapTime && _LastLapTime != TimeSpan.Zero)
                     {
-                        ImprovedLastLapTime = +1;
+                        _ImprovedLastLapTime = +1;
                     }
                     else
                     {
-                        ImprovedLastLapTime = 0;
+                        _ImprovedLastLapTime = 0;
                     }
+                    RaisePropertyChanged("ImprovedLastLapTime");
                 }
                 _LastLapTime = value;
                 RaisePropertyChanged();
-                _LapTime.Add(new KeyValuePair<int, TimeSpan>((int)_Laps, _LastLapTime));
+                _LapTime.Add(new KeyValuePair<int, TimeSpan>((int)_Laps, value));
             }
         }
 
@@ -242,14 +227,6 @@ namespace GoKartTiming.LiveTiming
             get
             {
                 return _ImprovedLastLapTime;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _ImprovedLastLapTime = value;
-                }
-                RaisePropertyChanged();
             }
         }
 
@@ -269,9 +246,8 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
-                if (value < 5 && !_LastLapTime.Equals(TimeSpan.Zero))
+                if (value < 5)
                 {
-                    string _LastRecordString;
                     if (LastRecordDict.TryGetValue((int)value, out _LastRecordString))
                     {
                         LastRecordString = _LastRecordString;
@@ -288,13 +264,10 @@ namespace GoKartTiming.LiveTiming
             {
                 return _LastRecordString;
             }
-            set
+            protected set
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    _LastRecordString = value;
-                    RaisePropertyChanged();
-                }
+                _LastRecordString = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -321,13 +294,13 @@ namespace GoKartTiming.LiveTiming
             {
                 if (value != null)
                 {
-                    if (Position != null)
+                    if (_Position != null)
                     {
-                        if (value < Position)
+                        if (value < _Position)
                         {
                             DeltaPosition = -30;
                         }
-                        else if (value > Position)
+                        else if (value > _Position)
                         {
                             DeltaPosition = +30;
                         }
@@ -337,7 +310,7 @@ namespace GoKartTiming.LiveTiming
                             {
                                 DeltaPosition--;
                             }
-                            else if (_DeltaPosition < 0)
+                            else if (DeltaPosition < 0)
                             {
                                 DeltaPosition++;
                             }
@@ -355,13 +328,10 @@ namespace GoKartTiming.LiveTiming
             {
                 return _DeltaPosition;
             }
-            set
+            protected set
             {
-                if (value != null)
-                {
-                    _DeltaPosition = value;
-                    RaisePropertyChanged();
-                }
+                _DeltaPosition = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -395,7 +365,7 @@ namespace GoKartTiming.LiveTiming
 
         private void ResetImprovedBestLapTime()
         {
-            _ImprovedBestLapTime = false;
+            _ImprovedBestLapTime = null;
         }
 
         private void ResetLapTime()

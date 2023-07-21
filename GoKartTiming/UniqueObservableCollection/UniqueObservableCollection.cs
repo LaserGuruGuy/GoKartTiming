@@ -16,8 +16,11 @@ namespace GoKartTiming.LiveTiming
                 foreach (var DestinationProperty in DestinationProperties)
                 {
                     if (DestinationProperty.Name == SourceProperty.Name && SourceProperty.CanRead && DestinationProperty.CanWrite && DestinationProperty.PropertyType.IsAssignableFrom(SourceProperty.PropertyType))
-                    {
-                        DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source));
+                    { 
+                        if (SourceProperty.GetValue(Source) != null)
+                        {
+                            DestinationProperty.SetValue(Destination, SourceProperty.GetValue(Source));
+                        }
                     }
                 }
             }

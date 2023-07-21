@@ -26,6 +26,7 @@ namespace GoKart
         {
             {"Hezemans Indoor Karting", "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==" },
             {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" },
+            {"Karting Zeeland", "aW5kb29ya2FydGluZ21pZGRlbGJ1cmc6ZDU0OWU4NWQtMDEzYi00NjQwLTk1MWEtZDA4OWZmNzE5YjA3" },
             {"Outdoor Demo", "ZnVuYm9vOm9tZWQ=" },
             {"Indoor Demo", "ZnVuYm9vOm9tZWQ=" }
         };
@@ -34,6 +35,7 @@ namespace GoKart
         {
             {"Hezemans Indoor Karting", new Uri("./Icons/hezemans-logo.ico", UriKind.Relative) },
             {"Circuit Park Berghem", new Uri("./Icons/cpb-logo.ico", UriKind.Relative) },
+            {"Karting Zeeland", null },
             {"Outdoor Demo", null},
             {"Indoor Demo", null}
         };

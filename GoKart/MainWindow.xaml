@@ -27,13 +27,16 @@
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Name="MenuItem_View_AbsoluteTime" Header="_Absolute Time" Click="MenuItem_View_AbsoluteTime_Click"></MenuItem>
-                <MenuItem Name="MenuItem_View_CumulativeTime" Header="_Integral Time" Click="MenuItem_View_CumulativeLapTime_Click"></MenuItem>
+                <MenuItem Name="MenuItem_View_CumulativeTime" Header="_Cumulative Time" Click="MenuItem_View_CumulativeLapTime_Click"></MenuItem>
                 <MenuItem Name="MenuItem_View_RelativeTime" Header="_Relative Time" Click="MenuItem_View_RelativeTime_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <DockPanel DockPanel.Dock="Bottom" Background="{DynamicResource NormalBrush}">
             <StatusBar Background="{DynamicResource NormalBrush}" >
                 <ComboBox x:Name="ComboBox_LiveTimingKartCenter" SelectedValue="{Binding KartCenterKey, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" ItemsSource="{Binding Path=KartCenterDict, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" SelectionChanged="ComboBox_LiveTimingKartCenter_SelectionChanged"/>
+            </StatusBar>
+            <StatusBar Background="{DynamicResource NormalBrush}" HorizontalAlignment="Center">
+                <Label Content="{Binding RaceStatus}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
             </StatusBar>
             <StatusBar DataContext="{Binding SelectedValue, ElementName=ListView_LiveTimingCollection}" Background="{DynamicResource NormalBrush}" >
                 <ComboBox x:Name="ComboBox_LiveTimingHeatState" IsEnabled="False" SelectedValue="{Binding HeatState}" ItemsSource="{Binding Path=HeatStateDict, Mode=OneWay}" DisplayMemberPath="Key" SelectedValuePath="Value" IsSynchronizedWithCurrentItem="False" VerticalAlignment="Center"/>
@@ -43,9 +46,6 @@
                 <Label Content="{Binding ActualHeatStart, Converter={StaticResource ActualHeatStartToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
                 <Label Content="{Binding RemainingLaps, Converter={StaticResource LapsLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
                 <Label Content="{Binding TimeLeft, Converter={StaticResource TimeLeftToStringConverter}}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
-            </StatusBar>
-            <StatusBar Background="{DynamicResource NormalBrush}" HorizontalAlignment="Center">
-                <Label Content="{Binding RaceStatus}" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False"/>
             </StatusBar>
             <StatusBar DataContext="{Binding BestTimingCollection}" Background="{DynamicResource NormalBrush}" HorizontalAlignment="Right" >
                 <Label Content="Records"></Label>
