@@ -24,11 +24,13 @@ namespace GoKart
 
         public static Dictionary<string, string> KartCenterDict { get; } = new Dictionary<string, string>
         {
-            {"Hezemans Indoor Karting", "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==" },
             {"Circuit Park Berghem", "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==" },
+            {"Hezemans Indoor Karting", "aGV6ZW1hbnM6aW5kb29ya2FydGluZw==" },
             {"Karting Zeeland", "aW5kb29ya2FydGluZ21pZGRlbGJ1cmc6ZDU0OWU4NWQtMDEzYi00NjQwLTk1MWEtZDA4OWZmNzE5YjA3" },
+#if DEBUG
             {"Outdoor Demo", "ZnVuYm9vOm9tZWQ=" },
             {"Indoor Demo", "ZnVuYm9vOm9tZWQ=" }
+#endif
         };
 
         public static Dictionary<string, Uri> KartCenterIconDict { get; } = new Dictionary<string, Uri>
@@ -36,8 +38,10 @@ namespace GoKart
             {"Hezemans Indoor Karting", new Uri("./Icons/hezemans-logo.ico", UriKind.Relative) },
             {"Circuit Park Berghem", new Uri("./Icons/cpb-logo.ico", UriKind.Relative) },
             {"Karting Zeeland", null },
+#if DEBUG
             {"Outdoor Demo", null},
             {"Indoor Demo", null}
+#endif
         };
 
         public string KartCenterKey { get; set; } = "Y2lyY3VpdHBhcmtiZXJnaGVtOjNmZGIwZDY5LWQxYmItNDZmMS1hYTAyLWNkZDkzODljMmY1MQ==";
@@ -97,6 +101,7 @@ namespace GoKart
             AbsoluteLapTimeWindow?.Close();
             CumulativeLapTimeWindow?.Close();
             RelativeLapTimeWindow?.Close();
+            PositionWindow?.Close();
         }
 
         protected void MainWindow_Loaded(object sender, EventArgs args)
@@ -145,9 +150,19 @@ namespace GoKart
 
         private void ListView_RaceOverviewReport_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
-            CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
-            RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+            AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+            CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+            RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+            PositionWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+        }
+
+        private void ListView_LiveTiming_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Escape)
+            {
+                var listBox = sender as ListBox;
+                listBox.UnselectAll();
+            }
         }
 
         private void ComboBox_LiveTimingKartCenter_SelectionChanged(object sender, SelectionChangedEventArgs e)

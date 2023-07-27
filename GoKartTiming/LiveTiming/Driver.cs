@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 namespace GoKartTiming.LiveTiming
 {
@@ -31,6 +33,7 @@ namespace GoKartTiming.LiveTiming
         private TimeSpan _LastLapTime;
         private int? _ImprovedLastLapTime;
         private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
+        private UniqueObservableCollection<KeyValuePair<int, TimeSpan>> _LapTimePosition = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         private int? _LastRecord;
         private string _LastRecordString;
         private string _DriverName;
@@ -318,7 +321,27 @@ namespace GoKartTiming.LiveTiming
                     }
                     _Position = value;
                     RaisePropertyChanged();
+
                 }
+            }
+        }
+
+        public TimeSpan TimeElapsed
+        {
+            set
+            {
+                //if (_LapTimePosition.LastOrDefault().Key.Equals(Position).Equals(false))
+                {
+                    _LapTimePosition.Add(new KeyValuePair<int, TimeSpan>(_Position.GetValueOrDefault(), value));
+                }
+            }
+        }
+
+        public UniqueObservableCollection<KeyValuePair<int, TimeSpan>> LapTimePosition
+        {
+            get
+            {
+                return _LapTimePosition;
             }
         }
 
@@ -371,6 +394,11 @@ namespace GoKartTiming.LiveTiming
         private void ResetLapTime()
         {
             _LapTime = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
+        }
+
+        private void ResetLapTimePosition()
+        {
+            _LapTimePosition = new UniqueObservableCollection<KeyValuePair<int, TimeSpan>>();
         }
 
         private void ResetKartNumber()

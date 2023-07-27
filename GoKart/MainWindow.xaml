@@ -29,6 +29,7 @@
                 <MenuItem Name="MenuItem_View_AbsoluteTime" Header="_Absolute Time" Click="MenuItem_View_AbsoluteTime_Click"></MenuItem>
                 <MenuItem Name="MenuItem_View_CumulativeTime" Header="_Cumulative Time" Click="MenuItem_View_CumulativeLapTime_Click"></MenuItem>
                 <MenuItem Name="MenuItem_View_RelativeTime" Header="_Relative Time" Click="MenuItem_View_RelativeTime_Click"></MenuItem>
+                <MenuItem Name="MenuItem_View_RacePosition" Header="Race _Position" Click="MenuItem_View_RacePosition_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <DockPanel DockPanel.Dock="Bottom" Background="{DynamicResource NormalBrush}">
@@ -72,8 +73,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers, IsAsync=True}" VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged">
-
+            <ListView x:Name="ListView_LiveTiming" ItemsSource="{Binding ElementName=ListView_LiveTimingCollection, Path=SelectedItem.Drivers, IsAsync=True}" VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="ListView_RaceOverviewReport_SelectionChanged" KeyUp="ListView_LiveTiming_KeyUp" >
                 <ListView.View>
                     <GridView AllowsColumnReorder="true">
                         <GridViewColumn>
@@ -154,6 +154,16 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <!--
+            <ListView x:Name="ListView_LapTimePosition" ItemsSource="{Binding ElementName=ListView_LiveTiming, Path=SelectedItem.LapTimePosition, IsAsync=True}" IsSynchronizedWithCurrentItem="False" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Time" Width="auto" DisplayMemberBinding="{Binding Value, Converter={StaticResource TimeToStringConverter}}"/>
+                        <GridViewColumn Header="Position" Width="auto" DisplayMemberBinding="{Binding Key}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            -->
             <ListView x:Name="ListView_BestTimingCollection" ItemsSource="{Binding BestTimingCollection.recordgroupcollection, IsAsync=True}"  VirtualizingStackPanel.IsVirtualizing="False" IsSynchronizedWithCurrentItem="False">
                 <ListView.View>
                     <GridView >

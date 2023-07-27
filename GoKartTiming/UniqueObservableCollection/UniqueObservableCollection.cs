@@ -69,7 +69,7 @@ namespace GoKartTiming.LiveTiming
                     OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Item));
                 }
             }
-            else if (GetType() == typeof(UniqueObservableCollection<KeyValuePair<int, int>>) && (Item?.GetType() == typeof(KeyValuePair<int, int>)))
+            else if (GetType() == typeof(UniqueObservableCollection<KeyValuePair<TimeSpan, int?>>) && (Item?.GetType() == typeof(KeyValuePair<TimeSpan, int?>)))
             {
                 if (!Items.Contains(Item))
                 {

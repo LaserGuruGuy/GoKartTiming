@@ -210,6 +210,7 @@
     <Compile Include="Converter\TimeToStringConverter.cs" />
     <Compile Include="Events\ThreadIdle.cs" />
     <Compile Include="Events\CallBack.cs" />
+    <Compile Include="LapTimeWindow\PositionWindow.cs" />
     <Compile Include="LapTimeWindow\AbsoluteLapTimeWindow.cs" />
     <Compile Include="JSON\ClassInterfaceContractResolver.cs" />
     <Compile Include="CommandBindings.cs" />

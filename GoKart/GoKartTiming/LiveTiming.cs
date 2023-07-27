@@ -9,6 +9,16 @@ namespace GoKart
 {
     public partial class GoKartTiming
     {
+        private enum HeatStateEnum
+        {
+            HeatNotStarted = 0,
+            HeatRunning = 1,
+            HeatPauzed = 2,
+            HeatStopped = 3,
+            HeatFinished = 4,
+            NextHeat = 5
+        }
+
         private string LocalApplicationDataFolder { get; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\GoKart\\";
 
         private UniqueObservableCollection<LiveTimingEx> _LiveTimingCollection = new UniqueObservableCollection<LiveTimingEx>();
@@ -76,6 +86,49 @@ namespace GoKart
                             {
                                 LiveTimingCollection[i].Drivers.Sort();
 
+                                // try to catch the elapsed heat time
+                                foreach (var Driver in LiveTimingCollection[i].Drivers)
+                                {
+                                    //TODO: hoe de laatste positie tot het einde van de race door te trekken?
+                                    if (LiveTimingCollection[i].TimeStart.HasValue.Equals(true))
+                                    {
+                                        switch (LiveTimingCollection[i].EndCondition)
+                                        {
+                                            case 0:
+                                                // "The heat needs to be finished manual" => time counting up
+                                                Driver.TimeElapsed = LiveTimingCollection[i].TimeLeft;
+                                                break;
+                                            case 1:
+                                                //"The heat finishes after X time" => time counting down
+                                                switch (LiveTimingCollection[i].HeatState.GetValueOrDefault())
+                                                {
+                                                    case ((int)HeatStateEnum.HeatNotStarted):
+                                                    case ((int)HeatStateEnum.HeatPauzed):
+                                                    case ((int)HeatStateEnum.HeatStopped):
+                                                        break;
+                                                    case ((int)HeatStateEnum.HeatRunning):
+                                                        Driver.TimeElapsed = LiveTimingCollection[i].TimeStart.GetValueOrDefault() - LiveTimingCollection[i].TimeLeft;
+                                                        break;
+                                                    case ((int)HeatStateEnum.HeatFinished):
+                                                        Driver.TimeElapsed = LiveTimingCollection[i].TimeStart.GetValueOrDefault();
+                                                        break;
+                                                    case ((int)HeatStateEnum.NextHeat):
+                                                        Driver.TimeElapsed = TimeSpan.Zero;
+                                                        break;
+                                                }
+                                                break;
+                                            case 2:
+                                                // "The heat finishes after X laps" => time counting up
+                                                Driver.TimeElapsed = LiveTimingCollection[i].TimeLeft;
+                                                break;
+                                            case 3:
+                                                //"The heat finished after X time or X laps depending on wich one is first" => time counting down
+                                                Driver.TimeElapsed = LiveTimingCollection[i].TimeStart.GetValueOrDefault() - LiveTimingCollection[i].TimeLeft;
+                                                break;
+                                        }
+                                    }
+                                }
+
                                 if (LogToFile)
                                 {
                                     string FileName = LocalApplicationDataFolder + LiveTimingCollection[i].DateTime.ToString("yyyyMMdd") + " " + LiveTimingCollection[i].HeatName + ".json";
@@ -119,6 +172,7 @@ namespace GoKart
                             LiveTimingCollection[i].Drivers[j].PropertyChanged += PropertyChanged;
                             LiveTimingCollection[i].Drivers[j].CollectionChanged += CollectionChanged;
                             LiveTimingCollection[i].Drivers[j].LapTime.CollectionChanged += CollectionChanged;
+                            LiveTimingCollection[i].Drivers[j].LapTimePosition.CollectionChanged += CollectionChanged;
                         }
                     }
 

@@ -20,7 +20,8 @@ namespace GoKart
         {
             Absolute = 0,
             Cumulative = 1,
-            Relative = 2
+            Relative = 2,
+            Position = 3
         }
 
         private LapTimeType SelectedLapTimeType;
@@ -46,61 +47,101 @@ namespace GoKart
                 LegendPosition = LegendPosition.RightTop
             });
 
+            TimeSpanAxis TimeSpanAxisBottomX = new TimeSpanAxis
+            {
+                Title = "Time",
+                Unit = "h:mm:ss",
+                Key = "Bottom",
+                Minimum = 0,
+                Position = AxisPosition.Bottom,
+                MajorGridlineColor = OxyColor.FromArgb(40, 100, 0, 139),
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineColor = OxyColor.FromArgb(20, 0, 0, 139),
+                MinorGridlineStyle = LineStyle.Solid,
+            };
+
             LinearAxis LinearAxisBottomX = new LinearAxis
             {
                 Title = "Laps",
+                Unit = null,
                 Key = "Bottom",
                 Position = AxisPosition.Bottom,
+                MinorStep = 1,
+                MajorStep = 1,
                 MajorGridlineColor = OxyColor.FromArgb(40, 100, 0, 139),
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineColor = OxyColor.FromArgb(20, 0, 0, 139),
                 MinorGridlineStyle = LineStyle.Solid
             };
-            PlotModel.Axes.Add(LinearAxisBottomX);
+
+            if (SelectedLapTimeType == LapTimeType.Position)
+            {
+                PlotModel.Axes.Add(TimeSpanAxisBottomX);
+            }
+            else
+            {
+                PlotModel.Axes.Add(LinearAxisBottomX);
+            }
 
             LinearAxis LinearAxisLeftY = new LinearAxis
             {
-                Title = "Time",
-                Unit = "seconds",
+                Title = "Position",
                 Key = "Left",
+                Position = AxisPosition.Left,
+                Minimum = 1,
+                MinorStep = 1,
+                MajorStep = 1,
+                MajorGridlineColor = OxyColor.FromArgb(40, 100, 0, 139),
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineColor = OxyColor.FromArgb(20, 0, 0, 139),
+                MinorGridlineStyle = LineStyle.Solid
+            };
+
+            TimeSpanAxis TimeSpanAxisLeftY = new TimeSpanAxis
+            {
+                Title = "Time",
+                Unit = "h:mm:ss",
+                Key = "Left",
+                Minimum = 0,
                 Position = AxisPosition.Left,
                 MajorGridlineColor = OxyColor.FromArgb(40, 100, 0, 139),
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineColor = OxyColor.FromArgb(20, 0, 0, 139),
                 MinorGridlineStyle = LineStyle.Solid
             };
-            PlotModel.Axes.Add(LinearAxisLeftY);
-        }
 
+            if (SelectedLapTimeType == LapTimeType.Position)
+            {
+                PlotModel.Axes.Add(LinearAxisLeftY);
+            }
+            else
+            {
+                PlotModel.Axes.Add(TimeSpanAxisLeftY);
+            }
+
+            switch (SelectedLapTimeType)
+            {
+                case LapTimeType.Absolute:
+                    PlotModel.Title = "Absolute laptime";
+                    break;
+                case LapTimeType.Cumulative:
+                    PlotModel.Title = "Cumulative laptime";
+                    break;
+                case LapTimeType.Relative:
+                    PlotModel.Title = "Relative laptime";
+                    break;
+                case LapTimeType.Position:
+                    PlotModel.Title = "Race Position";
+                    break;
+            }
+        }
+        
+        //TODO: do not redraw all points but merely add new ones
         private List<LineSeries> LineSeries = new List<LineSeries>();
 
         public void UpdatePlot(System.Collections.IList SelectedItems, Object ReferencedItem = null)
         {
             PlotModel.Series.Clear();
-
-            Driver ReferenceRaceOverviewReport = null;
-            try
-            {
-                ReferenceRaceOverviewReport = ReferencedItem as Driver;
-            }
-            catch
-            {
-            }
-            finally
-            {
-                switch(SelectedLapTimeType)
-                {
-                    case LapTimeType.Absolute:
-                        PlotModel.Title = "Absolute laptime";
-                        break;
-                    case LapTimeType.Cumulative:
-                        PlotModel.Title = "Cumulative laptime";
-                        break;
-                    case LapTimeType.Relative:
-                        PlotModel.Title = "Relative laptime";
-                        break;
-                }
-            }
 
             try
             {
@@ -112,47 +153,55 @@ namespace GoKart
                         Title = "#" + Driver.Position.ToString() + " " + Driver.DriverName + " Car " + Driver.KartNumber,
                         XAxisKey = "Bottom",
                         YAxisKey = "Left",
-                        StrokeThickness = 1
+                        StrokeThickness = 2
                     };
-                    double y = 0;
+                    TimeSpan TotalTime = TimeSpan.Zero;
                     switch (SelectedLapTimeType)
                     {
                         case LapTimeType.Absolute:
                             foreach (var LapTime in Driver.LapTime)
                             {
-                                if (LapTime.Key > 0)
-                                {
-                                    LineSeries.Points.Add(new DataPoint(LapTime.Key, LapTime.Value.TotalSeconds));
-                                }
+                                LineSeries.Points.Add(new DataPoint(LapTime.Key, TimeSpanAxis.ToDouble(LapTime.Value)));
                             }
                             break;
                         case LapTimeType.Cumulative:
                             foreach (var LapTime in Driver.LapTime)
                             {
-                                if (LapTime.Key > 0)
-                                {
-                                    y += LapTime.Value.TotalSeconds;
-                                    LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
-                                }
+                                TotalTime += LapTime.Value;
+                                LineSeries.Points.Add(new DataPoint(LapTime.Key, TimeSpanAxis.ToDouble(TotalTime)));
                             }
                             break;
                         case LapTimeType.Relative:
-                            foreach (var LapTime in Driver.LapTime)
+                            Driver ReferencedDriver = ReferencedItem as Driver;
+                            if (ReferencedDriver != null)
                             {
-                                foreach(var RefTime in ReferenceRaceOverviewReport.LapTime)
+                                foreach (var LapTime in Driver.LapTime)
                                 {
-                                    if (LapTime.Key.Equals(RefTime.Key) && RefTime.Key > 0 && LapTime.Key > 0)
+                                    foreach (var RefTime in ReferencedDriver.LapTime)
                                     {
-                                        y += LapTime.Value.TotalSeconds - RefTime.Value.TotalSeconds;
-                                        LineSeries.Points.Add(new DataPoint(LapTime.Key, y));
-                                        break;
+                                        if (LapTime.Key.Equals(RefTime.Key) && RefTime.Key > 0 && LapTime.Key > 0)
+                                        {
+                                            TotalTime += LapTime.Value - RefTime.Value;
+                                            LineSeries.Points.Add(new DataPoint(LapTime.Key, TimeSpanAxis.ToDouble(TotalTime)));
+                                            break;
+                                        }
                                     }
-                                }                               
+                                }
+                            }
+                            break;
+                        case LapTimeType.Position:
+                            foreach (var LapTimePosition in Driver.LapTimePosition)
+                            {
+                                LineSeries.Points.Add(new DataPoint(TimeSpanAxis.ToDouble(LapTimePosition.Value), LapTimePosition.Key));
                             }
                             break;
                     }
                     PlotModel.Series.Add(LineSeries);
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {

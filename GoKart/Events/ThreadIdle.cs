@@ -50,11 +50,13 @@ namespace GoKart
             {
                 UpdateLapTime = false;
                 //ListView_LapTime.Items.Refresh();
+                //ListView_LapTimePosition.Items.Refresh();
                 listView_UpdateWidth(ListView_LiveTiming);
 
-                AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
-                CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
-                RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                AbsoluteLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                CumulativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                RelativeLapTimeWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                PositionWindow?.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
             }
 
             if (UpdateRecordGroup)
@@ -62,6 +64,8 @@ namespace GoKart
                 UpdateRecordGroup = false;
                 listView_UpdateWidth(ListView_BestTimingCollection);
             }
+
+            System.Threading.Thread.Sleep(0);
         }
     }
 }

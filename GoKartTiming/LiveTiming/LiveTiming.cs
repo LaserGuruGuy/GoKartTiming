@@ -47,6 +47,7 @@ namespace GoKartTiming.LiveTiming
         protected UniqueObservableCollection<Driver> _Drivers;
         protected int? _EndMode;
         protected TimeSpan _TimeLeft;
+        protected TimeSpan? _TimeStart;
         protected string _HeatName;
         protected int? _EndCondition;
         protected int? _RaceMode;
@@ -130,6 +131,14 @@ namespace GoKartTiming.LiveTiming
             }
         }
 
+        public TimeSpan? TimeStart
+        {
+            get
+            {
+                return _TimeStart;
+            }
+        }
+
         public TimeSpan TimeLeft
         {
             get
@@ -164,6 +173,29 @@ namespace GoKartTiming.LiveTiming
             }
             set
             {
+                // try to catch the total heat time
+                if (_TimeStart.HasValue.Equals(false) || _EndCondition.GetValueOrDefault().Equals(value).Equals(false))
+                {
+                    switch (value)
+                    {
+                        case 0:
+                            // "The heat needs to be finished manual" => time counting up
+                            _TimeStart = TimeSpan.Zero;
+                            break;
+                        case 2:
+                            // "The heat finishes after X laps" => time counting up
+                            _TimeStart = TimeSpan.Zero;
+                            break;
+                        case 1:
+                            //"The heat finishes after X time" => time counting down
+                            _TimeStart = TimeLeft;
+                            break;
+                        case 3:
+                            //"The heat finished after X time or X laps depending on wich one is first" => time counting down
+                            _TimeStart = TimeLeft;
+                            break;
+                    }
+                }
                 _EndCondition = value;
                 RaisePropertyChanged();
             }
@@ -231,6 +263,11 @@ namespace GoKartTiming.LiveTiming
         private void ResetEndMode()
         {
             _EndMode = null;
+        }
+
+        private void ResetTimeStart()
+        {
+            _TimeStart = null;
         }
 
         private void ResetTimeLeft()

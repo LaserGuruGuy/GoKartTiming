@@ -12,9 +12,10 @@ namespace GoKart
             if (RelativeLapTimeWindow == null)
             {
                 RelativeLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Relative);
+                RelativeLapTimeWindow.Title = "RelativeLapTime";
                 RelativeLapTimeWindow.Closed += RelatieveRondeTijdenWindow_Closed;
                 RelativeLapTimeWindow.Show();
-                RelativeLapTimeWindow.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                RelativeLapTimeWindow.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
             }
             else
             {

@@ -12,9 +12,10 @@ namespace GoKart
             if (CumulativeLapTimeWindow == null)
             {
                 CumulativeLapTimeWindow = new LapTimeWindow(LapTimeWindow.LapTimeType.Cumulative);
+                CumulativeLapTimeWindow.Title = "CumulativeLapTime";
                 CumulativeLapTimeWindow.Closed += CummulatieveRondeTijdenWindow_Closed;
                 CumulativeLapTimeWindow.Show();
-                CumulativeLapTimeWindow.UpdatePlot(ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
+                CumulativeLapTimeWindow.UpdatePlot(ListView_LiveTiming.SelectedItems.Count.Equals(0) ? ListView_LiveTiming.Items : ListView_LiveTiming.SelectedItems, ListView_LiveTiming.SelectedItem);
             }
             else
             {
